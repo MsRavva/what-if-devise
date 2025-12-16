@@ -10,6 +10,7 @@ interface AuthContextType {
   loading: boolean
   signUp: (email: string, password: string) => Promise<{ user: User | null; error: AuthError | null }>
   signIn: (email: string, password: string) => Promise<{ user: User | null; error: AuthError | null }>
+  signInWithGoogle: () => Promise<{ user: User | null; error: AuthError | null }>
   signOut: () => Promise<{ error: AuthError | null }>
   isAuthenticated: boolean
 }
@@ -101,12 +102,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { error }
   }
 
+  const signInWithGoogle = async () => {
+    if (!supabase) {
+      return { user: null, error: { message: 'Supabase не настроен' } as AuthError }
+    }
+
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin
+        }
+      });
+
+      if (error) {
+        return { user: null, error };
+      }
+
+      // В случае успешного OAuth входа, пользователь будет перенаправлен на Google для аутентификации
+      // После аутентификации Google перенаправит обратно на приложение
+      return { user: null, error: null };
+    } catch (error) {
+      return { user: null, error: error as AuthError };
+    }
+  }
+
   const value = {
     user,
     session,
     loading,
     signUp,
     signIn,
+    signInWithGoogle,
     signOut,
     isAuthenticated: !!user,
   }

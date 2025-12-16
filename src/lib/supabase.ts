@@ -25,6 +25,7 @@ try {
         getUser: () => Promise.resolve({ data: { user: null }, error: null }),
         signInWithPassword: () => Promise.resolve({ data: { user: null }, error: { message: 'Supabase не настроен' }}),
         signUp: () => Promise.resolve({ data: { user: null }, error: { message: 'Supabase не настроен' } }),
+        signInWithOAuth: () => Promise.resolve({ data: { user: null }, error: { message: 'Supabase не настроен' }}),
         signOut: () => Promise.resolve({ error: null }),
         onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
         // Добавляем методы, которые могут быть использованы в приложении
