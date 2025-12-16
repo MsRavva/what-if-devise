@@ -190,21 +190,21 @@ export default function HomePage() {
           </Link>
 
           {/* Settings Button */}
-          <button className="gaming-card group hover:scale-105 transition-all duration-300">
+          <Link href="/docs/HOW_TO_USE.md" className="gaming-card group hover:scale-105 transition-all duration-300 block" target="_blank">
             <div className="flex flex-col items-center space-y-4">
               <div className="w-16 h-16 bg-muted/20 rounded-full flex items-center justify-center group-hover:bg-muted/30 transition-colors">
                 <Settings className="w-8 h-8 text-muted-foreground" />
               </div>
               <div className="text-center">
-                <h3 className="text-xl font-semibold mb-2 text-foreground">Настройки</h3>
-                <p className="text-sm text-muted-foreground">Персонализация приложения</p>
+                <h3 className="text-xl font-semibold mb-2 text-foreground">Инструкция</h3>
+                <p className="text-sm text-muted-foreground">Как пользоваться приложением</p>
               </div>
               <div className="flex items-center text-sm text-muted-foreground transition-colors">
-                Скоро
+                Открыть
                 <ChevronRight className="w-4 h-4 ml-1" />
               </div>
             </div>
-          </button>
+          </Link>
         </div>
 
         {/* Footer info */}
