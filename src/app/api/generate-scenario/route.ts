@@ -5,9 +5,15 @@ import { headers } from 'next/headers';
 
 export async function POST(request: NextRequest) {
   try {
-    // Получаем аутентифицированного пользователя
-    const user = await getAuthenticatedUser(request.headers);
-    const userId = user.id;
+    // Пытаемся получить аутентифицированного пользователя (необязательно)
+    let userId: string | null = null;
+    try {
+      const user = await getAuthenticatedUser(request.headers);
+      userId = user.id;
+    } catch (error) {
+      // Пользователь не аутентифицирован - это нормально, продолжаем без сохранения
+      console.log('Пользователь не аутентифицирован, работаем в гостевом режиме');
+    }
     
     const { story, question, storyId } = await request.json();
     
@@ -42,9 +48,9 @@ export async function POST(request: NextRequest) {
 
     console.log('Received storyId:', storyId);
 
-    console.log('Starting scenario generation for user:', userId);
+    console.log('Starting scenario generation for user:', userId || 'guest');
     // Для серверного вызова используем пустую функцию обратного вызова
-    const result = await generateScenario(story, question, () => {}, userId);
+    const result = await generateScenario(story, question, () => {}, userId || undefined);
     console.log('Full result from generateScenario:', JSON.stringify(result, null, 2));
     
     if (!result.success) {
@@ -54,9 +60,9 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Сохраняем сценарий с привязкой к истории только если storyId предоставлен
+    // Сохраняем сценарий только если пользователь аутентифицирован
     let savedScenarioId = null;
-    if (result && result.scenario) {
+    if (userId && result && result.scenario) {
       console.log('Saving scenario to database...');
       if (storyId) {
         console.log('Using existing storyId:', storyId);
@@ -121,22 +127,27 @@ export async function POST(request: NextRequest) {
       }
       console.log('Saved scenario ID:', savedScenarioId);
       console.log('Создание сценария с id:', savedScenarioId);
+    } else if (!userId) {
+      console.log('Guest user - scenario not saved to database');
     } else {
       console.error('No scenario returned from AI service, cannot save');
       return Response.json({ error: 'Failed to generate scenario text' }, { status: 500 });
     }
-    return Response.json({ success: true, scenario: result.scenario, id: savedScenarioId });
+    
+    return Response.json({ 
+      success: true, 
+      scenario: result.scenario, 
+      id: savedScenarioId,
+      saved: !!savedScenarioId,
+      guestMode: !userId
+    });
   } catch (error) {
     console.error('Error generating scenario:', error);
     console.error('Full error object:', JSON.stringify(error, Object.getOwnPropertyNames(error), 2));
     console.error('Error name:', (error as Error).name);
     console.error('Error message:', (error as Error).message);
-    if (error instanceof Error && error.message.includes('Authentication')) {
-      return new Response(
-        JSON.stringify({ error: 'Authentication required' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-    return Response.json({ error: 'Failed to generate scenario' });
+    
+    // Не возвращаем ошибку аутентификации для гостевых пользователей
+    return Response.json({ error: 'Failed to generate scenario' }, { status: 500 });
   }
 }

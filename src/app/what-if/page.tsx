@@ -1,17 +1,18 @@
 "use client";
 
 import Link from 'next/link'
-import { ArrowLeft, Wand2 } from 'lucide-react'
+import { ArrowLeft, Wand2, User, AlertCircle } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { ProtectedRoute } from '@/components/protected-route'
+import { useAuth } from '@/components/auth-provider'
 
 export default function WhatIfPage() {
   const router = useRouter();
+  const { isAuthenticated, user } = useAuth();
   const [title, setTitle] = useState('');
   const [storyContent, setStoryContent] = useState('');
   const [question, setQuestion] = useState('');
@@ -29,92 +30,118 @@ export default function WhatIfPage() {
   };
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/80 relative overflow-hidden">
-        {/* Background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent/5 rounded-full blur-3xl animate-pulse" />
-        </div>
-
-        {/* Header */}
-        <header className="relative z-10 flex justify-between items-center p-6">
-          <Link href="/" className="flex items-center space-x-2 gaming-button-secondary">
-            <ArrowLeft className="w-5 h-5" />
-            <span>Назад</span>
-          </Link>
-          <ThemeToggle />
-        </header>
-
-        {/* Main content */}
-        <main className="relative z-10 px-6 pb-6">
-          <div className="max-w-4xl mx-auto">
-            {/* Title */}
-            <div className="text-center mb-8 animate-fade-in">
-              <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Wand2 className="w-8 h-8 text-primary" />
-              </div>
-              <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                Начать сессию чата
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                Введите вашу историю и "what-if" вопрос для начала чата с нейросетью
-              </p>
-            </div>
-
-            <div className="w-full max-w-4xl mx-auto p-6">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="title" className="block text-sm font-medium mb-2">
-                    Название сессии
-                  </label>
-                  <Input
-                    id="title"
-                    value={title}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-                    placeholder="Введите название сессии (необязательно)"
-                    className="w-full text-sm sm:text-base"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="content" className="block text-sm font-medium mb-2">
-                    История
-                  </label>
-                  <Textarea
-                    id="content"
-                    value={storyContent}
-                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setStoryContent(e.target.value)}
-                    placeholder="Введите вашу историю"
-                    rows={6}
-                    required
-                    className="w-full text-sm sm:text-base h-64 min-h-[16rem]"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="question" className="block text-sm font-medium mb-2">
-                    Что-если вопрос
-                  </label>
-                  <Textarea
-                    id="question"
-                    value={question}
-                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setQuestion(e.target.value)}
-                    placeholder="Введите ваш 'what-if' вопрос"
-                    rows={3}
-                    required
-                    className="w-full text-sm sm:text-base h-40 min-h-[10rem]"
-                  />
-                </div>
-
-                <Button type="submit" className="w-full sm:w-auto">
-                  Начать чат
-                </Button>
-              </form>
-            </div>
-          </div>
-        </main>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/80 relative overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent/5 rounded-full blur-3xl animate-pulse" />
       </div>
-    </ProtectedRoute>
+
+      {/* Header */}
+      <header className="relative z-10 flex justify-between items-center p-6">
+        <Link href="/" className="flex items-center space-x-2 gaming-button-secondary">
+          <ArrowLeft className="w-5 h-5" />
+          <span>Назад</span>
+        </Link>
+        <div className="flex items-center space-x-4">
+          {!isAuthenticated && (
+            <Link href="/auth" className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <User className="w-4 h-4" />
+              <span>Войти для сохранения</span>
+            </Link>
+          )}
+          <ThemeToggle />
+        </div>
+      </header>
+
+      {/* Main content */}
+      <main className="relative z-10 px-6 pb-6">
+        <div className="max-w-4xl mx-auto">
+          {/* Title */}
+          <div className="text-center mb-8 animate-fade-in">
+            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Wand2 className="w-8 h-8 text-primary" />
+            </div>
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+              Создать сценарий
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              Введите вашу историю и вопрос "что если" для создания альтернативного сценария
+            </p>
+          </div>
+
+          {/* Warning for non-authenticated users */}
+          {!isAuthenticated && (
+            <div className="max-w-2xl mx-auto mb-6 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+              <div className="flex items-start space-x-3">
+                <AlertCircle className="w-5 h-5 text-yellow-500 mt-0.5 flex-shrink-0" />
+                <div className="text-sm">
+                  <p className="text-yellow-600 dark:text-yellow-400 font-medium mb-1">
+                    Гостевой режим
+                  </p>
+                  <p className="text-yellow-700 dark:text-yellow-300">
+                    Вы можете создавать сценарии без регистрации, но они не будут сохранены. 
+                    <Link href="/auth" className="underline hover:no-underline ml-1">
+                      Войдите в аккаунт
+                    </Link> для сохранения истории.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="w-full max-w-4xl mx-auto p-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="title" className="block text-sm font-medium mb-2">
+                  Название {isAuthenticated ? 'сессии' : '(не сохраняется)'}
+                </label>
+                <Input
+                  id="title"
+                  value={title}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+                  placeholder="Введите название сессии (необязательно)"
+                  className="w-full text-sm sm:text-base"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="content" className="block text-sm font-medium mb-2">
+                  История *
+                </label>
+                <Textarea
+                  id="content"
+                  value={storyContent}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setStoryContent(e.target.value)}
+                  placeholder="Введите вашу историю"
+                  rows={6}
+                  required
+                  className="w-full text-sm sm:text-base h-64 min-h-[16rem]"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="question" className="block text-sm font-medium mb-2">
+                  Вопрос "что если" *
+                </label>
+                <Textarea
+                  id="question"
+                  value={question}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setQuestion(e.target.value)}
+                  placeholder="Что было бы, если..."
+                  rows={3}
+                  required
+                  className="w-full text-sm sm:text-base h-40 min-h-[10rem]"
+                />
+              </div>
+
+              <Button type="submit" className="w-full sm:w-auto">
+                Создать альтернативный сценарий
+              </Button>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
   )
 }

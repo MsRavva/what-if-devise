@@ -70,7 +70,7 @@ export default function HomePage() {
                 <p className="text-sm text-muted-foreground">Создать новый альтернативный сценарий</p>
               </div>
               <div className="flex items-center text-sm text-primary group-hover:text-primary-foreground transition-colors">
-                Пока не готово
+                Создать сценарий
                 <ChevronRight className="w-4 h-4 ml-1" />
               </div>
             </div>
