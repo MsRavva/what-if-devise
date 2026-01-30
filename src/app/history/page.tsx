@@ -74,7 +74,7 @@ export default function HistoryPage() {
       <ProtectedRoute>
         <div className="min-h-screen bg-black text-white font-mono relative overflow-hidden neural-particles flex items-center justify-center">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-red-500 to-orange-500 transform rotate-45 opacity-20 animate-data-pulse" />
+            <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-red-500 to-orange-500 transform rotate-45 opacity-20" />
           </div>
           <HologramCard variant="energy" className="max-w-md mx-auto p-8 text-center relative z-10">
             <div className="w-20 h-20 border-4 border-red-500 flex items-center justify-center mx-auto mb-6">
@@ -103,7 +103,7 @@ export default function HistoryPage() {
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-cyan-400 to-blue-500 transform rotate-45 opacity-15 animate-hologram" />
           <div className="absolute top-60 right-20 w-24 h-24 bg-gradient-to-br from-pink-400 to-red-500 transform -rotate-12 opacity-20 animate-energy-flow" />
-          <div className="absolute bottom-40 left-1/4 w-40 h-40 bg-gradient-to-br from-purple-400 to-violet-500 transform rotate-12 opacity-10 animate-quantum-flicker" />
+          <div className="absolute bottom-40 left-1/4 w-40 h-40 bg-gradient-to-br from-purple-400 to-violet-500 transform rotate-12 opacity-10" />
 
           {/* Энергетические линии */}
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-energy-flow" />
@@ -133,7 +133,7 @@ export default function HistoryPage() {
             <GlitchText className="text-4xl font-black uppercase mb-4">
               История сценариев
             </GlitchText>
-            <p className="text-cyan-400/60 uppercase text-sm tracking-widest font-mono animate-quantum-flicker">
+            <p className="text-cyan-400/60 uppercase text-sm tracking-widest font-mono">
               Ваши созданные истории и альтернативные сценарии
             </p>
           </div>

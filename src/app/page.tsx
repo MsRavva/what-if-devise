@@ -4,22 +4,23 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { useAuth } from '@/components/auth-provider'
-import { 
-  Wand2, 
-  BookOpen, 
-  LogIn, 
-  User, 
+import {
+  Wand2,
+  BookOpen,
+  LogIn,
+  User,
   History,
   Settings,
   Sparkles,
   Stars,
-  Zap
+  Zap,
+  MessageSquare
 } from 'lucide-react'
-import { 
-  AIBrainVisualization, 
-  HologramCard, 
-  EnergyButton, 
-  GlitchText 
+import {
+  AIBrainVisualization,
+  HologramCard,
+  EnergyButton,
+  GlitchText
 } from '@/components/cyberpunk'
 
 export default function HomePage() {
@@ -37,23 +38,23 @@ export default function HomePage() {
       {/* Киберпанк фон с улучшенными эффектами */}
       <div className="absolute inset-0">
         {/* Голографические геометрические фигуры */}
-        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-cyan-400 to-blue-500 transform rotate-45 opacity-20 animate-hologram" />
-        <div className="absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-pink-400 to-red-500 transform -rotate-12 opacity-30 animate-energy-flow" />
-        <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-gradient-to-br from-green-400 to-emerald-500 transform rotate-12 opacity-15 animate-quantum-flicker" />
-        <div className="absolute bottom-40 right-1/3 w-28 h-28 bg-gradient-to-br from-yellow-400 to-orange-500 transform -rotate-45 opacity-25 animate-data-pulse" />
-        
+        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-cyan-400 to-blue-500 transform rotate-45 opacity-20" />
+        <div className="absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-pink-400 to-red-500 transform -rotate-12 opacity-30" />
+        <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-gradient-to-br from-green-400 to-emerald-500 transform rotate-12 opacity-15" />
+        <div className="absolute bottom-40 right-1/3 w-28 h-28 bg-gradient-to-br from-yellow-400 to-orange-500 transform -rotate-45 opacity-25" />
+
         {/* Нейронная сетка */}
         <div className="absolute inset-0 opacity-10">
           <div className="grid grid-cols-12 gap-4 h-full">
             {Array.from({ length: 144 }).map((_, i) => (
-              <div key={i} className="border border-cyan-400/30 animate-quantum-flicker" style={{ animationDelay: `${i * 0.1}s` }} />
+              <div key={i} className="border border-cyan-400/30" style={{ animationDelay: `${i * 0.1}s` }} />
             ))}
           </div>
         </div>
-        
+
         {/* Энергетические потоки */}
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent animate-energy-flow" />
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-pink-400/50 to-transparent animate-energy-flow" style={{ animationDirection: 'reverse' }} />
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-pink-400/50 to-transparent" style={{ animationDirection: 'reverse' }} />
       </div>
 
       {/* Киберпанк хедер с голографическими эффектами */}
@@ -69,13 +70,13 @@ export default function HomePage() {
                 <GlitchText className="text-2xl font-black uppercase tracking-wider">
                   What If Device
                 </GlitchText>
-                <p className="text-xs text-cyan-400 uppercase tracking-widest animate-quantum-flicker">AI Scenario Generator</p>
+                <p className="text-xs text-cyan-400 uppercase tracking-widest">AI Scenario Generator</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
               <ThemeToggle />
               {isAuthenticated ? (
-                <div className="flex items-center space-x-2 bg-green-500 px-3 py-1 text-black font-bold text-sm uppercase animate-data-pulse">
+                <div className="flex items-center space-x-2 bg-green-500 px-3 py-1 text-black font-bold text-sm uppercase">
                   <User className="w-4 h-4" />
                   <span>Online</span>
                 </div>
@@ -86,7 +87,7 @@ export default function HomePage() {
               )}
             </div>
           </div>
-          
+
           {/* Navigation */}
           <nav className="border-t-2 border-cyan-400/50 pt-4">
             <div className="flex flex-wrap gap-4">
@@ -120,7 +121,7 @@ export default function HomePage() {
       {/* Трехколоночный макет с голографическими карточками */}
       <main className="relative z-10 container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 min-h-[calc(100vh-200px)]">
-          
+
           {/* Левая колонка - Основные действия */}
           <div className="lg:col-span-1 space-y-8">
             <HologramCard variant="default" glowIntensity="high">
@@ -129,7 +130,7 @@ export default function HomePage() {
                 <GlitchText className="text-3xl font-black uppercase mb-2" color="cyan">
                   Create
                 </GlitchText>
-                <p className="text-cyan-400 uppercase text-sm tracking-wider animate-quantum-flicker">Generate New Scenario</p>
+                <p className="text-cyan-400 uppercase text-sm tracking-wider">Generate New Scenario</p>
               </div>
               <EnergyButton variant="primary" className="w-full">
                 <Link href="/what-if" className="flex items-center justify-center gap-2">
@@ -141,13 +142,13 @@ export default function HomePage() {
 
             <HologramCard variant="energy" glowIntensity="medium">
               <div className="mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-red-500 flex items-center justify-center mb-4 animate-data-pulse">
+                <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-red-500 flex items-center justify-center mb-4">
                   <BookOpen className="w-8 h-8 text-black" />
                 </div>
                 <GlitchText className="text-3xl font-black uppercase mb-2" color="pink">
                   Templates
                 </GlitchText>
-                <p className="text-pink-400 uppercase text-sm tracking-wider animate-quantum-flicker">64 Ready Examples</p>
+                <p className="text-pink-400 uppercase text-sm tracking-wider">64 Ready Examples</p>
               </div>
               <EnergyButton variant="secondary" className="w-full">
                 <Link href="/templates" className="flex items-center justify-center gap-2">
@@ -166,10 +167,10 @@ export default function HomePage() {
                 <br />
                 <GlitchText className="text-cyan-400" color="cyan" intensity="high">If?</GlitchText>
               </h1>
-              <div className="absolute -top-4 -right-4 w-8 h-8 bg-yellow-400 transform rotate-45 animate-quantum-flicker" />
-              <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-green-400 transform rotate-45 animate-data-pulse" />
+              <div className="absolute -top-4 -right-4 w-8 h-8 bg-yellow-400 transform rotate-45" />
+              <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-green-400 transform rotate-45" />
             </div>
-            
+
             <HologramCard className="max-w-md">
               <p className="text-lg font-bold uppercase tracking-wide leading-tight">
                 <GlitchText intensity="low">
@@ -180,15 +181,15 @@ export default function HomePage() {
 
             <div className="grid grid-cols-3 gap-4 w-full max-w-sm">
               <HologramCard variant="default" className="p-4 text-center">
-                <Zap className="w-6 h-6 mx-auto mb-2 animate-energy-flow" />
+                <Zap className="w-6 h-6 mx-auto mb-2" />
                 <span className="text-xs font-bold uppercase">Fast</span>
               </HologramCard>
               <HologramCard variant="energy" className="p-4 text-center">
-                <Stars className="w-6 h-6 mx-auto mb-2 animate-quantum-flicker" />
+                <Stars className="w-6 h-6 mx-auto mb-2" />
                 <span className="text-xs font-bold uppercase">Creative</span>
               </HologramCard>
               <HologramCard variant="neural" className="p-4 text-center">
-                <Sparkles className="w-6 h-6 mx-auto mb-2 animate-data-pulse" />
+                <Sparkles className="w-6 h-6 mx-auto mb-2" />
                 <span className="text-xs font-bold uppercase">Free</span>
               </HologramCard>
             </div>
@@ -200,13 +201,13 @@ export default function HomePage() {
               <>
                 <HologramCard variant="energy" glowIntensity="high">
                   <div className="mb-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center mb-4 animate-data-pulse">
+                    <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center mb-4">
                       <User className="w-8 h-8 text-black" />
                     </div>
                     <GlitchText className="text-3xl font-black uppercase mb-2" color="green">
                       Profile
                     </GlitchText>
-                    <p className="text-green-400 uppercase text-sm tracking-wider truncate animate-quantum-flicker">{user?.email}</p>
+                    <p className="text-green-400 uppercase text-sm tracking-wider truncate">{user?.email}</p>
                   </div>
                   <div className="space-y-3">
                     <EnergyButton variant="primary" className="w-full">
@@ -215,8 +216,8 @@ export default function HomePage() {
                         Settings
                       </Link>
                     </EnergyButton>
-                    <EnergyButton 
-                      variant="danger" 
+                    <EnergyButton
+                      variant="danger"
                       className="w-full"
                       onClick={() => signOut()}
                     >
@@ -228,13 +229,13 @@ export default function HomePage() {
 
                 <HologramCard variant="neural" glowIntensity="medium">
                   <div className="mb-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center mb-4 animate-energy-flow">
+                    <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center mb-4">
                       <History className="w-8 h-8 text-black" />
                     </div>
                     <GlitchText className="text-3xl font-black uppercase mb-2" color="purple">
                       History
                     </GlitchText>
-                    <p className="text-yellow-400 uppercase text-sm tracking-wider animate-quantum-flicker">Your Scenarios</p>
+                    <p className="text-yellow-400 uppercase text-sm tracking-wider">Your Scenarios</p>
                   </div>
                   <EnergyButton variant="secondary" className="w-full">
                     <Link href="/history" className="flex items-center justify-center gap-2">
@@ -247,13 +248,13 @@ export default function HomePage() {
             ) : (
               <HologramCard variant="default" glowIntensity="high">
                 <div className="mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center mb-4 animate-data-pulse">
+                  <div className="w-16 h-16 bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center mb-4">
                     <LogIn className="w-8 h-8 text-black" />
                   </div>
                   <GlitchText className="text-3xl font-black uppercase mb-2" color="cyan">
                     Login
                   </GlitchText>
-                  <p className="text-red-400 uppercase text-sm tracking-wider animate-quantum-flicker">Access Account</p>
+                  <p className="text-red-400 uppercase text-sm tracking-wider">Access Account</p>
                 </div>
                 <div className="space-y-4">
                   <EnergyButton variant="primary" className="w-full">
@@ -272,18 +273,36 @@ export default function HomePage() {
 
             <HologramCard variant="neural" glowIntensity="medium">
               <div className="mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center mb-4 animate-quantum-flicker">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center mb-4">
                   <Settings className="w-8 h-8 text-black" />
                 </div>
                 <GlitchText className="text-3xl font-black uppercase mb-2" color="purple">
                   Docs
                 </GlitchText>
-                <p className="text-purple-400 uppercase text-sm tracking-wider animate-energy-flow">How To Use</p>
+                <p className="text-purple-400 uppercase text-sm tracking-wider">How To Use</p>
               </div>
               <EnergyButton variant="secondary" className="w-full">
-                <Link href="/docs/HOW_TO_USE.md" target="_blank" className="flex items-center justify-center gap-2">
+                <Link href="/docs/HOW_TO_USE.docx" target="_blank" className="flex items-center justify-center gap-2">
                   <BookOpen className="w-4 h-4" />
                   Read Guide →
+                </Link>
+              </EnergyButton>
+            </HologramCard>
+
+            <HologramCard variant="default" glowIntensity="high">
+              <div className="mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center mb-4">
+                  <MessageSquare className="w-8 h-8 text-black" />
+                </div>
+                <GlitchText className="text-3xl font-black uppercase mb-2" color="pink">
+                  Chat
+                </GlitchText>
+                <p className="text-orange-400 uppercase text-sm tracking-wider">AI Assistant</p>
+              </div>
+              <EnergyButton variant="primary" className="w-full">
+                <Link href="/chat" className="flex items-center justify-center gap-2">
+                  <MessageSquare className="w-4 h-4" />
+                  Start Chat →
                 </Link>
               </EnergyButton>
             </HologramCard>
@@ -295,7 +314,7 @@ export default function HomePage() {
       <footer className="relative z-10 border-t-4 border-cyan-400 bg-black/90 backdrop-blur-sm mt-20 neural-particles">
         <div className="container mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
+
             {/* Footer Section 1 - About */}
             <HologramCard variant="default">
               <GlitchText className="text-xl font-black uppercase mb-4" color="cyan">
@@ -305,9 +324,9 @@ export default function HomePage() {
                 What If Device - это мощный генератор альтернативных сценариев, использующий передовые технологии ИИ для создания уникального контента.
               </p>
               <div className="flex space-x-2">
-                <div className="w-4 h-4 bg-cyan-400 animate-data-pulse" />
-                <div className="w-4 h-4 bg-pink-400 animate-quantum-flicker" />
-                <div className="w-4 h-4 bg-green-400 animate-energy-flow" />
+                <div className="w-4 h-4 bg-cyan-400" />
+                <div className="w-4 h-4 bg-pink-400" />
+                <div className="w-4 h-4 bg-green-400" />
               </div>
             </HologramCard>
 
@@ -318,23 +337,23 @@ export default function HomePage() {
               </GlitchText>
               <ul className="space-y-2 text-sm font-mono">
                 <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-pink-400 animate-quantum-flicker" />
+                  <div className="w-2 h-2 bg-pink-400" />
                   <span>AI-Powered Generation</span>
                 </li>
                 <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-pink-400 animate-data-pulse" />
+                  <div className="w-2 h-2 bg-pink-400" />
                   <span>64 Ready Templates</span>
                 </li>
                 <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-pink-400 animate-energy-flow" />
+                  <div className="w-2 h-2 bg-pink-400" />
                   <span>Interactive Chat</span>
                 </li>
                 <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-pink-400 animate-quantum-flicker" />
+                  <div className="w-2 h-2 bg-pink-400" />
                   <span>Dark/Light Themes</span>
                 </li>
                 <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-pink-400 animate-hologram" />
+                  <div className="w-2 h-2 bg-pink-400" />
                   <span>Responsive Design</span>
                 </li>
               </ul>
@@ -346,12 +365,12 @@ export default function HomePage() {
                 Tech Stack
               </GlitchText>
               <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-                <div className="bg-green-500 text-black p-2 text-center font-bold animate-data-pulse">Next.js 14</div>
-                <div className="bg-blue-500 text-black p-2 text-center font-bold animate-quantum-flicker">TypeScript</div>
-                <div className="bg-cyan-500 text-black p-2 text-center font-bold animate-energy-flow">Tailwind</div>
-                <div className="bg-purple-500 text-black p-2 text-center font-bold animate-hologram">Supabase</div>
-                <div className="bg-yellow-500 text-black p-2 text-center font-bold animate-data-pulse">Hugging Face</div>
-                <div className="bg-red-500 text-black p-2 text-center font-bold animate-quantum-flicker">Vercel</div>
+                <div className="bg-green-500 text-black p-2 text-center font-bold">Next.js 14</div>
+                <div className="bg-blue-500 text-black p-2 text-center font-bold">TypeScript</div>
+                <div className="bg-cyan-500 text-black p-2 text-center font-bold">Tailwind</div>
+                <div className="bg-purple-500 text-black p-2 text-center font-bold">Supabase</div>
+                <div className="bg-yellow-500 text-black p-2 text-center font-bold">Hugging Face</div>
+                <div className="bg-red-500 text-black p-2 text-center font-bold">Vercel</div>
               </div>
             </HologramCard>
           </div>
@@ -366,7 +385,7 @@ export default function HomePage() {
             </div>
             <div className="flex space-x-4 text-sm font-mono">
               <span className="text-gray-400">Made with</span>
-              <span className="text-red-400 animate-data-pulse">❤️</span>
+              <span className="text-red-400">❤️</span>
               <span className="text-gray-400">and</span>
               <GlitchText className="text-cyan-400" color="cyan">AI</GlitchText>
             </div>
