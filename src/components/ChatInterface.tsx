@@ -1,13 +1,20 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { WhatIfResponse } from '@/types/ai-types';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Send, Sparkles, User, Loader2 } from 'lucide-react';
+import { Send, Sparkles, User, Loader2, Home, Zap } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { ChatSidebar } from './ChatSidebar';
+import { 
+  HologramCard, 
+  GlitchText, 
+  EnergyButton,
+  AIBrainVisualization 
+} from '@/components/cyberpunk';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -209,118 +216,144 @@ ${chatHistory}
   }, [isNewSession, scenarioGenerated, initialStory, initialQuestion, sessionId]);
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-background via-background to-background/80">
-      {/* Sidebar */}
-      <ChatSidebar currentSessionId={sessionId} />
+    <div className="min-h-screen bg-black text-white font-mono relative overflow-hidden neural-particles">
+      {/* Киберпанк фон */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Голографические геометрические фигуры */}
+        <div className="absolute top-10 left-10 w-20 h-20 bg-gradient-to-br from-cyan-400 to-blue-500 transform rotate-45 opacity-15 animate-hologram" />
+        <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-br from-pink-400 to-red-500 transform -rotate-12 opacity-20 animate-energy-flow" />
+        <div className="absolute bottom-40 left-1/4 w-24 h-24 bg-gradient-to-br from-green-400 to-emerald-500 transform rotate-12 opacity-10 animate-quantum-flicker" />
+        
+        {/* Энергетические линии */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-energy-flow" />
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-pink-400/30 to-transparent animate-energy-flow" style={{ animationDirection: 'reverse' }} />
+      </div>
 
-      {/* Main Chat Area */}
-      <div className="flex flex-col flex-1">
-        {/* Header */}
-        <header className="sticky top-0 z-10 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="flex h-16 items-center justify-between px-6">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-primary animate-pulse" />
-              <h1 className="text-lg font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Чат по сценарию
-              </h1>
-            </div>
-            <ThemeToggle />
-          </div>
-        </header>
+      <div className="flex h-screen relative z-10">
+        {/* Sidebar */}
+        <ChatSidebar currentSessionId={sessionId} />
 
-        {/* Messages Container */}
-        <div className="flex-1 overflow-y-auto px-4 py-6">
-        <div className="container max-w-4xl mx-auto space-y-6">
-          {messages.map((message, index) => (
-            <div
-              key={index}
-              className={`flex gap-4 ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
-            >
-              {/* Avatar */}
-              <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
-                message.role === 'user' 
-                  ? 'bg-gradient-to-br from-blue-500 to-blue-600' 
-                  : 'bg-gradient-to-br from-primary to-accent'
-              }`}>
-                {message.role === 'user' ? (
-                  <User className="w-5 h-5 text-white" />
-                ) : (
-                  <Sparkles className="w-5 h-5 text-white" />
-                )}
-              </div>
-
-              {/* Message Content */}
-              <div className={`flex-1 max-w-[85%] ${message.role === 'user' ? 'items-end' : 'items-start'}`}>
-                <div className={`rounded-2xl px-4 py-3 ${
-                  message.role === 'user'
-                    ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white'
-                    : 'bg-muted/50 border border-border/50 text-foreground'
-                }`}>
-                  <div className="text-sm leading-relaxed whitespace-pre-wrap break-words">
-                    {message.content}
-                  </div>
+        {/* Main Chat Area */}
+        <div className="flex flex-col flex-1">
+          {/* Киберпанк Header */}
+          <header className="sticky top-0 z-20 border-b-2 border-cyan-400/50 bg-black/90 backdrop-blur-sm">
+            <div className="flex h-16 items-center justify-between px-6">
+              <div className="flex items-center gap-4">
+                <AIBrainVisualization size="sm" />
+                <div>
+                  <GlitchText className="text-lg font-black uppercase tracking-wider">
+                    Чат по сценарию
+                  </GlitchText>
+                  <p className="text-xs text-cyan-400 uppercase tracking-widest animate-quantum-flicker">
+                    AI Conversation
+                  </p>
                 </div>
               </div>
-            </div>
-          ))}
-          
-          {/* Loading Indicator */}
-          {isLoading && (
-            <div className="flex gap-4">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br from-primary to-accent">
-                <Sparkles className="w-5 h-5 text-white" />
+              <div className="flex items-center gap-4">
+                <EnergyButton variant="secondary" size="sm">
+                  <Link href="/" className="flex items-center gap-2">
+                    <Home className="w-4 h-4" />
+                    Home
+                  </Link>
+                </EnergyButton>
+                <ThemeToggle />
               </div>
-              <div className="flex-1 max-w-[85%]">
-                <div className="rounded-2xl px-4 py-3 bg-muted/50 border border-border/50">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Генерирую ответ...</span>
+            </div>
+          </header>
+
+          {/* Messages Container */}
+          <div className="flex-1 overflow-y-auto px-4 py-6">
+            <div className="container max-w-4xl mx-auto space-y-6">
+              {messages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`flex gap-4 ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
+                >
+                  {/* Avatar */}
+                  <div className={`flex-shrink-0 w-12 h-12 flex items-center justify-center ${
+                    message.role === 'user' 
+                      ? 'bg-gradient-to-br from-blue-500 to-blue-600 animate-data-pulse' 
+                      : 'bg-gradient-to-br from-cyan-400 to-pink-500 animate-hologram'
+                  }`}>
+                    {message.role === 'user' ? (
+                      <User className="w-6 h-6 text-black" />
+                    ) : (
+                      <Sparkles className="w-6 h-6 text-black" />
+                    )}
+                  </div>
+
+                  {/* Message Content */}
+                  <div className={`flex-1 max-w-[85%] ${message.role === 'user' ? 'items-end' : 'items-start'}`}>
+                    <HologramCard 
+                      variant={message.role === 'user' ? 'energy' : 'default'}
+                      className="p-4"
+                    >
+                      <div className="text-sm leading-relaxed whitespace-pre-wrap break-words font-mono">
+                        {message.content}
+                      </div>
+                    </HologramCard>
                   </div>
                 </div>
-              </div>
-            </div>
-          )}
-          
-          <div ref={messagesEndRef} />
-          </div>
-        </div>
-
-        {/* Input Area */}
-        <div className="sticky bottom-0 border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container max-w-4xl mx-auto px-4 py-4">
-          <div className="flex gap-2 items-end">
-            <div className="flex-1 relative">
-              <Textarea
-                ref={textareaRef}
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSendMessage();
-                  }
-                }}
-                placeholder="Задайте вопрос или уточните детали сценария..."
-                className="min-h-[60px] max-h-[200px] resize-none pr-12 rounded-2xl border-border/50 focus:border-primary/50 transition-colors"
-                disabled={isLoading}
-              />
-            </div>
-            <Button
-              onClick={handleSendMessage}
-              disabled={isLoading || !inputMessage.trim()}
-              size="icon"
-              className="h-[60px] w-[60px] rounded-2xl bg-gradient-to-br from-primary to-accent hover:opacity-90 transition-opacity"
-            >
-              {isLoading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
-                <Send className="w-5 h-5" />
+              ))}
+              
+              {/* Loading Indicator */}
+              {isLoading && (
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-cyan-400 to-pink-500 flex items-center justify-center animate-quantum-spin">
+                    <Zap className="w-6 h-6 text-black" />
+                  </div>
+                  <div className="flex-1 max-w-[85%]">
+                    <HologramCard variant="neural" className="p-4">
+                      <div className="flex items-center gap-3 text-sm text-cyan-400 font-mono uppercase">
+                        <div className="quantum-loader w-6 h-6" />
+                        <GlitchText intensity="low">Генерирую ответ...</GlitchText>
+                      </div>
+                    </HologramCard>
+                  </div>
+                </div>
               )}
-            </Button>
+              
+              <div ref={messagesEndRef} />
+            </div>
           </div>
-          <div className="mt-2 text-xs text-center text-muted-foreground">
-            Нажмите Enter для отправки, Shift+Enter для новой строки
-          </div>
+
+          {/* Киберпанк Input Area */}
+          <div className="sticky bottom-0 border-t-2 border-cyan-400/50 bg-black/90 backdrop-blur-sm">
+            <div className="container max-w-4xl mx-auto px-4 py-4">
+              <div className="flex gap-3 items-end">
+                <div className="flex-1 relative">
+                  <Textarea
+                    ref={textareaRef}
+                    value={inputMessage}
+                    onChange={(e) => setInputMessage(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSendMessage();
+                      }
+                    }}
+                    placeholder="Задайте вопрос или уточните детали сценария..."
+                    className="min-h-[60px] max-h-[200px] resize-none neural-input bg-black/80 border-2 border-cyan-400/30 focus:border-cyan-400 text-white placeholder:text-gray-500 font-mono transition-all duration-300"
+                    disabled={isLoading}
+                  />
+                </div>
+                <EnergyButton
+                  variant="primary"
+                  onClick={handleSendMessage}
+                  disabled={isLoading || !inputMessage.trim()}
+                  className="h-[60px] w-[60px] flex items-center justify-center"
+                >
+                  {isLoading ? (
+                    <Loader2 className="w-6 h-6 animate-spin" />
+                  ) : (
+                    <Send className="w-6 h-6" />
+                  )}
+                </EnergyButton>
+              </div>
+              <div className="mt-3 text-xs text-center text-cyan-400/60 uppercase tracking-wider font-mono">
+                Enter для отправки • Shift+Enter для новой строки
+              </div>
+            </div>
           </div>
         </div>
       </div>

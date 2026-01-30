@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import { generateScenario } from '@/lib/ai-service';
 import { getAuthenticatedUser, createServerSupabaseClient, saveScenario } from '@/lib/supabase';
+import { checkRateLimit, getRateLimitKey } from '@/lib/rate-limiter';
 import { headers } from 'next/headers';
 
 export async function POST(request: NextRequest) {
@@ -14,9 +15,31 @@ export async function POST(request: NextRequest) {
       // Пользователь не аутентифицирован - это нормально, продолжаем без сохранения
       console.log('Пользователь не аутентифицирован, работаем в гостевом режиме');
     }
-    
+
+    // Rate Limiting
+    const rateLimitKey = getRateLimitKey(request, userId);
+    const rateLimitResult = checkRateLimit(rateLimitKey, !!userId);
+
+    if (!rateLimitResult.allowed) {
+      return new Response(
+        JSON.stringify({
+          error: 'Слишком много запросов. Попробуйте снова через ' + rateLimitResult.retryAfter + ' секунд.',
+          retryAfter: rateLimitResult.retryAfter
+        }),
+        {
+          status: 429,
+          headers: {
+            'Content-Type': 'application/json',
+            'Retry-After': String(rateLimitResult.retryAfter),
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': String(rateLimitResult.resetTime)
+          }
+        }
+      );
+    }
+
     const { story, question, storyId } = await request.json();
-    
+
     // Валидация входных данных
     if (!story || typeof story !== 'string' || !question || typeof question !== 'string') {
       return new Response(
@@ -50,16 +73,16 @@ export async function POST(request: NextRequest) {
 
     console.log('Starting scenario generation for user:', userId || 'guest');
     // Для серверного вызова используем пустую функцию обратного вызова
-    const result = await generateScenario(story, question, () => {}, userId || undefined);
+    const result = await generateScenario(story, question, () => { }, userId || undefined);
     console.log('Full result from generateScenario:', JSON.stringify(result, null, 2));
-    
+
     if (!result.success) {
       return new Response(
         JSON.stringify({ error: result.error || 'Failed to generate scenario' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
     }
-    
+
     // Сохраняем сценарий только если пользователь аутентифицирован
     let savedScenarioId = null;
     if (userId && result && result.scenario) {
@@ -82,7 +105,7 @@ export async function POST(request: NextRequest) {
         console.log('Creating new story for scenario...');
         try {
           const supabase = createServerSupabaseClient(headers());
-          
+
           // Создаем историю
           const { data: storyData, error: storyError } = await supabase
             .from('stories')
@@ -133,20 +156,31 @@ export async function POST(request: NextRequest) {
       console.error('No scenario returned from AI service, cannot save');
       return Response.json({ error: 'Failed to generate scenario text' }, { status: 500 });
     }
-    
-    return Response.json({ 
-      success: true, 
-      scenario: result.scenario, 
-      id: savedScenarioId,
-      saved: !!savedScenarioId,
-      guestMode: !userId
-    });
+
+    // Добавляем rate limit headers к успешному ответу
+    return new Response(
+      JSON.stringify({
+        success: true,
+        scenario: result.scenario,
+        id: savedScenarioId,
+        saved: !!savedScenarioId,
+        guestMode: !userId
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-RateLimit-Remaining': String(rateLimitResult.remaining),
+          'X-RateLimit-Reset': String(rateLimitResult.resetTime)
+        }
+      }
+    );
   } catch (error) {
     console.error('Error generating scenario:', error);
     console.error('Full error object:', JSON.stringify(error, Object.getOwnPropertyNames(error), 2));
     console.error('Error name:', (error as Error).name);
     console.error('Error message:', (error as Error).message);
-    
+
     // Не возвращаем ошибку аутентификации для гостевых пользователей
     return Response.json({ error: 'Failed to generate scenario' }, { status: 500 });
   }

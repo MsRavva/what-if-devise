@@ -31,6 +31,33 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
     --radius: 0.5rem;
+    
+    /* 🚀 Киберпанк палитра */
+    --neon-cyan: 180 100% 50%;
+    --neon-pink: 320 100% 50%;
+    --neon-green: 120 100% 50%;
+    --neon-purple: 270 100% 50%;
+    --neon-orange: 30 100% 50%;
+    
+    /* Глубокие тона */
+    --deep-space: 240 50% 6%;
+    --dark-matter: 240 30% 12%;
+    --void-blue: 220 45% 18%;
+    --shadow-purple: 260 60% 8%;
+    
+    /* Металлические акценты */
+    --chrome-silver: 0 0% 75%;
+    --gold-accent: 51 100% 50%;
+    --copper-glow: 30 50% 45%;
+    
+    /* Голографические градиенты */
+    --hologram-1: linear-gradient(45deg, hsl(var(--neon-cyan)), hsl(var(--neon-pink)), hsl(var(--neon-green)), hsl(var(--neon-purple)));
+    --hologram-2: conic-gradient(from 0deg, hsl(var(--neon-cyan)), hsl(var(--neon-pink)), hsl(var(--neon-green)), hsl(var(--neon-purple)), hsl(var(--neon-cyan)));
+    --neural-flow: linear-gradient(90deg, hsl(var(--deep-space)) 0%, hsl(var(--neon-cyan)) 25%, hsl(var(--neon-pink)) 50%, hsl(var(--neon-green)) 75%, hsl(var(--deep-space)) 100%);
+    
+    /* Объемные градиенты */
+    --neumorphism-light: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(0,0,0,0.15));
+    --neumorphism-shadow: linear-gradient(145deg, rgba(0,0,0,0.25), rgba(255,255,255,0.08));
   }
 
   .light {
@@ -86,6 +113,196 @@
   .gaming-card:hover {
     background: rgba(255, 255, 255, 0.05);
     box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.2);
+  }
+  
+  /* 🔮 Голографические карточки */
+  .hologram-card {
+    background: linear-gradient(45deg, transparent 30%, rgba(0,255,255,0.1) 50%, transparent 70%);
+    background-size: 200% 200%;
+    animation: hologram-shift 3s ease-in-out infinite;
+    border: 1px solid hsl(var(--neon-cyan) / 0.3);
+    box-shadow: 
+      0 0 20px hsl(var(--neon-cyan) / 0.2),
+      inset 0 0 20px hsl(var(--neon-pink) / 0.1);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* 🌊 Нейронные частицы */
+  .neural-particles {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .neural-particles::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(2px 2px at 20px 30px, hsl(var(--neon-cyan)), transparent),
+      radial-gradient(2px 2px at 40px 70px, hsl(var(--neon-pink)), transparent),
+      radial-gradient(1px 1px at 90px 40px, hsl(var(--neon-green)), transparent);
+    background-repeat: repeat;
+    background-size: 100px 100px;
+    animation: neural-flow 20s linear infinite;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  /* ⚡ Кнопки с энергетическим полем */
+  .energy-button {
+    position: relative;
+    background: linear-gradient(45deg, hsl(var(--deep-space)), hsl(var(--dark-matter)));
+    border: 2px solid hsl(var(--neon-cyan));
+    color: hsl(var(--neon-cyan));
+    overflow: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  
+  .energy-button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(transparent, hsl(var(--neon-cyan)), transparent);
+    animation: energy-rotate 2s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+  
+  .energy-button:hover::before {
+    opacity: 0.3;
+  }
+  
+  .energy-button:hover {
+    color: hsl(var(--deep-space));
+    background: linear-gradient(45deg, hsl(var(--neon-cyan) / 0.8), hsl(var(--neon-pink) / 0.8));
+    box-shadow: 
+      0 0 30px hsl(var(--neon-cyan) / 0.5),
+      0 0 60px hsl(var(--neon-cyan) / 0.3);
+  }
+  
+  /* 🎭 Поля ввода с нейронной активностью */
+  .neural-input {
+    background: hsl(var(--deep-space) / 0.8);
+    border: 1px solid hsl(var(--neon-cyan) / 0.3);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .neural-input::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, hsl(var(--neon-cyan) / 0.2), transparent);
+    transition: left 0.5s ease;
+    pointer-events: none;
+  }
+  
+  .neural-input:focus::before {
+    left: 100%;
+  }
+  
+  .neural-input:focus {
+    border-color: hsl(var(--neon-cyan));
+    box-shadow: 
+      0 0 20px hsl(var(--neon-cyan) / 0.3),
+      inset 0 0 20px hsl(var(--neon-cyan) / 0.1);
+  }
+  
+  /* 🎮 Глитч-эффекты */
+  .glitch-text {
+    position: relative;
+    color: hsl(var(--neon-cyan));
+    animation: glitch 2s infinite;
+  }
+  
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  
+  .glitch-text::before {
+    color: hsl(var(--neon-pink));
+    animation: glitch-1 0.5s infinite;
+  }
+  
+  .glitch-text::after {
+    color: hsl(var(--neon-green));
+    animation: glitch-2 0.5s infinite;
+  }
+  
+  /* 🌟 Магнитное притяжение */
+  .magnetic-hover {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .magnetic-hover:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+      0 20px 40px hsl(var(--neon-cyan) / 0.2),
+      0 0 0 1px hsl(var(--neon-cyan) / 0.1),
+      inset 0 0 0 1px rgba(255,255,255,0.1);
+  }
+  
+  /* ⚡ Энергетическое свечение */
+  .energy-glow:hover {
+    box-shadow: 
+      0 0 20px currentColor,
+      0 0 40px currentColor,
+      0 0 60px currentColor;
+    text-shadow: 0 0 10px currentColor;
+  }
+  
+  /* 🔄 Квантовый загрузчик */
+  .quantum-loader {
+    width: 60px;
+    height: 60px;
+    position: relative;
+  }
+  
+  .quantum-loader::before,
+  .quantum-loader::after {
+    content: '';
+    position: absolute;
+    border: 3px solid transparent;
+    border-top: 3px solid hsl(var(--neon-cyan));
+    border-radius: 50%;
+    animation: quantum-spin 1s linear infinite;
+  }
+  
+  .quantum-loader::before {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .quantum-loader::after {
+    width: 70%;
+    height: 70%;
+    top: 15%;
+    left: 15%;
+    border-top-color: hsl(var(--neon-pink));
+    animation-direction: reverse;
+    animation-duration: 0.7s;
   }
   
   .gaming-button {
@@ -147,6 +364,16 @@
   .neon-glow {
     @apply hover:animate-glow;
   }
+  
+  /* 🌟 Дополнительные утилиты */
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+  
+  .writing-mode-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
 }
 
 /* Custom scrollbar */
@@ -206,6 +433,43 @@
     animation: rotateSlow 20s linear infinite;
   }
   
+  /* 🚀 Новые киберпанк анимации */
+  .animate-hologram {
+    animation: hologram-shift 3s ease-in-out infinite;
+  }
+  
+  .animate-neural-flow {
+    animation: neural-flow 20s linear infinite;
+  }
+  
+  .animate-energy-rotate {
+    animation: energy-rotate 2s linear infinite;
+  }
+  
+  .animate-glitch {
+    animation: glitch 2s infinite;
+  }
+  
+  .animate-quantum-spin {
+    animation: quantum-spin 1s linear infinite;
+  }
+  
+  .animate-data-pulse {
+    animation: data-pulse 2s ease-in-out infinite;
+  }
+  
+  .animate-energy-flow {
+    animation: energy-flow 4s ease-in-out infinite;
+  }
+  
+  .animate-quantum-flicker {
+    animation: quantum-flicker 3s ease-in-out infinite;
+  }
+  
+  .animate-matrix-dissolve {
+    animation: matrix-dissolve 0.8s ease-in-out;
+  }
+  
   .hover-lift {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
@@ -213,6 +477,25 @@
   .hover-lift:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* 🎯 GPU-ускоренные элементы */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+  
+  .smooth-transition {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .lazy-animate {
+    animation-play-state: paused;
+  }
+  
+  .lazy-animate.in-view {
+    animation-play-state: running;
   }
 }
 
@@ -294,6 +577,143 @@
   }
   50% {
     box-shadow: 0 0 30px rgba(59, 130, 246, 0.9), 0 0 40px rgba(59, 130, 246, 0.7);
+  }
+}
+
+/* 🚀 Новые киберпанк анимации */
+@keyframes hologram-shift {
+  0%, 100% { 
+    background-position: 0% 0%; 
+    filter: hue-rotate(0deg);
+  }
+  50% { 
+    background-position: 100% 100%; 
+    filter: hue-rotate(180deg);
+  }
+}
+
+@keyframes neural-flow {
+  0% { 
+    transform: translate(0, 0); 
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% { 
+    transform: translate(-100px, -100px); 
+    opacity: 0.6;
+  }
+}
+
+@keyframes energy-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes glitch {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+}
+
+@keyframes glitch-1 {
+  0%, 100% { 
+    transform: translate(0); 
+    opacity: 1;
+  }
+  20% { 
+    transform: translate(-2px, 2px); 
+    opacity: 0.8;
+  }
+  40% { 
+    transform: translate(-2px, -2px); 
+    opacity: 0.9;
+  }
+  60% { 
+    transform: translate(2px, 2px); 
+    opacity: 0.7;
+  }
+  80% { 
+    transform: translate(2px, -2px); 
+    opacity: 0.8;
+  }
+}
+
+@keyframes glitch-2 {
+  0%, 100% { 
+    transform: translate(0); 
+    opacity: 1;
+  }
+  25% { 
+    transform: translate(2px, -2px); 
+    opacity: 0.9;
+  }
+  50% { 
+    transform: translate(-2px, 2px); 
+    opacity: 0.8;
+  }
+  75% { 
+    transform: translate(2px, 2px); 
+    opacity: 0.7;
+  }
+}
+
+@keyframes quantum-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes data-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 10px hsl(var(--neon-cyan) / 0.3);
+  }
+  50% { 
+    transform: scale(1.05);
+    box-shadow: 0 0 30px hsl(var(--neon-cyan) / 0.6);
+  }
+}
+
+@keyframes energy-flow {
+  0% { 
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+  50% { 
+    background-position: 100% 50%;
+    filter: hue-rotate(180deg);
+  }
+  100% { 
+    background-position: 0% 50%;
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes quantum-flicker {
+  0%, 100% { opacity: 1; }
+  25% { opacity: 0.8; }
+  50% { opacity: 0.9; }
+  75% { opacity: 0.7; }
+}
+
+@keyframes matrix-dissolve {
+  0% {
+    opacity: 1;
+    transform: scale(1) rotateX(0deg);
+    filter: blur(0px);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8) rotateX(90deg);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.6) rotateX(180deg);
+    filter: blur(10px);
   }
 }
 
