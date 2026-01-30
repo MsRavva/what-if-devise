@@ -169,7 +169,7 @@ export default function WhatIfPage() {
 
               {/* Submit button */}
               <div className="pt-4">
-                <EnergyButton variant="primary" className="w-full py-6 text-lg">
+                <EnergyButton type="submit" variant="primary" className="w-full py-6 text-lg">
                   <span className="flex items-center justify-center gap-3">
                     <Wand2 className="w-6 h-6" />
                     Создать сценарий
