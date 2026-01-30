@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { ProtectedRoute } from '@/components/protected-route'
+import { HologramCard, GlitchText, EnergyButton, AIBrainVisualization } from '@/components/cyberpunk'
 
 interface Template {
   id: string
@@ -889,20 +890,26 @@ export default function TemplatesPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/80 relative overflow-hidden">
-        {/* Background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent/5 rounded-full blur-3xl animate-pulse" />
+      <div className="min-h-screen bg-black text-white font-mono relative overflow-hidden neural-particles">
+        {/* Киберпанк фон */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-cyan-400 to-blue-500 transform rotate-45 opacity-15 animate-hologram" />
+          <div className="absolute top-60 right-20 w-24 h-24 bg-gradient-to-br from-pink-400 to-red-500 transform -rotate-12 opacity-20 animate-energy-flow" />
+          <div className="absolute bottom-40 left-1/4 w-40 h-40 bg-gradient-to-br from-purple-400 to-violet-500 transform rotate-12 opacity-10 animate-quantum-flicker" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-energy-flow" />
         </div>
 
         {/* Header */}
-        <header className="relative z-10 flex justify-between items-center p-6">
-          <Link href="/" className="flex items-center space-x-2 gaming-button-secondary">
-            <ArrowLeft className="w-5 h-5" />
-            <span>Назад</span>
-          </Link>
-          <ThemeToggle />
+        <header className="relative z-20 border-b-2 border-cyan-400/30 bg-black/90 backdrop-blur-sm">
+          <div className="flex justify-between items-center px-6 py-4">
+            <EnergyButton variant="secondary" size="sm">
+              <Link href="/" className="flex items-center gap-2">
+                <ArrowLeft className="w-4 h-4" />
+                Назад
+              </Link>
+            </EnergyButton>
+            <ThemeToggle />
+          </div>
         </header>
 
         {/* Main content */}
@@ -910,31 +917,30 @@ export default function TemplatesPage() {
           {!selectedTemplate ? (
             <>
               {/* Title */}
-              <div className="text-center mb-8 animate-fade-in">
-                <div className="flex items-center justify-center mb-4">
-                  <BookOpen className="w-12 h-12 text-primary mr-4" />
-                  <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                    Шаблоны историй
-                  </h1>
+              <div className="text-center mb-12">
+                <div className="flex justify-center mb-6">
+                  <AIBrainVisualization size="md" />
                 </div>
-                <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                  Выберите готовый шаблон истории для создания альтернативных сценариев
+                <GlitchText className="text-4xl md:text-5xl font-black uppercase mb-4">
+                  Шаблоны историй
+                </GlitchText>
+                <p className="text-cyan-400/60 uppercase text-sm tracking-widest font-mono animate-quantum-flicker">
+                  Выберите готовый шаблон для создания альтернативных сценариев
                 </p>
               </div>
 
               {/* Filters and sorting */}
-              <div className="max-w-7xl mx-auto mb-8 space-y-4">
+              <HologramCard variant="neural" className="max-w-7xl mx-auto mb-8 p-6">
                 {/* Category filter */}
-                <div className="flex flex-wrap gap-2 justify-center">
+                <div className="flex flex-wrap gap-2 justify-center mb-4">
                   {categories.map((category) => (
                     <button
                       key={category}
                       onClick={() => setSelectedCategory(category)}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                        selectedCategory === category
-                          ? 'bg-gradient-to-r from-primary to-accent text-white'
-                          : 'bg-muted/50 text-muted-foreground hover:bg-muted'
-                      }`}
+                      className={`px-4 py-2 border-2 text-sm font-bold uppercase tracking-wider transition-all ${selectedCategory === category
+                          ? 'border-cyan-400 bg-cyan-400/20 text-cyan-400'
+                          : 'border-gray-600 text-gray-400 hover:border-cyan-400/50 hover:text-white'
+                        }`}
                     >
                       {category}
                     </button>
@@ -943,49 +949,49 @@ export default function TemplatesPage() {
 
                 {/* Sort options */}
                 <div className="flex items-center justify-center gap-4">
-                  <span className="text-sm text-muted-foreground">Сортировка:</span>
+                  <span className="text-xs uppercase tracking-widest text-gray-500">Сортировка:</span>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as 'default' | 'title' | 'category')}
-                    className="px-4 py-2 rounded-lg bg-muted/50 text-foreground border border-border/50 focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="px-4 py-2 bg-black border-2 border-cyan-400/30 text-white font-mono focus:border-cyan-400 outline-none"
                   >
                     <option value="default">По умолчанию</option>
                     <option value="title">По названию</option>
                     <option value="category">По категории</option>
                   </select>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-xs uppercase tracking-widest text-cyan-400">
                     Найдено: {filteredAndSortedTemplates.length}
                   </span>
                 </div>
-              </div>
+              </HologramCard>
 
               {/* Templates grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto animate-scale-in">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
                 {filteredAndSortedTemplates.map((template) => (
                   <button
                     key={template.id}
                     onClick={() => setSelectedTemplate(template)}
-                    className="gaming-card group hover:scale-105 transition-all duration-300 text-left"
+                    className="border-2 border-cyan-400/30 bg-black/80 backdrop-blur p-4 text-left hover:border-cyan-400 hover:bg-cyan-400/10 transition-all duration-300 group"
                   >
                     <div className="space-y-4">
                       {/* Icon and category */}
-                      <div className="flex items-center space-x-3">
-                        <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${template.color} flex items-center justify-center text-white`}>
+                      <div className="flex items-center gap-3">
+                        <div className={`w-12 h-12 border-2 border-current bg-gradient-to-r ${template.color} flex items-center justify-center text-white`}>
                           {template.icon}
                         </div>
                         <div>
-                          <h3 className="font-semibold text-foreground">{template.title}</h3>
-                          <p className="text-sm text-muted-foreground">{template.category}</p>
+                          <h3 className="font-bold text-white uppercase text-sm">{template.title}</h3>
+                          <p className="text-xs text-cyan-400/60 uppercase tracking-wider">{template.category}</p>
                         </div>
                       </div>
 
                       {/* Story preview */}
-                      <p className="text-sm text-muted-foreground line-clamp-3">
+                      <p className="text-sm text-gray-400 line-clamp-3 font-mono">
                         {template.story.substring(0, 120)}...
                       </p>
 
                       {/* View button */}
-                      <div className="flex items-center text-sm text-primary group-hover:text-primary-foreground transition-colors">
+                      <div className="flex items-center text-xs text-cyan-400 uppercase tracking-widest group-hover:text-white transition-colors">
                         <Eye className="w-4 h-4 mr-2" />
                         Подробнее
                       </div>
@@ -1025,11 +1031,10 @@ export default function TemplatesPage() {
                   <h2 className="text-xl font-semibold text-foreground">История</h2>
                   <button
                     onClick={() => copyToClipboard(selectedTemplate.story, selectedTemplate.id)}
-                    className={`gaming-button-secondary text-sm ${
-                      copiedTemplate === selectedTemplate.id
+                    className={`gaming-button-secondary text-sm ${copiedTemplate === selectedTemplate.id
                         ? 'bg-green-500/20 border-green-500/50 text-green-400'
                         : ''
-                    }`}
+                      }`}
                   >
                     <Copy className="w-4 h-4 mr-2" />
                     {copiedTemplate === selectedTemplate.id ? 'Скопировано!' : 'Копировать'}
@@ -1052,11 +1057,10 @@ export default function TemplatesPage() {
                       <p className="text-foreground">{question}</p>
                       <button
                         onClick={() => copyToClipboard(question, `q${index}`)}
-                        className={`gaming-button-secondary text-xs px-2 py-1 flex-shrink-0 ${
-                          copiedTemplate === `q${index}`
+                        className={`gaming-button-secondary text-xs px-2 py-1 flex-shrink-0 ${copiedTemplate === `q${index}`
                             ? 'bg-green-500/20 border-green-500/50 text-green-400'
                             : ''
-                        }`}
+                          }`}
                       >
                         <Copy className="w-3 h-3" />
                       </button>
@@ -1082,11 +1086,10 @@ export default function TemplatesPage() {
                     `${selectedTemplate.story}\n\nПримеры вопросов:\n${selectedTemplate.exampleQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n')}`,
                     'full'
                   )}
-                  className={`gaming-button-secondary flex-1 ${
-                    copiedTemplate === 'full'
+                  className={`gaming-button-secondary flex-1 ${copiedTemplate === 'full'
                       ? 'bg-green-500/20 border-green-500/50 text-green-400'
                       : ''
-                  }`}
+                    }`}
                 >
                   <Copy className="w-5 h-5 mr-2" />
                   {copiedTemplate === 'full' ? 'Скопировано!' : 'Копировать всё'}

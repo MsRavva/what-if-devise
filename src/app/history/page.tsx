@@ -1,13 +1,14 @@
 "use client";
 
 import Link from 'next/link'
-import { ArrowLeft, History, BookOpen, Wand2, Plus, Calendar, Trash2 } from 'lucide-react'
+import { ArrowLeft, History, Plus, Loader2 } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { ProtectedRoute } from '@/components/protected-route'
 import { useAuth } from '@/components/auth-provider'
 import { getUserStories } from '@/lib/supabase'
 import { useEffect, useState } from 'react'
 import HistoryList from '@/components/HistoryList';
+import { HologramCard, GlitchText, EnergyButton, AIBrainVisualization } from '@/components/cyberpunk';
 
 // Тип для истории
 type Story = {
@@ -49,12 +50,18 @@ export default function HistoryPage() {
   if (loading) {
     return (
       <ProtectedRoute>
-        <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/80 relative overflow-hidden flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-20 h-20 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-spin">
-              <History className="w-10 h-10 text-white" />
+        <div className="min-h-screen bg-black text-white font-mono relative overflow-hidden neural-particles flex items-center justify-center">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-cyan-400 to-blue-500 transform rotate-45 opacity-15 animate-hologram" />
+            <div className="absolute bottom-20 right-20 w-24 h-24 bg-gradient-to-br from-pink-400 to-red-500 transform -rotate-12 opacity-20 animate-energy-flow" />
+          </div>
+          <div className="text-center relative z-10">
+            <div className="w-20 h-20 border-4 border-cyan-400 flex items-center justify-center mx-auto mb-6 animate-quantum-spin">
+              <History className="w-10 h-10 text-cyan-400" />
             </div>
-            <p className="text-lg text-muted-foreground">Загрузка истории...</p>
+            <GlitchText className="text-lg uppercase tracking-widest" intensity="low">
+              Загрузка истории...
+            </GlitchText>
           </div>
         </div>
       </ProtectedRoute>
@@ -65,20 +72,25 @@ export default function HistoryPage() {
   if (error) {
     return (
       <ProtectedRoute>
-        <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/80 relative overflow-hidden flex items-center justify-center">
-          <div className="text-center p-6 max-w-md mx-auto">
-            <div className="w-20 h-20 bg-destructive/20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <History className="w-10 h-10 text-destructive" />
+        <div className="min-h-screen bg-black text-white font-mono relative overflow-hidden neural-particles flex items-center justify-center">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-red-500 to-orange-500 transform rotate-45 opacity-20 animate-data-pulse" />
+          </div>
+          <HologramCard variant="energy" className="max-w-md mx-auto p-8 text-center relative z-10">
+            <div className="w-20 h-20 border-4 border-red-500 flex items-center justify-center mx-auto mb-6">
+              <History className="w-10 h-10 text-red-400" />
             </div>
-            <h3 className="text-xl font-semibold mb-2 text-foreground">Ошибка</h3>
-            <p className="text-muted-foreground mb-4">{error}</p>
-            <button
-              onClick={() => window.location.reload()} // Перезагружаем страницу для повторной попытки
-              className="gaming-button"
+            <GlitchText className="text-xl uppercase mb-4" color="pink">
+              Ошибка
+            </GlitchText>
+            <p className="text-gray-400 mb-6 font-mono">{error}</p>
+            <EnergyButton
+              variant="primary"
+              onClick={() => window.location.reload()}
             >
               Попробовать снова
-            </button>
-          </div>
+            </EnergyButton>
+          </HologramCard>
         </div>
       </ProtectedRoute>
     )
@@ -86,43 +98,54 @@ export default function HistoryPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/80 relative overflow-hidden">
-        {/* Background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent/5 rounded-full blur-3xl animate-pulse" />
+      <div className="min-h-screen bg-black text-white font-mono relative overflow-hidden neural-particles">
+        {/* Киберпанк фон */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-cyan-400 to-blue-500 transform rotate-45 opacity-15 animate-hologram" />
+          <div className="absolute top-60 right-20 w-24 h-24 bg-gradient-to-br from-pink-400 to-red-500 transform -rotate-12 opacity-20 animate-energy-flow" />
+          <div className="absolute bottom-40 left-1/4 w-40 h-40 bg-gradient-to-br from-purple-400 to-violet-500 transform rotate-12 opacity-10 animate-quantum-flicker" />
+
+          {/* Энергетические линии */}
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-energy-flow" />
+          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-pink-400/30 to-transparent animate-energy-flow" style={{ animationDirection: 'reverse' }} />
         </div>
 
         {/* Header */}
-        <header className="relative z-10 flex justify-between items-center p-6">
-          <Link href="/" className="flex items-center space-x-2 gaming-button-secondary">
-            <ArrowLeft className="w-5 h-5" />
-            <span>На главную</span>
-          </Link>
-          <ThemeToggle />
+        <header className="relative z-20 border-b-2 border-cyan-400/30 bg-black/90 backdrop-blur-sm">
+          <div className="flex justify-between items-center px-6 py-4">
+            <EnergyButton variant="secondary" size="sm">
+              <Link href="/" className="flex items-center gap-2">
+                <ArrowLeft className="w-4 h-4" />
+                На главную
+              </Link>
+            </EnergyButton>
+            <ThemeToggle />
+          </div>
         </header>
 
         {/* Main content */}
-        <main className="relative z-10 max-w-4xl mx-auto px-6 pb-12">
-          <div className="text-center mb-8 animate-fade-in">
-            <div className="w-20 h-20 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
-              <History className="w-10 h-10 text-white" />
+        <main className="relative z-10 max-w-4xl mx-auto px-6 py-12">
+          <div className="text-center mb-12">
+            <div className="flex justify-center mb-6">
+              <AIBrainVisualization size="md" />
             </div>
-            
-            <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+
+            <GlitchText className="text-4xl font-black uppercase mb-4">
               История сценариев
-            </h1>
-            <p className="text-muted-foreground">
+            </GlitchText>
+            <p className="text-cyan-400/60 uppercase text-sm tracking-widest font-mono animate-quantum-flicker">
               Ваши созданные истории и альтернативные сценарии
             </p>
           </div>
 
           {/* Create new story button */}
-          <div className="mb-8 animate-scale-in">
-            <Link href="/what-if" className="gaming-button w-full flex items-center justify-center space-x-2">
-              <Plus className="w-5 h-5" />
-              <span>Создать новую историю</span>
-            </Link>
+          <div className="mb-10">
+            <EnergyButton variant="primary" className="w-full">
+              <Link href="/what-if" className="flex items-center justify-center gap-3 w-full">
+                <Plus className="w-5 h-5" />
+                Создать новую историю
+              </Link>
+            </EnergyButton>
           </div>
 
           {/* Stories list */}

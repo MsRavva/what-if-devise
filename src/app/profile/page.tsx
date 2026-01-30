@@ -5,6 +5,7 @@ import { ArrowLeft, User, Mail, Calendar, LogOut, Settings, History } from 'luci
 import { ThemeToggle } from '@/components/theme-toggle'
 import { ProtectedRoute } from '@/components/protected-route'
 import { useAuth } from '@/components/auth-provider'
+import { HologramCard, GlitchText, EnergyButton, AIBrainVisualization } from '@/components/cyberpunk';
 
 export default function ProfilePage() {
   const { user, signOut } = useAuth()
@@ -15,107 +16,124 @@ export default function ProfilePage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/80 relative overflow-hidden">
-        {/* Background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent/5 rounded-full blur-3xl animate-pulse" />
+      <div className="min-h-screen bg-black text-white font-mono relative overflow-hidden neural-particles">
+        {/* Киберпанк фон */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-green-400 to-emerald-500 transform rotate-45 opacity-15 animate-hologram" />
+          <div className="absolute top-60 right-20 w-24 h-24 bg-gradient-to-br from-blue-400 to-cyan-500 transform -rotate-12 opacity-20 animate-energy-flow" />
+          <div className="absolute bottom-40 left-1/4 w-40 h-40 bg-gradient-to-br from-pink-400 to-purple-500 transform rotate-12 opacity-10 animate-quantum-flicker" />
+
+          {/* Энергетические линии */}
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-400/30 to-transparent animate-energy-flow" />
+          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-energy-flow" style={{ animationDirection: 'reverse' }} />
         </div>
 
         {/* Header */}
-        <header className="relative z-10 flex justify-between items-center p-6">
-          <Link href="/" className="flex items-center space-x-2 gaming-button-secondary">
-            <ArrowLeft className="w-5 h-5" />
-            <span>На главную</span>
-          </Link>
-          <ThemeToggle />
+        <header className="relative z-20 border-b-2 border-cyan-400/30 bg-black/90 backdrop-blur-sm">
+          <div className="flex justify-between items-center px-6 py-4">
+            <EnergyButton variant="secondary" size="sm">
+              <Link href="/" className="flex items-center gap-2">
+                <ArrowLeft className="w-4 h-4" />
+                На главную
+              </Link>
+            </EnergyButton>
+            <ThemeToggle />
+          </div>
         </header>
 
         {/* Main content */}
-        <main className="relative z-10 max-w-2xl mx-auto px-6 pb-12">
-          <div className="text-center mb-8 animate-fade-in">
-            <div className="w-20 h-20 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
-              <User className="w-10 h-10 text-white" />
+        <main className="relative z-10 max-w-2xl mx-auto px-6 py-12">
+          <div className="text-center mb-12">
+            <div className="flex justify-center mb-6">
+              <AIBrainVisualization size="md" />
             </div>
-            
-            <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-              Профиль пользователя
-            </h1>
-            <p className="text-muted-foreground">
+
+            <GlitchText className="text-4xl font-black uppercase mb-4">
+              Профиль
+            </GlitchText>
+            <p className="text-cyan-400/60 uppercase text-sm tracking-widest font-mono animate-quantum-flicker">
               Управление аккаунтом и настройки
             </p>
           </div>
 
           {/* Profile info */}
-          <div className="gaming-card mb-6 animate-scale-in">
-            <h2 className="text-xl font-semibold mb-4 text-foreground">Информация о пользователе</h2>
-            
+          <HologramCard variant="default" className="mb-6 p-6">
+            <GlitchText className="text-xl font-bold uppercase mb-6" intensity="low">
+              Информация о пользователе
+            </GlitchText>
+
             <div className="space-y-4">
-              <div className="flex items-center space-x-3 p-3 bg-muted/20 rounded-lg">
-                <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-primary" />
+              <div className="flex items-center gap-4 p-4 border border-cyan-400/30 bg-black/50">
+                <div className="w-12 h-12 border-2 border-cyan-400 flex items-center justify-center">
+                  <Mail className="w-6 h-6 text-cyan-400" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Email</p>
-                  <p className="font-medium text-foreground">{user?.email}</p>
+                  <p className="text-xs uppercase tracking-widest text-gray-500">Email</p>
+                  <p className="font-mono text-white">{user?.email}</p>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-3 p-3 bg-muted/20 rounded-lg">
-                <div className="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
-                  <Calendar className="w-5 h-5 text-green-400" />
+              <div className="flex items-center gap-4 p-4 border border-green-400/30 bg-black/50">
+                <div className="w-12 h-12 border-2 border-green-400 flex items-center justify-center">
+                  <Calendar className="w-6 h-6 text-green-400" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Дата регистрации</p>
-                  <p className="font-medium text-foreground">
+                  <p className="text-xs uppercase tracking-widest text-gray-500">Дата регистрации</p>
+                  <p className="font-mono text-white">
                     {user?.created_at ? new Date(user.created_at).toLocaleDateString('ru-RU') : 'Неизвестно'}
                   </p>
                 </div>
               </div>
             </div>
-          </div>
+          </HologramCard>
 
           {/* Quick actions */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <Link href="/history" className="gaming-card group hover:scale-105 transition-all duration-300 block">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center group-hover:bg-purple-500/30 transition-colors">
-                  <History className="w-6 h-6 text-purple-400" />
+            <Link href="/history">
+              <HologramCard variant="neural" className="p-6 group cursor-pointer hover:border-purple-400 transition-all duration-300">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 border-2 border-purple-400 flex items-center justify-center group-hover:bg-purple-400/20 transition-all">
+                    <History className="w-7 h-7 text-purple-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold uppercase text-white">История</h3>
+                    <p className="text-xs text-gray-500 uppercase tracking-wider">Ваши сценарии</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">История</h3>
-                  <p className="text-sm text-muted-foreground">Ваши сценарии</p>
-                </div>
-              </div>
+              </HologramCard>
             </Link>
 
-            <Link href="/settings" className="gaming-card group hover:scale-105 transition-all duration-300 block">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center group-hover:bg-blue-500/30 transition-colors">
-                  <Settings className="w-6 h-6 text-blue-400" />
+            <Link href="/settings">
+              <HologramCard variant="neural" className="p-6 group cursor-pointer hover:border-blue-400 transition-all duration-300">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 border-2 border-blue-400 flex items-center justify-center group-hover:bg-blue-400/20 transition-all">
+                    <Settings className="w-7 h-7 text-blue-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold uppercase text-white">Настройки</h3>
+                    <p className="text-xs text-gray-500 uppercase tracking-wider">Конфигурация</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Настройки</h3>
-                  <p className="text-sm text-muted-foreground">Конфигурация</p>
-                </div>
-              </div>
+              </HologramCard>
             </Link>
           </div>
 
           {/* Sign out */}
-          <div className="gaming-card">
-            <h2 className="text-xl font-semibold mb-4 text-foreground">Выход из системы</h2>
-            <p className="text-muted-foreground mb-4">
+          <HologramCard variant="energy" className="p-6">
+            <GlitchText className="text-xl font-bold uppercase mb-4" color="pink" intensity="low">
+              Выход из системы
+            </GlitchText>
+            <p className="text-gray-400 mb-6 font-mono text-sm">
               Нажмите кнопку ниже, чтобы выйти из аккаунта
             </p>
             <button
               onClick={handleSignOut}
-              className="w-full gaming-button-secondary text-destructive border-destructive/50 hover:bg-destructive/10 flex items-center justify-center space-x-2"
+              className="w-full p-4 border-2 border-red-500/50 bg-red-500/10 hover:bg-red-500/20 hover:border-red-500 text-red-400 font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-3"
             >
               <LogOut className="w-5 h-5" />
-              <span>Выйти из аккаунта</span>
+              Выйти из аккаунта
             </button>
-          </div>
+          </HologramCard>
         </main>
       </div>
     </ProtectedRoute>

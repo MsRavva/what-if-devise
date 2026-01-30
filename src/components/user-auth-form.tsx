@@ -2,12 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
 import { useAuth } from '@/components/auth-provider';
 import Link from 'next/link';
+import { HologramCard, GlitchText, EnergyButton, AIBrainVisualization } from '@/components/cyberpunk';
+import { LogIn, UserPlus, Home, Loader2 } from 'lucide-react';
 
 export function UserAuthForm() {
   const [email, setEmail] = useState('');
@@ -34,8 +32,8 @@ export function UserAuthForm() {
       if (result.error) {
         setError(result.error.message);
       } else {
-        router.push('/'); // Перенаправляем на главную страницу после успешной аутентификации
-        router.refresh(); // Обновляем, чтобы обновить состояние аутентификации
+        router.push('/');
+        router.refresh();
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Произошла ошибка при аутентификации');
@@ -45,86 +43,108 @@ export function UserAuthForm() {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-card border-0 shadow-lg rounded-xl overflow-hidden">
-      <CardHeader className="text-center space-y-1 p-6 bg-gradient-to-r from-primary/5 to-secondary/5">
-        <CardTitle className="text-2xl font-bold">Добро пожаловать</CardTitle>
-        <CardDescription className="text-muted-foreground">
-          {isLogin ? 'Войдите в свой аккаунт' : 'Создайте новый аккаунт'}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="p-6 space-y-4">
-        {error && (
-          <div className="p-3 bg-destructive/10 text-destructive rounded-md text-sm">
-            {error}
-          </div>
-        )}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="your@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              disabled={isLoading}
-              className="w-full text-sm sm:text-base"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Пароль</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={6}
-              disabled={isLoading}
-              className="w-full text-sm sm:text-base"
-            />
-          </div>
-          <Button
-            type="submit"
-            className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Загрузка...' : isLogin ? 'Войти' : 'Зарегистрироваться'}
-          </Button>
-        </form>
-        <div className="relative my-4">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">или</span>
-          </div>
+    <HologramCard variant="default" glowIntensity="high" className="w-full max-w-md mx-auto">
+      {/* Header */}
+      <div className="text-center mb-8">
+        <div className="flex justify-center mb-4">
+          <AIBrainVisualization size="sm" />
         </div>
-        <Button
-          variant="outline"
-          className="w-full bg-white hover:bg-gray-50 text-gray-90 border-gray-300"
-          onClick={async () => {
-            setIsLoading(true);
-            setError(null);
-            try {
-              const result = await signInWithGoogle();
-              if (result.error) {
-                setError(result.error.message);
-              } else {
-                router.push('/'); // Перенаправляем на главную страницу после успешной аутентификации
-                router.refresh(); // Обновляем, чтобы обновить состояние аутентификации
-              }
-            } catch (err) {
-              setError(err instanceof Error ? err.message : 'Произошла ошибка при входе через Google');
-            } finally {
-              setIsLoading(false);
-            }
-          }}
+        <GlitchText className="text-3xl font-black uppercase mb-2" color="cyan">
+          {isLogin ? 'Вход' : 'Регистрация'}
+        </GlitchText>
+        <p className="text-cyan-400/60 uppercase text-xs tracking-widest font-mono animate-quantum-flicker">
+          {isLogin ? 'Войдите в свой аккаунт' : 'Создайте новый аккаунт'}
+        </p>
+      </div>
+
+      {/* Error */}
+      {error && (
+        <div className="mb-6 p-4 border-2 border-red-500/50 bg-red-500/10 text-red-400 text-sm font-mono">
+          <span className="animate-glitch">{error}</span>
+        </div>
+      )}
+
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-2">
+          <label className="text-xs uppercase tracking-widest text-cyan-400 font-mono">Email</label>
+          <input
+            type="email"
+            placeholder="your@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            disabled={isLoading}
+            className="w-full p-3 bg-black/80 border-2 border-cyan-400/30 focus:border-cyan-400 text-white placeholder:text-gray-500 font-mono transition-all duration-300 outline-none"
+          />
+        </div>
+        <div className="space-y-2">
+          <label className="text-xs uppercase tracking-widest text-cyan-400 font-mono">Пароль</label>
+          <input
+            type="password"
+            placeholder="••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={6}
+            disabled={isLoading}
+            className="w-full p-3 bg-black/80 border-2 border-cyan-400/30 focus:border-cyan-400 text-white placeholder:text-gray-500 font-mono transition-all duration-300 outline-none"
+          />
+        </div>
+        <EnergyButton
+          variant="primary"
+          className="w-full"
           disabled={isLoading}
         >
-          <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
+          {isLoading ? (
+            <span className="flex items-center justify-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Загрузка...
+            </span>
+          ) : (
+            <span className="flex items-center justify-center gap-2">
+              {isLogin ? <LogIn className="w-4 h-4" /> : <UserPlus className="w-4 h-4" />}
+              {isLogin ? 'Войти' : 'Зарегистрироваться'}
+            </span>
+          )}
+        </EnergyButton>
+      </form>
+
+      {/* Divider */}
+      <div className="relative my-8">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t-2 border-cyan-400/20" />
+        </div>
+        <div className="relative flex justify-center">
+          <span className="bg-black px-4 text-xs uppercase tracking-widest text-gray-500 font-mono">или</span>
+        </div>
+      </div>
+
+      {/* Google Auth */}
+      <EnergyButton
+        variant="secondary"
+        className="w-full"
+        onClick={async () => {
+          setIsLoading(true);
+          setError(null);
+          try {
+            const result = await signInWithGoogle();
+            if (result.error) {
+              setError(result.error.message);
+            } else {
+              router.push('/');
+              router.refresh();
+            }
+          } catch (err) {
+            setError(err instanceof Error ? err.message : 'Произошла ошибка при входе через Google');
+          } finally {
+            setIsLoading(false);
+          }
+        }}
+        disabled={isLoading}
+      >
+        <span className="flex items-center justify-center gap-2">
+          <svg className="h-4 w-4" viewBox="0 0 24 24">
             <path
               d="M2.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.7h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
               fill="#4285F4"
@@ -143,27 +163,27 @@ export function UserAuthForm() {
             />
           </svg>
           Войти через Google
-        </Button>
-      </CardContent>
-      <CardFooter className="flex flex-col p-6 bg-muted/10 border-t border-border/30">
-        <p className="text-center text-sm text-muted-foreground mb-2">
+        </span>
+      </EnergyButton>
+
+      {/* Footer */}
+      <div className="mt-8 pt-6 border-t-2 border-cyan-400/20 text-center">
+        <p className="text-gray-500 text-xs font-mono mb-4">
           {isLogin ? 'Нет аккаунта?' : 'Уже есть аккаунт?'}
         </p>
-        <Button
-          variant="outline"
-          className="w-full sm:w-auto"
-          type="button"
+        <EnergyButton
+          variant="secondary"
           onClick={() => setIsLogin(!isLogin)}
           disabled={isLoading}
+          className="w-full mb-4"
         >
           {isLogin ? 'Создать аккаунт' : 'Войти в существующий'}
-        </Button>
-        <div className="mt-4 text-center text-xs text-muted-foreground">
-          <Link href="/" className="hover:underline hover:text-primary">
-            Вернуться на главную
-          </Link>
-        </div>
-      </CardFooter>
-    </Card>
+        </EnergyButton>
+        <Link href="/" className="inline-flex items-center gap-2 text-cyan-400/60 hover:text-cyan-400 text-xs uppercase tracking-widest font-mono transition-colors">
+          <Home className="w-3 h-3" />
+          Вернуться на главную
+        </Link>
+      </div>
+    </HologramCard>
   );
 }

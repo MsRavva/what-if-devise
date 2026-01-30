@@ -2,17 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-
-import { 
-  MessageSquare, 
-  Plus, 
-  Trash2, 
+import {
+  MessageSquare,
+  Plus,
+  Trash2,
   ChevronLeft,
   ChevronRight,
-  Home
+  Home,
+  Zap
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { HologramCard, EnergyButton, GlitchText } from '@/components/cyberpunk';
 
 interface ChatSession {
   id: string;
@@ -98,7 +98,7 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ currentSessionId }) =>
     if (diffMins < 60) return `${diffMins} мин назад`;
     if (diffHours < 24) return `${diffHours} ч назад`;
     if (diffDays < 7) return `${diffDays} дн назад`;
-    
+
     return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
   };
 
@@ -109,111 +109,108 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ currentSessionId }) =>
 
   if (isCollapsed) {
     return (
-      <div className="w-16 border-r border-border/40 bg-background/95 backdrop-blur flex flex-col items-center py-4 gap-4">
-        <Button
-          variant="ghost"
-          size="icon"
+      <div className="w-16 border-r-2 border-cyan-400/30 bg-black/90 backdrop-blur flex flex-col items-center py-4 gap-4">
+        <button
           onClick={() => setIsCollapsed(false)}
-          className="rounded-full"
+          className="w-10 h-10 border-2 border-cyan-400/50 bg-black/80 hover:bg-cyan-400/20 hover:border-cyan-400 transition-all duration-300 flex items-center justify-center text-cyan-400"
         >
           <ChevronRight className="w-5 h-5" />
-        </Button>
+        </button>
         <Link href="/">
-          <Button variant="ghost" size="icon" className="rounded-full">
+          <div className="w-10 h-10 border-2 border-pink-400/50 bg-black/80 hover:bg-pink-400/20 hover:border-pink-400 transition-all duration-300 flex items-center justify-center text-pink-400 cursor-pointer">
             <Home className="w-5 h-5" />
-          </Button>
+          </div>
         </Link>
         <Link href="/what-if">
-          <Button variant="ghost" size="icon" className="rounded-full">
+          <div className="w-10 h-10 border-2 border-green-400/50 bg-black/80 hover:bg-green-400/20 hover:border-green-400 transition-all duration-300 flex items-center justify-center text-green-400 cursor-pointer">
             <Plus className="w-5 h-5" />
-          </Button>
+          </div>
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="w-80 border-r border-border/40 bg-background/95 backdrop-blur flex flex-col">
+    <div className="w-80 border-r-2 border-cyan-400/30 bg-black/90 backdrop-blur flex flex-col">
       {/* Header */}
-      <div className="p-4 border-b border-border/40 flex items-center justify-between">
-        <h2 className="font-semibold text-lg">Чаты</h2>
-        <Button
-          variant="ghost"
-          size="icon"
+      <div className="p-4 border-b-2 border-cyan-400/30 flex items-center justify-between">
+        <GlitchText className="text-lg font-black uppercase tracking-wider">
+          Чаты
+        </GlitchText>
+        <button
           onClick={() => setIsCollapsed(true)}
-          className="rounded-full"
+          className="w-8 h-8 border border-cyan-400/50 bg-black/80 hover:bg-cyan-400/20 hover:border-cyan-400 transition-all duration-300 flex items-center justify-center text-cyan-400"
         >
-          <ChevronLeft className="w-5 h-5" />
-        </Button>
+          <ChevronLeft className="w-4 h-4" />
+        </button>
       </div>
 
       {/* New Chat Button */}
       <div className="p-4">
-        <Link href="/what-if" className="w-full">
-          <Button className="w-full bg-gradient-to-br from-primary to-accent hover:opacity-90 transition-opacity">
-            <Plus className="w-4 h-4 mr-2" />
+        <EnergyButton variant="primary" className="w-full">
+          <Link href="/what-if" className="flex items-center justify-center gap-2 w-full">
+            <Zap className="w-4 h-4" />
             Новый чат
-          </Button>
-        </Link>
+          </Link>
+        </EnergyButton>
       </div>
 
       {/* Sessions List */}
       <div className="flex-1 overflow-y-auto px-2">
         {isLoading ? (
-          <div className="p-4 text-center text-muted-foreground text-sm">
+          <div className="p-4 text-center text-cyan-400/60 text-sm font-mono uppercase animate-quantum-flicker">
             Загрузка...
           </div>
         ) : sessions.length === 0 ? (
-          <div className="p-4 text-center text-muted-foreground text-sm">
+          <div className="p-4 text-center text-gray-500 text-sm font-mono">
             Нет сохраненных чатов
           </div>
         ) : (
-          <div className="space-y-1 pb-4">
+          <div className="space-y-2 pb-4">
             {sessions.map((session) => (
               <Link
                 key={session.id}
                 href={`/chat/${session.id}`}
-                className={`block group relative rounded-lg transition-colors ${
-                  currentSessionId === session.id
-                    ? 'bg-primary/10 border border-primary/20'
-                    : 'hover:bg-muted/50'
-                }`}
+                className={`block group relative transition-all duration-300 ${currentSessionId === session.id
+                    ? 'bg-cyan-400/10 border-2 border-cyan-400/50'
+                    : 'border border-gray-700/50 hover:border-cyan-400/30 hover:bg-cyan-400/5'
+                  }`}
               >
                 <div className="p-3 pr-10">
                   <div className="flex items-start gap-2">
-                    <MessageSquare className="w-4 h-4 mt-0.5 flex-shrink-0 text-muted-foreground" />
+                    <MessageSquare className={`w-4 h-4 mt-0.5 flex-shrink-0 ${currentSessionId === session.id ? 'text-cyan-400' : 'text-gray-500'
+                      }`} />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">
+                      <p className={`text-sm font-mono truncate ${currentSessionId === session.id ? 'text-cyan-400' : 'text-gray-300'
+                        }`}>
                         {truncateText(session.question, 50)}
                       </p>
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <p className="text-xs text-gray-500 mt-1 font-mono">
                         {formatDate(session.created_at)}
                       </p>
                     </div>
                   </div>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
+                <button
                   onClick={(e) => deleteSession(session.id, e)}
-                  className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity h-7 w-7 rounded-md"
+                  className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity w-7 h-7 flex items-center justify-center text-red-400 hover:text-red-300 hover:bg-red-400/20"
                 >
-                  <Trash2 className="w-3.5 h-3.5 text-destructive" />
-                </Button>
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
               </Link>
             ))}
           </div>
         )}
       </div>
 
-      {/* Footer */}
-      <div className="p-4 border-t border-border/40">
-        <Link href="/">
-          <Button variant="ghost" className="w-full justify-start">
-            <Home className="w-4 h-4 mr-2" />
+      {/* Footer - На главную */}
+      <div className="p-4 border-t-2 border-cyan-400/30">
+        <EnergyButton variant="secondary" className="w-full">
+          <Link href="/" className="flex items-center justify-center gap-2 w-full">
+            <Home className="w-4 h-4" />
             На главную
-          </Button>
-        </Link>
+          </Link>
+        </EnergyButton>
       </div>
     </div>
   );
