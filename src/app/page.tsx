@@ -157,6 +157,25 @@ export default function HomePage() {
                 </Link>
               </EnergyButton>
             </HologramCard>
+            {isAuthenticated && (
+              <HologramCard variant="neural" glowIntensity="medium">
+                <div className="mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center mb-4">
+                    <History className="w-8 h-8 text-black" />
+                  </div>
+                  <GlitchText className="text-3xl font-black uppercase mb-2" color="purple">
+                    History
+                  </GlitchText>
+                  <p className="text-yellow-400 uppercase text-sm tracking-wider">Your Scenarios</p>
+                </div>
+                <EnergyButton variant="secondary" className="w-full">
+                  <Link href="/history" className="flex items-center justify-center gap-2">
+                    <History className="w-4 h-4" />
+                    View History →
+                  </Link>
+                </EnergyButton>
+              </HologramCard>
+            )}
           </div>
 
           {/* Центральная колонка - Герой контент */}
@@ -227,23 +246,7 @@ export default function HomePage() {
                   </div>
                 </HologramCard>
 
-                <HologramCard variant="neural" glowIntensity="medium">
-                  <div className="mb-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center mb-4">
-                      <History className="w-8 h-8 text-black" />
-                    </div>
-                    <GlitchText className="text-3xl font-black uppercase mb-2" color="purple">
-                      History
-                    </GlitchText>
-                    <p className="text-yellow-400 uppercase text-sm tracking-wider">Your Scenarios</p>
-                  </div>
-                  <EnergyButton variant="secondary" className="w-full">
-                    <Link href="/history" className="flex items-center justify-center gap-2">
-                      <History className="w-4 h-4" />
-                      View History →
-                    </Link>
-                  </EnergyButton>
-                </HologramCard>
+
               </>
             ) : (
               <HologramCard variant="default" glowIntensity="high">
