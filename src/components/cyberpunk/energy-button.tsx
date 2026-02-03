@@ -22,9 +22,9 @@ export const EnergyButton = ({
   type = 'button'
 }: EnergyButtonProps) => {
   const variants = {
-    primary: 'border-cyan-400 text-cyan-400 hover:bg-cyan-400/20 hover:text-cyan-100',
-    secondary: 'border-purple-400 text-purple-400 hover:bg-purple-400/20 hover:text-purple-100',
-    danger: 'border-red-400 text-red-400 hover:bg-red-400/20 hover:text-red-100'
+    primary: 'border-blue-700 text-blue-400 hover:bg-blue-900/40 hover:border-blue-600',
+    secondary: 'border-slate-600 text-slate-300 hover:bg-slate-800/40 hover:border-slate-500',
+    danger: 'border-red-800 text-red-400 hover:bg-red-900/30 hover:border-red-700'
   }
 
   const sizes = {
@@ -42,32 +42,26 @@ export const EnergyButton = ({
         energy-button
         ${variants[variant]}
         ${sizes[size]}
-        font-mono font-bold uppercase tracking-wider
-        rounded-lg
+        font-mono font-medium uppercase tracking-wider
+        rounded-md
         relative overflow-hidden
-        transition-all duration-300
-        hover:scale-105 active:scale-95
+        transition-all duration-200
+        hover:translate-y-[-1px]
+        active:translate-y-[1px]
         disabled:opacity-50 disabled:cursor-not-allowed
-        gpu-accelerated
         ${className}
       `}
     >
-      {/* Энергетическое поле */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-current/10 to-transparent animate-energy-flow opacity-0 hover:opacity-100 transition-opacity duration-300" />
-
-      {/* Квантовые частицы */}
-      <div className="absolute inset-0 neural-particles opacity-30" />
-
       {/* Контент */}
       <span className="relative z-10 flex items-center justify-center gap-2">
         {children}
       </span>
 
-      {/* Голографические углы */}
-      <div className="absolute top-1 left-1 w-2 h-2 border-l border-t border-current opacity-50" />
-      <div className="absolute top-1 right-1 w-2 h-2 border-r border-t border-current opacity-50" />
-      <div className="absolute bottom-1 left-1 w-2 h-2 border-l border-b border-current opacity-50" />
-      <div className="absolute bottom-1 right-1 w-2 h-2 border-r border-b border-current opacity-50" />
+      {/* Тонкие угловые акценты */}
+      <div className="absolute top-1 left-1 w-2 h-2 border-l border-t border-current opacity-30" />
+      <div className="absolute top-1 right-1 w-2 h-2 border-r border-t border-current opacity-30" />
+      <div className="absolute bottom-1 left-1 w-2 h-2 border-l border-b border-current opacity-30" />
+      <div className="absolute bottom-1 right-1 w-2 h-2 border-r border-b border-current opacity-30" />
     </button>
   )
 }

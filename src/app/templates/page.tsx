@@ -890,17 +890,17 @@ export default function TemplatesPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-black text-white font-mono relative overflow-hidden neural-particles">
-        {/* Киберпанк фон */}
+      <div className="min-h-screen bg-slate-950 text-slate-200 font-mono relative overflow-hidden">
+        {/* Тёмный официальный фон */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-cyan-400 to-blue-500 transform rotate-45 opacity-15 animate-hologram" />
-          <div className="absolute top-60 right-20 w-24 h-24 bg-gradient-to-br from-pink-400 to-red-500 transform -rotate-12 opacity-20 animate-energy-flow" />
-          <div className="absolute bottom-40 left-1/4 w-40 h-40 bg-gradient-to-br from-purple-400 to-violet-500 transform rotate-12 opacity-10" />
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-energy-flow" />
+          <div className="absolute top-20 left-20 w-32 h-32 bg-slate-900 transform rotate-45 opacity-40" />
+          <div className="absolute top-60 right-20 w-24 h-24 bg-slate-800 transform -rotate-12 opacity-30" />
+          <div className="absolute bottom-40 left-1/4 w-40 h-40 bg-slate-900 transform rotate-12 opacity-25" />
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
         </div>
 
         {/* Header */}
-        <header className="relative z-20 border-b-2 border-cyan-400/30 bg-black/90 backdrop-blur-sm">
+        <header className="relative z-20 border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm">
           <div className="flex justify-between items-center px-6 py-4">
             <EnergyButton variant="secondary" size="sm">
               <Link href="/" className="flex items-center gap-2">
@@ -921,10 +921,10 @@ export default function TemplatesPage() {
                 <div className="flex justify-center mb-6">
                   <AIBrainVisualization size="md" />
                 </div>
-                <GlitchText className="text-4xl md:text-5xl font-black uppercase mb-4">
+                <GlitchText className="text-4xl md:text-5xl font-semibold uppercase mb-4">
                   Шаблоны историй
                 </GlitchText>
-                <p className="text-cyan-400/60 uppercase text-sm tracking-widest font-mono">
+                <p className="text-slate-400 uppercase text-sm tracking-widest font-mono">
                   Выберите готовый шаблон для создания альтернативных сценариев
                 </p>
               </div>
@@ -937,9 +937,9 @@ export default function TemplatesPage() {
                     <button
                       key={category}
                       onClick={() => setSelectedCategory(category)}
-                      className={`px-4 py-2 border-2 text-sm font-bold uppercase tracking-wider transition-all ${selectedCategory === category
-                          ? 'border-cyan-400 bg-cyan-400/20 text-cyan-400'
-                          : 'border-gray-600 text-gray-400 hover:border-cyan-400/50 hover:text-white'
+                      className={`px-4 py-2 border text-sm font-medium uppercase tracking-wider transition-all rounded ${selectedCategory === category
+                        ? 'border-blue-600 bg-blue-900/30 text-blue-400'
+                        : 'border-slate-700 text-slate-400 hover:border-blue-700/50 hover:text-slate-200'
                         }`}
                     >
                       {category}
@@ -1032,8 +1032,8 @@ export default function TemplatesPage() {
                   <button
                     onClick={() => copyToClipboard(selectedTemplate.story, selectedTemplate.id)}
                     className={`gaming-button-secondary text-sm ${copiedTemplate === selectedTemplate.id
-                        ? 'bg-green-500/20 border-green-500/50 text-green-400'
-                        : ''
+                      ? 'bg-green-500/20 border-green-500/50 text-green-400'
+                      : ''
                       }`}
                   >
                     <Copy className="w-4 h-4 mr-2" />
@@ -1058,8 +1058,8 @@ export default function TemplatesPage() {
                       <button
                         onClick={() => copyToClipboard(question, `q${index}`)}
                         className={`gaming-button-secondary text-xs px-2 py-1 flex-shrink-0 ${copiedTemplate === `q${index}`
-                            ? 'bg-green-500/20 border-green-500/50 text-green-400'
-                            : ''
+                          ? 'bg-green-500/20 border-green-500/50 text-green-400'
+                          : ''
                           }`}
                       >
                         <Copy className="w-3 h-3" />
@@ -1087,8 +1087,8 @@ export default function TemplatesPage() {
                     'full'
                   )}
                   className={`gaming-button-secondary flex-1 ${copiedTemplate === 'full'
-                      ? 'bg-green-500/20 border-green-500/50 text-green-400'
-                      : ''
+                    ? 'bg-green-500/20 border-green-500/50 text-green-400'
+                    : ''
                     }`}
                 >
                   <Copy className="w-5 h-5 mr-2" />

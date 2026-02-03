@@ -6,58 +6,58 @@
 
 @layer base {
   :root {
-    --background: 220 10% 3%;
-    --foreground: 0 0% 98%;
-    --card: 220 20% 8%;
-    --card-foreground: 0 0% 98%;
+    --background: 220 15% 4%;
+    --foreground: 210 10% 90%;
+    --card: 220 20% 7%;
+    --card-foreground: 210 10% 90%;
     --popover: 220 20% 5%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 210 100% 60%;
+    --popover-foreground: 210 10% 90%;
+    --primary: 215 70% 35%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 220 30% 15%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 220 20% 15%;
-    --muted-foreground: 210 10% 65%;
-    --accent: 260 80% 50%;
+    --secondary: 220 15% 22%;
+    --secondary-foreground: 210 10% 85%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 215 10% 55%;
+    --accent: 230 55% 40%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 220 30% 20%;
-    --input: 220 30% 20%;
-    --ring: 210 100% 65%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --destructive: 0 65% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 15% 20%;
+    --input: 220 15% 18%;
+    --ring: 215 60% 45%;
+    --chart-1: 215 60% 45%;
+    --chart-2: 160 45% 40%;
+    --chart-3: 30 55% 45%;
+    --chart-4: 250 45% 50%;
+    --chart-5: 340 50% 45%;
     --radius: 0.5rem;
     
-    /* 🚀 Киберпанк палитра */
-    --neon-cyan: 180 100% 50%;
-    --neon-pink: 320 100% 50%;
-    --neon-green: 120 100% 50%;
-    --neon-purple: 270 100% 50%;
-    --neon-orange: 30 100% 50%;
+    /* 🎯 Тёмная официальная палитра */
+    --official-blue: 215 70% 35%;
+    --official-slate: 220 15% 35%;
+    --official-indigo: 230 55% 40%;
+    --official-gray: 215 15% 45%;
+    --official-muted: 220 10% 30%;
     
     /* Глубокие тона */
-    --deep-space: 240 50% 6%;
-    --dark-matter: 240 30% 12%;
-    --void-blue: 220 45% 18%;
-    --shadow-purple: 260 60% 8%;
+    --deep-space: 220 30% 6%;
+    --dark-matter: 220 25% 10%;
+    --void-blue: 215 35% 15%;
+    --shadow-blue: 220 40% 12%;
     
-    /* Металлические акценты */
-    --chrome-silver: 0 0% 75%;
-    --gold-accent: 51 100% 50%;
-    --copper-glow: 30 50% 45%;
+    /* Акценты */
+    --steel-blue: 210 40% 50%;
+    --silver-accent: 210 10% 65%;
+    --slate-border: 220 15% 25%;
     
-    /* Голографические градиенты */
-    --hologram-1: linear-gradient(45deg, hsl(var(--neon-cyan)), hsl(var(--neon-pink)), hsl(var(--neon-green)), hsl(var(--neon-purple)));
-    --hologram-2: conic-gradient(from 0deg, hsl(var(--neon-cyan)), hsl(var(--neon-pink)), hsl(var(--neon-green)), hsl(var(--neon-purple)), hsl(var(--neon-cyan)));
-    --neural-flow: linear-gradient(90deg, hsl(var(--deep-space)) 0%, hsl(var(--neon-cyan)) 25%, hsl(var(--neon-pink)) 50%, hsl(var(--neon-green)) 75%, hsl(var(--deep-space)) 100%);
+    /* Приглушённые градиенты */
+    --subtle-gradient: linear-gradient(135deg, hsl(var(--deep-space)), hsl(var(--dark-matter)));
+    --card-gradient: linear-gradient(145deg, hsl(220 20% 8%), hsl(220 20% 6%));
+    --border-glow: linear-gradient(90deg, transparent, hsl(var(--official-blue) / 0.3), transparent);
     
-    /* Объемные градиенты */
-    --neumorphism-light: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(0,0,0,0.15));
-    --neumorphism-shadow: linear-gradient(145deg, rgba(0,0,0,0.25), rgba(255,255,255,0.08));
+    /* Тени */
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+    --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.3);
   }
 
   .light {
@@ -115,22 +115,18 @@
     box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.2);
   }
   
-  /* 🔮 Голографические карточки */
+  /* 🎯 Официальные карточки */
   .hologram-card {
-    background: linear-gradient(45deg, transparent 30%, rgba(0,255,255,0.1) 50%, transparent 70%);
-    background-size: 200% 200%;
-    animation: hologram-shift 3s ease-in-out infinite;
-    border: 1px solid hsl(var(--neon-cyan) / 0.3);
-    box-shadow: 
-      0 0 20px hsl(var(--neon-cyan) / 0.2),
-      inset 0 0 20px hsl(var(--neon-pink) / 0.1);
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background: linear-gradient(145deg, hsl(220 20% 8%), hsl(220 20% 6%));
+    border: 1px solid hsl(var(--slate-border));
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     position: relative;
     overflow: hidden;
   }
   
-  /* 🌊 Нейронные частицы */
+  /* 🎯 Чистый фон */
   .neural-particles {
     position: relative;
     overflow: hidden;
@@ -141,127 +137,82 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-image: 
-      radial-gradient(2px 2px at 20px 30px, hsl(var(--neon-cyan)), transparent),
-      radial-gradient(2px 2px at 40px 70px, hsl(var(--neon-pink)), transparent),
-      radial-gradient(1px 1px at 90px 40px, hsl(var(--neon-green)), transparent);
-    background-repeat: repeat;
-    background-size: 100px 100px;
-    animation: neural-flow 20s linear infinite;
-    opacity: 0.6;
+    background: transparent;
     pointer-events: none;
   }
   
-  /* ⚡ Кнопки с энергетическим полем */
+  /* 🎯 Официальные кнопки */
   .energy-button {
     position: relative;
-    background: linear-gradient(45deg, hsl(var(--deep-space)), hsl(var(--dark-matter)));
-    border: 2px solid hsl(var(--neon-cyan));
-    color: hsl(var(--neon-cyan));
+    background: linear-gradient(135deg, hsl(var(--deep-space)), hsl(var(--dark-matter)));
+    border: 1px solid hsl(var(--slate-border));
+    color: hsl(var(--silver-accent));
     overflow: hidden;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.2s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
   
   .energy-button::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(transparent, hsl(var(--neon-cyan)), transparent);
-    animation: energy-rotate 2s linear infinite;
+    inset: 0;
+    background: linear-gradient(135deg, transparent, hsl(var(--official-blue) / 0.1), transparent);
     opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
+    transition: opacity 0.2s ease;
   }
   
   .energy-button:hover::before {
-    opacity: 0.3;
+    opacity: 1;
   }
   
   .energy-button:hover {
-    color: hsl(var(--deep-space));
-    background: linear-gradient(45deg, hsl(var(--neon-cyan) / 0.8), hsl(var(--neon-pink) / 0.8));
-    box-shadow: 
-      0 0 30px hsl(var(--neon-cyan) / 0.5),
-      0 0 60px hsl(var(--neon-cyan) / 0.3);
+    border-color: hsl(var(--official-blue));
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   }
   
-  /* 🎭 Поля ввода с нейронной активностью */
+  /* 🎯 Поля ввода */
   .neural-input {
     background: hsl(var(--deep-space) / 0.8);
-    border: 1px solid hsl(var(--neon-cyan) / 0.3);
-    border-radius: 12px;
+    border: 1px solid hsl(var(--slate-border));
+    border-radius: 8px;
     position: relative;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
   }
   
   .neural-input::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, hsl(var(--neon-cyan) / 0.2), transparent);
-    transition: left 0.5s ease;
-    pointer-events: none;
+    display: none;
   }
   
   .neural-input:focus::before {
-    left: 100%;
+    display: none;
   }
   
   .neural-input:focus {
-    border-color: hsl(var(--neon-cyan));
-    box-shadow: 
-      0 0 20px hsl(var(--neon-cyan) / 0.3),
-      inset 0 0 20px hsl(var(--neon-cyan) / 0.1);
+    border-color: hsl(var(--official-blue));
+    box-shadow: 0 0 0 2px hsl(var(--official-blue) / 0.2);
   }
   
-  /* 🎮 Глитч-эффекты */
+  /* 🎯 Текст без глитч-эффектов */
   .glitch-text {
     position: relative;
-    color: hsl(var(--neon-cyan));
-    animation: glitch 2s infinite;
+    color: hsl(var(--silver-accent));
   }
   
   .glitch-text::before,
   .glitch-text::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
+    display: none;
   }
   
-  .glitch-text::before {
-    color: hsl(var(--neon-pink));
-    animation: glitch-1 0.5s infinite;
-  }
-  
-  .glitch-text::after {
-    color: hsl(var(--neon-green));
-    animation: glitch-2 0.5s infinite;
-  }
-  
-  /* 🌟 Магнитное притяжение */
+  /* 🎯 Плавный ховер */
   .magnetic-hover {
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.2s ease;
   }
   
   .magnetic-hover:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 
-      0 20px 40px hsl(var(--neon-cyan) / 0.2),
-      0 0 0 1px hsl(var(--neon-cyan) / 0.1),
-      inset 0 0 0 1px rgba(255,255,255,0.1);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-soft);
   }
   
   /* ⚡ Энергетическое свечение */
@@ -273,7 +224,7 @@
     text-shadow: 0 0 10px currentColor;
   }
   
-  /* 🔄 Квантовый загрузчик */
+  /* 🎯 Загрузчик */
   .quantum-loader {
     width: 60px;
     height: 60px;
@@ -284,8 +235,8 @@
   .quantum-loader::after {
     content: '';
     position: absolute;
-    border: 3px solid transparent;
-    border-top: 3px solid hsl(var(--neon-cyan));
+    border: 2px solid transparent;
+    border-top: 2px solid hsl(var(--official-blue));
     border-radius: 50%;
     animation: quantum-spin 1s linear infinite;
   }
@@ -300,7 +251,7 @@
     height: 70%;
     top: 15%;
     left: 15%;
-    border-top-color: hsl(var(--neon-pink));
+    border-top-color: hsl(var(--steel-blue));
     animation-direction: reverse;
     animation-duration: 0.7s;
   }

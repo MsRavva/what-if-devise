@@ -16,18 +16,18 @@ export const GlitchText = ({
   color = 'cyan'
 }: GlitchTextProps) => {
   const colors = {
-    cyan: 'text-cyan-400',
-    pink: 'text-pink-400',
-    green: 'text-green-400',
-    purple: 'text-purple-400',
-    yellow: 'text-yellow-400'
+    cyan: 'text-blue-400',
+    pink: 'text-slate-300',
+    green: 'text-emerald-500',
+    purple: 'text-indigo-400',
+    yellow: 'text-amber-500'
   }
 
   return (
     <span
       className={`
         ${colors[color]}
-        font-mono font-bold
+        font-mono font-semibold
         relative inline-block
         ${className}
       `}

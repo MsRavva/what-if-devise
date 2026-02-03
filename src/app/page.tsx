@@ -34,31 +34,31 @@ export default function HomePage() {
   if (!mounted) return null
 
   return (
-    <div className="min-h-screen bg-black text-white font-mono relative overflow-hidden neural-particles">
-      {/* Киберпанк фон с улучшенными эффектами */}
+    <div className="min-h-screen bg-slate-950 text-slate-200 font-mono relative overflow-hidden">
+      {/* Тёмный официальный фон */}
       <div className="absolute inset-0">
-        {/* Голографические геометрические фигуры */}
-        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-cyan-400 to-blue-500 transform rotate-45 opacity-20" />
-        <div className="absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-pink-400 to-red-500 transform -rotate-12 opacity-30" />
-        <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-gradient-to-br from-green-400 to-emerald-500 transform rotate-12 opacity-15" />
-        <div className="absolute bottom-40 right-1/3 w-28 h-28 bg-gradient-to-br from-yellow-400 to-orange-500 transform -rotate-45 opacity-25" />
+        {/* Приглушённые геометрические фигуры */}
+        <div className="absolute top-10 left-10 w-32 h-32 bg-slate-900 transform rotate-45 opacity-40" />
+        <div className="absolute top-40 right-20 w-24 h-24 bg-slate-800 transform -rotate-12 opacity-30" />
+        <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-slate-900 transform rotate-12 opacity-25" />
+        <div className="absolute bottom-40 right-1/3 w-28 h-28 bg-slate-800 transform -rotate-45 opacity-35" />
 
-        {/* Нейронная сетка */}
-        <div className="absolute inset-0 opacity-10">
+        {/* Сетка */}
+        <div className="absolute inset-0 opacity-5">
           <div className="grid grid-cols-12 gap-4 h-full">
             {Array.from({ length: 144 }).map((_, i) => (
-              <div key={i} className="border border-cyan-400/30" style={{ animationDelay: `${i * 0.1}s` }} />
+              <div key={i} className="border border-slate-700/30" />
             ))}
           </div>
         </div>
 
-        {/* Энергетические потоки */}
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-pink-400/50 to-transparent" style={{ animationDirection: 'reverse' }} />
+        {/* Верхняя и нижняя линии */}
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
       </div>
 
-      {/* Киберпанк хедер с голографическими эффектами */}
-      <header className="relative z-20 border-b-4 border-cyan-400 bg-black/90 backdrop-blur-sm hologram-card">
+      {/* Официальный хедер */}
+      <header className="relative z-20 border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm">
         <div className="container mx-auto px-6 py-4">
           {/* Top row */}
           <div className="flex justify-between items-center mb-4">
@@ -70,13 +70,13 @@ export default function HomePage() {
                 <GlitchText className="text-2xl font-black uppercase tracking-wider">
                   What If Device
                 </GlitchText>
-                <p className="text-xs text-cyan-400 uppercase tracking-widest">AI Scenario Generator</p>
+                <p className="text-xs text-slate-400 uppercase tracking-widest">AI Scenario Generator</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
               <ThemeToggle />
               {isAuthenticated ? (
-                <div className="flex items-center space-x-2 bg-green-500 px-3 py-1 text-black font-bold text-sm uppercase">
+                <div className="flex items-center space-x-2 bg-emerald-900/60 border border-emerald-700 px-3 py-1 text-emerald-400 font-medium text-sm uppercase rounded">
                   <User className="w-4 h-4" />
                   <span>Online</span>
                 </div>
@@ -89,7 +89,7 @@ export default function HomePage() {
           </div>
 
           {/* Navigation */}
-          <nav className="border-t-2 border-cyan-400/50 pt-4">
+          <nav className="border-t border-slate-800 pt-4">
             <div className="flex flex-wrap gap-4">
               <EnergyButton variant="primary" size="sm">
                 <Link href="/what-if">Generate</Link>
@@ -310,50 +310,50 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* Киберпанк футер с голографическими секциями */}
-      <footer className="relative z-10 border-t-4 border-cyan-400 bg-black/90 backdrop-blur-sm mt-20 neural-particles">
+      {/* Официальный футер */}
+      <footer className="relative z-10 border-t border-slate-800 bg-slate-950/95 backdrop-blur-sm mt-20">
         <div className="container mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
             {/* Footer Section 1 - About */}
             <HologramCard variant="default">
-              <GlitchText className="text-xl font-black uppercase mb-4" color="cyan">
+              <GlitchText className="text-xl font-semibold uppercase mb-4" color="cyan">
                 About
               </GlitchText>
-              <p className="text-sm font-mono leading-relaxed mb-4">
+              <p className="text-sm font-mono leading-relaxed mb-4 text-slate-400">
                 What If Device - это мощный генератор альтернативных сценариев, использующий передовые технологии ИИ для создания уникального контента.
               </p>
               <div className="flex space-x-2">
-                <div className="w-4 h-4 bg-cyan-400" />
-                <div className="w-4 h-4 bg-pink-400" />
-                <div className="w-4 h-4 bg-green-400" />
+                <div className="w-4 h-4 bg-blue-700 rounded-sm" />
+                <div className="w-4 h-4 bg-slate-600 rounded-sm" />
+                <div className="w-4 h-4 bg-indigo-700 rounded-sm" />
               </div>
             </HologramCard>
 
             {/* Footer Section 2 - Features */}
             <HologramCard variant="energy">
-              <GlitchText className="text-xl font-black uppercase mb-4" color="pink">
+              <GlitchText className="text-xl font-semibold uppercase mb-4" color="pink">
                 Features
               </GlitchText>
-              <ul className="space-y-2 text-sm font-mono">
+              <ul className="space-y-2 text-sm font-mono text-slate-400">
                 <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-pink-400" />
+                  <div className="w-2 h-2 bg-slate-500 rounded-full" />
                   <span>AI-Powered Generation</span>
                 </li>
                 <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-pink-400" />
+                  <div className="w-2 h-2 bg-slate-500 rounded-full" />
                   <span>64 Ready Templates</span>
                 </li>
                 <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-pink-400" />
+                  <div className="w-2 h-2 bg-slate-500 rounded-full" />
                   <span>Interactive Chat</span>
                 </li>
                 <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-pink-400" />
+                  <div className="w-2 h-2 bg-slate-500 rounded-full" />
                   <span>Dark/Light Themes</span>
                 </li>
                 <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-pink-400" />
+                  <div className="w-2 h-2 bg-slate-500 rounded-full" />
                   <span>Responsive Design</span>
                 </li>
               </ul>
@@ -361,33 +361,33 @@ export default function HomePage() {
 
             {/* Footer Section 3 - Tech Stack */}
             <HologramCard variant="neural">
-              <GlitchText className="text-xl font-black uppercase mb-4" color="green">
+              <GlitchText className="text-xl font-semibold uppercase mb-4" color="green">
                 Tech Stack
               </GlitchText>
               <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-                <div className="bg-green-500 text-black p-2 text-center font-bold">Next.js 14</div>
-                <div className="bg-blue-500 text-black p-2 text-center font-bold">TypeScript</div>
-                <div className="bg-cyan-500 text-black p-2 text-center font-bold">Tailwind</div>
-                <div className="bg-purple-500 text-black p-2 text-center font-bold">Supabase</div>
-                <div className="bg-yellow-500 text-black p-2 text-center font-bold">Hugging Face</div>
-                <div className="bg-red-500 text-black p-2 text-center font-bold">Vercel</div>
+                <div className="bg-slate-800 text-slate-300 p-2 text-center font-medium border border-slate-700 rounded">Next.js 14</div>
+                <div className="bg-slate-800 text-slate-300 p-2 text-center font-medium border border-slate-700 rounded">TypeScript</div>
+                <div className="bg-slate-800 text-slate-300 p-2 text-center font-medium border border-slate-700 rounded">Tailwind</div>
+                <div className="bg-slate-800 text-slate-300 p-2 text-center font-medium border border-slate-700 rounded">Supabase</div>
+                <div className="bg-slate-800 text-slate-300 p-2 text-center font-medium border border-slate-700 rounded">Hugging Face</div>
+                <div className="bg-slate-800 text-slate-300 p-2 text-center font-medium border border-slate-700 rounded">Vercel</div>
               </div>
             </HologramCard>
           </div>
 
           {/* Footer Bottom */}
-          <div className="border-t-2 border-cyan-400/50 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <div className="border-t border-slate-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-4 mb-4 md:mb-0">
               <AIBrainVisualization size="sm" />
-              <GlitchText className="font-black uppercase">
+              <GlitchText className="font-semibold uppercase">
                 What If Device © 2026
               </GlitchText>
             </div>
             <div className="flex space-x-4 text-sm font-mono">
-              <span className="text-gray-400">Made with</span>
+              <span className="text-slate-500">Made with</span>
               <span className="text-red-400">❤️</span>
-              <span className="text-gray-400">and</span>
-              <GlitchText className="text-cyan-400" color="cyan">AI</GlitchText>
+              <span className="text-slate-500">and</span>
+              <GlitchText color="cyan">AI</GlitchText>
             </div>
           </div>
         </div>

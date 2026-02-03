@@ -16,20 +16,20 @@ export default function ProfilePage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-black text-white font-mono relative overflow-hidden neural-particles">
-        {/* Киберпанк фон */}
+      <div className="min-h-screen bg-slate-950 text-slate-200 font-mono relative overflow-hidden">
+        {/* Тёмный официальный фон */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-green-400 to-emerald-500 transform rotate-45 opacity-15 animate-hologram" />
-          <div className="absolute top-60 right-20 w-24 h-24 bg-gradient-to-br from-blue-400 to-cyan-500 transform -rotate-12 opacity-20 animate-energy-flow" />
-          <div className="absolute bottom-40 left-1/4 w-40 h-40 bg-gradient-to-br from-pink-400 to-purple-500 transform rotate-12 opacity-10" />
+          <div className="absolute top-20 left-20 w-32 h-32 bg-slate-900 transform rotate-45 opacity-40" />
+          <div className="absolute top-60 right-20 w-24 h-24 bg-slate-800 transform -rotate-12 opacity-30" />
+          <div className="absolute bottom-40 left-1/4 w-40 h-40 bg-slate-900 transform rotate-12 opacity-25" />
 
-          {/* Энергетические линии */}
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-400/30 to-transparent animate-energy-flow" />
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-energy-flow" style={{ animationDirection: 'reverse' }} />
+          {/* Верхняя и нижняя линии */}
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
+          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
         </div>
 
         {/* Header */}
-        <header className="relative z-20 border-b-2 border-cyan-400/30 bg-black/90 backdrop-blur-sm">
+        <header className="relative z-20 border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm">
           <div className="flex justify-between items-center px-6 py-4">
             <EnergyButton variant="secondary" size="sm">
               <Link href="/" className="flex items-center gap-2">
@@ -51,7 +51,7 @@ export default function ProfilePage() {
             <GlitchText className="text-4xl font-black uppercase mb-4">
               Профиль
             </GlitchText>
-            <p className="text-cyan-400/60 uppercase text-sm tracking-widest font-mono">
+            <p className="text-slate-400 uppercase text-sm tracking-widest font-mono">
               Управление аккаунтом и настройки
             </p>
           </div>
