@@ -1,6 +1,7 @@
 "use client"
 
 import { ReactNode } from 'react'
+import Link from 'next/link'
 
 interface EnergyButtonProps {
   children: ReactNode
@@ -10,6 +11,7 @@ interface EnergyButtonProps {
   disabled?: boolean
   className?: string
   type?: 'button' | 'submit' | 'reset'
+  href?: string
 }
 
 export const EnergyButton = ({
@@ -19,7 +21,8 @@ export const EnergyButton = ({
   size = 'md',
   disabled = false,
   className = '',
-  type = 'button'
+  type = 'button',
+  href
 }: EnergyButtonProps) => {
   const variants = {
     primary: 'border-blue-700 text-blue-400 hover:bg-blue-900/40 hover:border-blue-600',
@@ -33,25 +36,23 @@ export const EnergyButton = ({
     lg: 'px-8 py-4 text-lg'
   }
 
-  return (
-    <button
-      type={type}
-      onClick={onClick}
-      disabled={disabled}
-      className={`
-        energy-button
-        ${variants[variant]}
-        ${sizes[size]}
-        font-mono font-medium uppercase tracking-wider
-        rounded-md
-        relative overflow-hidden
-        transition-all duration-200
-        hover:translate-y-[-1px]
-        active:translate-y-[1px]
-        disabled:opacity-50 disabled:cursor-not-allowed
-        ${className}
-      `}
-    >
+  const baseStyles = `
+    energy-button
+    ${variants[variant]}
+    ${sizes[size]}
+    font-mono font-medium uppercase tracking-wider
+    rounded-md
+    relative overflow-hidden
+    transition-all duration-200
+    hover:translate-y-[-1px]
+    active:translate-y-[1px]
+    disabled:opacity-50 disabled:cursor-not-allowed
+    inline-block text-center
+    ${className}
+  `
+
+  const content = (
+    <>
       {/* Контент */}
       <span className="relative z-10 flex items-center justify-center gap-2">
         {children}
@@ -62,6 +63,31 @@ export const EnergyButton = ({
       <div className="absolute top-1 right-1 w-2 h-2 border-r border-t border-current opacity-30" />
       <div className="absolute bottom-1 left-1 w-2 h-2 border-l border-b border-current opacity-30" />
       <div className="absolute bottom-1 right-1 w-2 h-2 border-r border-b border-current opacity-30" />
+    </>
+  )
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className={baseStyles}
+        onClick={onClick}
+        aria-disabled={disabled}
+        style={disabled ? { pointerEvents: 'none' } : undefined}
+      >
+        {content}
+      </Link>
+    )
+  }
+
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={baseStyles}
+    >
+      {content}
     </button>
   )
 }

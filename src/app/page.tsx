@@ -81,8 +81,8 @@ export default function HomePage() {
                   <span>Online</span>
                 </div>
               ) : (
-                <EnergyButton size="sm">
-                  <Link href="/auth">Login</Link>
+                <EnergyButton size="sm" href="/auth">
+                  Login
                 </EnergyButton>
               )}
             </div>
@@ -91,25 +91,25 @@ export default function HomePage() {
           {/* Navigation */}
           <nav className="border-t border-slate-800 pt-4">
             <div className="flex flex-wrap gap-4">
-              <EnergyButton variant="primary" size="sm">
-                <Link href="/what-if">Generate</Link>
+              <EnergyButton variant="primary" size="sm" href="/what-if">
+                Generate
               </EnergyButton>
-              <EnergyButton variant="secondary" size="sm">
-                <Link href="/templates">Templates</Link>
+              <EnergyButton variant="secondary" size="sm" href="/templates">
+                Templates
               </EnergyButton>
-              <EnergyButton variant="primary" size="sm">
-                <Link href="/chat">Chat</Link>
+              <EnergyButton variant="primary" size="sm" href="/chat">
+                Chat
               </EnergyButton>
-              <EnergyButton variant="secondary" size="sm">
-                <Link href="/cyberpunk-demo">🚀 Demo</Link>
+              <EnergyButton variant="secondary" size="sm" href="/cyberpunk-demo">
+                🚀 Demo
               </EnergyButton>
               {isAuthenticated && (
                 <>
-                  <EnergyButton variant="secondary" size="sm">
-                    <Link href="/history">History</Link>
+                  <EnergyButton variant="secondary" size="sm" href="/history">
+                    History
                   </EnergyButton>
-                  <EnergyButton variant="secondary" size="sm">
-                    <Link href="/profile">Profile</Link>
+                  <EnergyButton variant="secondary" size="sm" href="/profile">
+                    Profile
                   </EnergyButton>
                 </>
               )}
@@ -132,11 +132,9 @@ export default function HomePage() {
                 </GlitchText>
                 <p className="text-cyan-400 uppercase text-sm tracking-wider">Generate New Scenario</p>
               </div>
-              <EnergyButton variant="primary" className="w-full">
-                <Link href="/what-if" className="flex items-center justify-center gap-2">
-                  <Wand2 className="w-4 h-4" />
-                  Start Creating →
-                </Link>
+              <EnergyButton variant="primary" className="w-full" href="/what-if">
+                <Wand2 className="w-4 h-4" />
+                Start Creating →
               </EnergyButton>
             </HologramCard>
 
@@ -150,11 +148,9 @@ export default function HomePage() {
                 </GlitchText>
                 <p className="text-pink-400 uppercase text-sm tracking-wider">64 Ready Examples</p>
               </div>
-              <EnergyButton variant="secondary" className="w-full">
-                <Link href="/templates" className="flex items-center justify-center gap-2">
-                  <BookOpen className="w-4 h-4" />
-                  Browse Templates →
-                </Link>
+              <EnergyButton variant="secondary" className="w-full" href="/templates">
+                <BookOpen className="w-4 h-4" />
+                Browse Templates →
               </EnergyButton>
             </HologramCard>
             {isAuthenticated && (
@@ -168,11 +164,9 @@ export default function HomePage() {
                   </GlitchText>
                   <p className="text-yellow-400 uppercase text-sm tracking-wider">Your Scenarios</p>
                 </div>
-                <EnergyButton variant="secondary" className="w-full">
-                  <Link href="/history" className="flex items-center justify-center gap-2">
-                    <History className="w-4 h-4" />
-                    View History →
-                  </Link>
+                <EnergyButton variant="secondary" className="w-full" href="/history">
+                  <History className="w-4 h-4" />
+                  View History →
                 </EnergyButton>
               </HologramCard>
             )}
@@ -229,11 +223,9 @@ export default function HomePage() {
                     <p className="text-green-400 uppercase text-sm tracking-wider truncate">{user?.email}</p>
                   </div>
                   <div className="space-y-3">
-                    <EnergyButton variant="primary" className="w-full">
-                      <Link href="/profile" className="flex items-center justify-center gap-2">
-                        <Settings className="w-4 h-4" />
-                        Settings
-                      </Link>
+                    <EnergyButton variant="primary" className="w-full" href="/profile">
+                      <Settings className="w-4 h-4" />
+                      Settings
                     </EnergyButton>
                     <EnergyButton
                       variant="danger"
@@ -260,11 +252,9 @@ export default function HomePage() {
                   <p className="text-red-400 uppercase text-sm tracking-wider">Access Account</p>
                 </div>
                 <div className="space-y-4">
-                  <EnergyButton variant="primary" className="w-full">
-                    <Link href="/auth" className="flex items-center justify-center gap-2">
-                      <LogIn className="w-4 h-4" />
-                      Login / Register →
-                    </Link>
+                  <EnergyButton variant="primary" className="w-full" href="/auth">
+                    <LogIn className="w-4 h-4" />
+                    Login / Register →
                   </EnergyButton>
                   <HologramCard className="p-4">
                     <p className="text-gray-400 text-sm uppercase font-bold mb-2">Guest Mode</p>
@@ -284,11 +274,9 @@ export default function HomePage() {
                 </GlitchText>
                 <p className="text-purple-400 uppercase text-sm tracking-wider">How To Use</p>
               </div>
-              <EnergyButton variant="secondary" className="w-full">
-                <Link href="/docs/HOW_TO_USE" className="flex items-center justify-center gap-2">
-                  <BookOpen className="w-4 h-4" />
-                  Read Guide →
-                </Link>
+              <EnergyButton variant="secondary" className="w-full" href="/docs/HOW_TO_USE">
+                <BookOpen className="w-4 h-4" />
+                Read Guide →
               </EnergyButton>
             </HologramCard>
 
@@ -302,11 +290,9 @@ export default function HomePage() {
                 </GlitchText>
                 <p className="text-orange-400 uppercase text-sm tracking-wider">AI Assistant</p>
               </div>
-              <EnergyButton variant="primary" className="w-full">
-                <Link href="/chat" className="flex items-center justify-center gap-2">
-                  <MessageSquare className="w-4 h-4" />
-                  Start Chat →
-                </Link>
+              <EnergyButton variant="primary" className="w-full" href="/chat">
+                <MessageSquare className="w-4 h-4" />
+                Start Chat →
               </EnergyButton>
             </HologramCard>
           </div>
