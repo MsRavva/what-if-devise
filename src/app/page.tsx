@@ -285,7 +285,7 @@ export default function HomePage() {
                 <p className="text-purple-400 uppercase text-sm tracking-wider">How To Use</p>
               </div>
               <EnergyButton variant="secondary" className="w-full">
-                <Link href="/docs/HOW_TO_USE.docx" target="_blank" className="flex items-center justify-center gap-2">
+                <Link href="/docs/HOW_TO_USE" className="flex items-center justify-center gap-2">
                   <BookOpen className="w-4 h-4" />
                   Read Guide →
                 </Link>
