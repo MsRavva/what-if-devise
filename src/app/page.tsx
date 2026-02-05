@@ -31,16 +31,13 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen font-serif relative overflow-hidden">
-      {/* Мягкий фон с текстурой бумаги уже задан в body через globals.css */}
       <div className="absolute inset-0 pointer-events-none opacity-20">
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-ink-light/10 to-transparent" />
         <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-ink-light/10 to-transparent" />
       </div>
 
-      {/* Элегантный хедер в стиле старой книги */}
       <header className="relative z-20 border-b border-border bg-card/80 backdrop-blur-sm shadow-sm">
         <div className="container mx-auto px-6 py-4">
-          {/* Top row */}
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center space-x-4">
               <div className="text-primary">
@@ -70,7 +67,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Navigation */}
           <nav className="border-t border-border/50 pt-4">
             <div className="flex flex-wrap gap-4">
               <Button asChild>
@@ -107,11 +103,8 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Трехколоночный макет в книжном стиле */}
       <main className="relative z-10 container mx-auto px-6 py-12 animate-fade-in">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-
-          {/* Левая колонка - Основные действия */}
           <div className="lg:col-span-1 space-y-10">
             <Card className="group">
               <CardContent className="pt-6">
@@ -141,7 +134,7 @@ export default function HomePage() {
                   </div>
                   <h2 className="text-2xl font-bold mb-2 text-ink">Great Library</h2>
                   <p className="text-ink/60 text-sm italic leading-relaxed">
-                    Browse through 64 ancient manuscripts and templates to find inspiration for your own journey.
+                    Browse through manuscripts and templates to find inspiration for your own journey.
                   </p>
                 </div>
                 <Button asChild variant="outline" className="w-full">
@@ -154,7 +147,6 @@ export default function HomePage() {
             </Card>
           </div>
 
-          {/* Центральная колонка - Герой контент */}
           <div className="lg:col-span-1 flex flex-col justify-center items-center text-center space-y-12">
             <div className="relative">
               <div className="absolute -inset-x-20 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
@@ -192,7 +184,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Правая колонка - Пользовательские действия и информация */}
           <div className="lg:col-span-1 space-y-10">
             {isAuthenticated ? (
               <Card className="border-primary/20">
@@ -227,7 +218,7 @@ export default function HomePage() {
                     </div>
                     <h2 className="text-2xl font-bold mb-2 text-ink">Join the Guild</h2>
                     <p className="text-ink/60 text-sm italic">
-                      Create an account to preserve your stories in the eternal archives and access them from anywhere.
+                      Create an account to preserve your stories in the eternal archives.
                     </p>
                   </div>
                   <div className="space-y-4">
@@ -237,10 +228,6 @@ export default function HomePage() {
                         Enter the Library →
                       </Link>
                     </Button>
-                    <div className="p-4 border border-dashed border-border rounded-md bg-primary/5">
-                      <p className="text-ink/60 text-xs uppercase font-sans font-bold mb-1 tracking-wider">Guest Passage</p>
-                      <p className="text-[10px] italic text-ink/40">Transient exploration (not preserved in archives)</p>
-                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -254,7 +241,7 @@ export default function HomePage() {
                   </div>
                   <h2 className="text-2xl font-bold mb-2 text-ink">Oracle's Sanctum</h2>
                   <p className="text-ink/60 text-sm italic leading-relaxed">
-                    Engage in dialogue with the AI Oracle to refine your visions or seek guidance on complex scenarios.
+                    Engage in dialogue with the AI Oracle to refine your visions.
                   </p>
                 </div>
                 <Button asChild variant="outline" className="w-full">
@@ -269,77 +256,27 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* Элегантный футер */}
       <footer className="relative z-10 border-t border-border bg-card/50 backdrop-blur-sm mt-32 font-serif">
         <div className="container mx-auto px-6 py-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-
-            {/* Footer Section 1 - About */}
             <div className="space-y-4">
-              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">
-                Our Purpose
-              </h3>
-              <p className="text-sm italic leading-relaxed text-ink/70">
-                What If Device is a repository of human imagination, augmented by the wisdom of silicon minds. We provide the tools to explore the infinite "what ifs" of existence.
-              </p>
-              <div className="flex space-x-3 opacity-30">
-                <div className="w-5 h-5 bg-ink rounded-full" />
-                <div className="w-5 h-5 bg-ink/70 rounded-full" />
-                <div className="w-5 h-5 bg-ink/40 rounded-full" />
-              </div>
+              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">Our Purpose</h3>
+              <p className="text-sm italic leading-relaxed text-ink/70">What If Device is a repository of human imagination, augmented by silicon minds.</p>
             </div>
-
-            {/* Footer Section 2 - Collections */}
             <div className="space-y-4">
-              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">
-                Archives
-              </h3>
+              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">Archives</h3>
               <ul className="space-y-3 text-sm italic text-ink/60">
-                <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">
-                  <div className="w-1 h-1 bg-primary/40 rounded-full" />
-                  The Scribe's Tools
-                </li>
-                <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">
-                  <div className="w-1 h-1 bg-primary/40 rounded-full" />
-                  Historical Manuscripts
-                </li>
-                <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">
-                  <div className="w-1 h-1 bg-primary/40 rounded-full" />
-                  Dialogue with the Oracle
-                </li>
-                <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">
-                  <div className="w-1 h-1 bg-primary/40 rounded-full" />
-                  The Scholar's Path
-                </li>
+                <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">The Scribe's Tools</li>
+                <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">Manuscripts</li>
               </ul>
             </div>
-
-            {/* Footer Section 3 - Scholarly Tech */}
             <div className="space-y-4">
-              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">
-                The Foundation
-              </h3>
+              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">The Foundation</h3>
               <div className="flex flex-wrap gap-2">
-                {['Next.js', 'TypeScript', 'Tailwind', 'Supabase', 'Vercel', 'AI'].map(tech => (
-                  <span key={tech} className="px-2 py-1 bg-card border border-border text-[10px] uppercase tracking-widest font-sans font-bold text-ink/40">
-                    {tech}
-                  </span>
+                {['Next.js', 'TypeScript', 'Tailwind', 'AI'].map(tech => (
+                  <span key={tech} className="px-2 py-1 bg-card border border-border text-[10px] uppercase tracking-widest font-sans font-bold text-ink/40">{tech}</span>
                 ))}
               </div>
-            </div>
-          </div>
-
-          {/* Footer Bottom */}
-          <div className="border-t border-border/50 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center opacity-60">
-            <div className="flex items-center space-x-4 mb-4 md:mb-0">
-              <BookOpen className="w-5 h-5 text-ink/40" />
-              <p className="text-xs uppercase tracking-[0.2em] font-sans text-ink/60">
-                What If Device — Anno 2026
-              </p>
-            </div>
-            <div className="flex space-x-6 text-[10px] uppercase tracking-widest font-sans">
-              <span className="text-ink/40">Crafted with patience</span>
-              <span className="text-ink/40">For the curious mind</span>
             </div>
           </div>
         </div>

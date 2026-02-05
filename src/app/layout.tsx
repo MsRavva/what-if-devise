@@ -22,14 +22,6 @@ export const metadata: Metadata = {
   title: 'What If Device - Генератор альтернативных сценариев',
   description: 'Создавайте уникальные альтернативные сценарии для ваших историй с помощью ИИ',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
-  openGraph: {
-    title: 'What If Device - AI Scenario Generator',
-    description: 'Создавайте уникальные альтернативные сценарии с помощью ИИ',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-  },
 }
 
 export default function RootLayout({
@@ -40,11 +32,7 @@ export default function RootLayout({
   return (
     <html lang="ru" suppressHydrationWarning>
       <body className={`${ebGaramond.variable} ${inter.variable} font-serif antialiased`}>
-        <ThemeProvider
-          defaultTheme="light"
-          forcedTheme="light"
-          storageKey="what-if-theme"
-        >
+        <ThemeProvider>
           <AuthProvider>
             <ToastProvider>
               <PageTransition>

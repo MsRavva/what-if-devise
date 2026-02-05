@@ -1,8 +1,6 @@
-/* stylelint-disable at-rule-no-unknown */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* stylelint-enable at-rule-no-unknown */
 
 @layer base {
   :root {
@@ -27,12 +25,10 @@
     --ring: 33 25% 29%;
     --radius: 0.5rem;
     
-    /* Shadows for book-like feel */
     --shadow-soft: 0 2px 10px rgba(60, 47, 31, 0.1);
     --shadow-card: 0 10px 30px rgba(60, 47, 31, 0.12), 0 4px 8px rgba(60, 47, 31, 0.06);
   }
 
-  /* No forced dark theme for "old paper" feel, but defining variables for consistency */
   .dark {
     --background: 42 33% 91%;
     --foreground: 33 32% 18%;
@@ -48,7 +44,6 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
-    /* Текстура бумаги */
     background-image: 
       linear-gradient(rgba(244, 236, 216, 0.8), rgba(244, 236, 216, 0.8)),
       url("https://www.transparenttextures.com/patterns/natural-paper.png");
@@ -57,14 +52,12 @@
 }
 
 @layer components {
-  /* Книжные карточки */
   .book-card {
     @apply bg-card/50 backdrop-blur-sm border border-border/60 rounded-lg p-6 
            transition-all duration-500 hover:shadow-card hover:-translate-y-1;
     box-shadow: var(--shadow-soft);
   }
   
-  /* Книжные кнопки */
   .book-button {
     @apply bg-primary text-primary-foreground border border-primary
            px-6 py-2 rounded-md font-serif transition-all duration-300
@@ -77,29 +70,16 @@
            hover:bg-primary/5 hover:border-primary flex items-center justify-center gap-2;
   }
   
-  /* Стилизация для инпутов */
   .book-input {
     @apply bg-background/50 border-b-2 border-primary/20 p-2 font-serif 
            focus:border-primary focus:bg-background outline-none transition-all;
   }
 
-  /* Ремаппинг старых киберпанк классов для обратной совместимости */
-  .gaming-card, .hologram-card, .glass-card {
-    @apply book-card;
-  }
-  
-  .energy-button, .gaming-button, .glass-button {
-    @apply book-button;
-  }
-  
-  .gaming-button-secondary {
-    @apply book-button-secondary;
-  }
-  
-  .neural-input {
-    @apply book-input;
-  }
-  
+  /* Ремаппинг старых киберпанк классов */
+  .gaming-card, .hologram-card, .glass-card { @apply book-card; }
+  .energy-button, .gaming-button, .glass-button { @apply book-button; }
+  .gaming-button-secondary { @apply book-button-secondary; }
+  .neural-input { @apply book-input; }
   .glitch-text {
     @apply font-serif italic;
     text-shadow: none !important;
@@ -107,22 +87,10 @@
   }
 }
 
-/* Scrollbar in ink style */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-background;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-primary/30 border-4 border-solid border-background rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary/50;
-}
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { @apply bg-background; }
+::-webkit-scrollbar-thumb { @apply bg-primary/30 border-4 border-solid border-background rounded-full; }
+::-webkit-scrollbar-thumb:hover { @apply bg-primary/50; }
 
 @layer utilities {
   .animate-fade-in {
@@ -131,12 +99,6 @@
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
