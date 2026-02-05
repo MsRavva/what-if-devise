@@ -34,83 +34,64 @@ export default function HomePage() {
   if (!mounted) return null
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-mono relative overflow-hidden">
-      {/* Тёмный официальный фон */}
-      <div className="absolute inset-0">
-        {/* Приглушённые геометрические фигуры */}
-        <div className="absolute top-10 left-10 w-32 h-32 bg-slate-900 transform rotate-45 opacity-40" />
-        <div className="absolute top-40 right-20 w-24 h-24 bg-slate-800 transform -rotate-12 opacity-30" />
-        <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-slate-900 transform rotate-12 opacity-25" />
-        <div className="absolute bottom-40 right-1/3 w-28 h-28 bg-slate-800 transform -rotate-45 opacity-35" />
-
-        {/* Сетка */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="grid grid-cols-12 gap-4 h-full">
-            {Array.from({ length: 144 }).map((_, i) => (
-              <div key={i} className="border border-slate-700/30" />
-            ))}
-          </div>
-        </div>
-
-        {/* Верхняя и нижняя линии */}
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
+    <div className="min-h-screen font-serif relative overflow-hidden">
+      {/* Мягкий фон с текстурой бумаги уже задан в body через globals.css */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-ink-light/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-ink-light/10 to-transparent" />
       </div>
 
-      {/* Официальный хедер */}
-      <header className="relative z-20 border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm">
+      {/* Элегантный хедер в стиле старой книги */}
+      <header className="relative z-20 border-b border-border bg-card/80 backdrop-blur-sm shadow-sm">
         <div className="container mx-auto px-6 py-4">
           {/* Top row */}
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-6">
             <div className="flex items-center space-x-4">
-              <div className="relative">
-                <AIBrainVisualization size="sm" />
+              <div className="text-primary">
+                <BookOpen className="w-8 h-8" />
               </div>
               <div>
-                <GlitchText className="text-2xl font-black uppercase tracking-wider">
+                <h1 className="text-3xl font-bold italic tracking-tight text-ink">
                   What If Device
-                </GlitchText>
-                <p className="text-xs text-slate-400 uppercase tracking-widest">AI Scenario Generator</p>
+                </h1>
+                <p className="text-xs text-ink/60 uppercase tracking-[0.2em] font-sans">AI Scenario Archive</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
               <ThemeToggle />
               {isAuthenticated ? (
-                <div className="flex items-center space-x-2 bg-emerald-900/60 border border-emerald-700 px-3 py-1 text-emerald-400 font-medium text-sm uppercase rounded">
-                  <User className="w-4 h-4" />
-                  <span>Online</span>
+                <div className="flex items-center space-x-2 border border-primary/20 bg-primary/5 px-3 py-1 text-primary font-medium text-sm rounded-sm">
+                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                  <span className="font-sans uppercase tracking-wider text-xs">Keeper</span>
                 </div>
               ) : (
-                <EnergyButton size="sm" href="/auth">
-                  Login
-                </EnergyButton>
+                <Link href="/auth" className="book-button text-sm">
+                  Enter Library
+                </Link>
               )}
             </div>
           </div>
 
           {/* Navigation */}
-          <nav className="border-t border-slate-800 pt-4">
+          <nav className="border-t border-border/50 pt-4">
             <div className="flex flex-wrap gap-4">
-              <EnergyButton variant="primary" size="sm" href="/what-if">
-                Generate
-              </EnergyButton>
-              <EnergyButton variant="secondary" size="sm" href="/templates">
-                Templates
-              </EnergyButton>
-              <EnergyButton variant="primary" size="sm" href="/chat">
-                Chat
-              </EnergyButton>
-              <EnergyButton variant="secondary" size="sm" href="/cyberpunk-demo">
-                🚀 Demo
-              </EnergyButton>
+              <Link href="/what-if" className="book-button">
+                Write New Story
+              </Link>
+              <Link href="/templates" className="book-button-secondary">
+                Manuscripts
+              </Link>
+              <Link href="/chat" className="book-button-secondary">
+                Consult Oracle
+              </Link>
               {isAuthenticated && (
                 <>
-                  <EnergyButton variant="secondary" size="sm" href="/history">
-                    History
-                  </EnergyButton>
-                  <EnergyButton variant="secondary" size="sm" href="/profile">
-                    Profile
-                  </EnergyButton>
+                  <Link href="/history" className="book-button-secondary">
+                    Chronicles
+                  </Link>
+                  <Link href="/profile" className="book-button-secondary">
+                    Scholar Profile
+                  </Link>
                 </>
               )}
             </div>
@@ -118,265 +99,222 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Трехколоночный макет с голографическими карточками */}
-      <main className="relative z-10 container mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 min-h-[calc(100vh-200px)]">
+      {/* Трехколоночный макет в книжном стиле */}
+      <main className="relative z-10 container mx-auto px-6 py-12 animate-fade-in">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
 
           {/* Левая колонка - Основные действия */}
-          <div className="lg:col-span-1 space-y-8">
-            <HologramCard variant="default" glowIntensity="high">
+          <div className="lg:col-span-1 space-y-10">
+            <div className="book-card group">
               <div className="mb-6">
-                <AIBrainVisualization size="sm" />
-                <GlitchText className="text-3xl font-black uppercase mb-2" color="cyan">
-                  Create
-                </GlitchText>
-                <p className="text-cyan-400 uppercase text-sm tracking-wider">Generate New Scenario</p>
+                <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
+                  <Wand2 className="w-6 h-6" />
+                </div>
+                <h2 className="text-2xl font-bold mb-2 text-ink">The Scribe's Desk</h2>
+                <p className="text-ink/60 text-sm italic leading-relaxed">
+                  Summon the powers of artificial intelligence to weave new threads of reality and explore alternative histories.
+                </p>
               </div>
-              <EnergyButton variant="primary" className="w-full" href="/what-if">
+              <Link href="/what-if" className="book-button w-full flex justify-center items-center gap-2">
                 <Wand2 className="w-4 h-4" />
-                Start Creating →
-              </EnergyButton>
-            </HologramCard>
+                Begin Writing →
+              </Link>
+            </div>
 
-            <HologramCard variant="energy" glowIntensity="medium">
+            <div className="book-card group">
               <div className="mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-red-500 flex items-center justify-center mb-4">
-                  <BookOpen className="w-8 h-8 text-black" />
+                <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
+                  <BookOpen className="w-6 h-6" />
                 </div>
-                <GlitchText className="text-3xl font-black uppercase mb-2" color="pink">
-                  Templates
-                </GlitchText>
-                <p className="text-pink-400 uppercase text-sm tracking-wider">64 Ready Examples</p>
+                <h2 className="text-2xl font-bold mb-2 text-ink">Great Library</h2>
+                <p className="text-ink/60 text-sm italic leading-relaxed">
+                  Browse through 64 ancient manuscripts and templates to find inspiration for your own journey.
+                </p>
               </div>
-              <EnergyButton variant="secondary" className="w-full" href="/templates">
+              <Link href="/templates" className="book-button-secondary w-full flex justify-center items-center gap-2">
                 <BookOpen className="w-4 h-4" />
-                Browse Templates →
-              </EnergyButton>
-            </HologramCard>
-            {isAuthenticated && (
-              <HologramCard variant="neural" glowIntensity="medium">
-                <div className="mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center mb-4">
-                    <History className="w-8 h-8 text-black" />
-                  </div>
-                  <GlitchText className="text-3xl font-black uppercase mb-2" color="purple">
-                    History
-                  </GlitchText>
-                  <p className="text-yellow-400 uppercase text-sm tracking-wider">Your Scenarios</p>
-                </div>
-                <EnergyButton variant="secondary" className="w-full" href="/history">
-                  <History className="w-4 h-4" />
-                  View History →
-                </EnergyButton>
-              </HologramCard>
-            )}
+                Enter Archives →
+              </Link>
+            </div>
           </div>
 
           {/* Центральная колонка - Герой контент */}
-          <div className="lg:col-span-1 flex flex-col justify-center items-center text-center space-y-8">
+          <div className="lg:col-span-1 flex flex-col justify-center items-center text-center space-y-12">
             <div className="relative">
-              <h1 className="text-6xl md:text-8xl font-black uppercase mb-4 leading-none">
-                <GlitchText className="text-white" intensity="high">What</GlitchText>
+              <div className="absolute -inset-x-20 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+              <h1 className="text-7xl md:text-8xl font-bold mb-4 leading-none text-ink select-none">
+                What
                 <br />
-                <GlitchText className="text-cyan-400" color="cyan" intensity="high">If?</GlitchText>
+                <span className="italic text-primary">If?</span>
               </h1>
-              <div className="absolute -top-4 -right-4 w-8 h-8 bg-yellow-400 transform rotate-45" />
-              <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-green-400 transform rotate-45" />
+              <div className="w-24 h-px bg-primary/30 mx-auto mt-4" />
             </div>
 
-            <HologramCard className="max-w-md">
-              <p className="text-lg font-bold uppercase tracking-wide leading-tight">
-                <GlitchText intensity="low">
-                  Generate Alternative Scenarios with AI Power
-                </GlitchText>
-              </p>
-            </HologramCard>
+            <div className="max-w-md italic text-ink/80 text-lg border-y border-primary/10 py-6">
+              "Every story has a beginning, but the path it takes depends on the questions we dare to ask."
+            </div>
 
-            <div className="grid grid-cols-3 gap-4 w-full max-w-sm">
-              <HologramCard variant="default" className="p-4 text-center">
-                <Zap className="w-6 h-6 mx-auto mb-2" />
-                <span className="text-xs font-bold uppercase">Fast</span>
-              </HologramCard>
-              <HologramCard variant="energy" className="p-4 text-center">
-                <Stars className="w-6 h-6 mx-auto mb-2" />
-                <span className="text-xs font-bold uppercase">Creative</span>
-              </HologramCard>
-              <HologramCard variant="neural" className="p-4 text-center">
-                <Sparkles className="w-6 h-6 mx-auto mb-2" />
-                <span className="text-xs font-bold uppercase">Free</span>
-              </HologramCard>
+            <div className="grid grid-cols-3 gap-6 w-full max-w-md">
+              <div className="text-center p-2">
+                <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary">
+                  <Zap className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Swift</span>
+              </div>
+              <div className="text-center p-2">
+                <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary">
+                  <Stars className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Creative</span>
+              </div>
+              <div className="text-center p-2">
+                <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Limitless</span>
+              </div>
             </div>
           </div>
 
           {/* Правая колонка - Пользовательские действия и информация */}
-          <div className="lg:col-span-1 space-y-8">
+          <div className="lg:col-span-1 space-y-10">
             {isAuthenticated ? (
-              <>
-                <HologramCard variant="energy" glowIntensity="high">
-                  <div className="mb-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center mb-4">
-                      <User className="w-8 h-8 text-black" />
-                    </div>
-                    <GlitchText className="text-3xl font-black uppercase mb-2" color="green">
-                      Profile
-                    </GlitchText>
-                    <p className="text-green-400 uppercase text-sm tracking-wider truncate">{user?.email}</p>
-                  </div>
-                  <div className="space-y-3">
-                    <EnergyButton variant="primary" className="w-full" href="/profile">
-                      <Settings className="w-4 h-4" />
-                      Settings
-                    </EnergyButton>
-                    <EnergyButton
-                      variant="danger"
-                      className="w-full"
-                      onClick={() => signOut()}
-                    >
-                      <LogIn className="w-4 h-4" />
-                      Logout
-                    </EnergyButton>
-                  </div>
-                </HologramCard>
-
-
-              </>
-            ) : (
-              <HologramCard variant="default" glowIntensity="high">
+              <div className="book-card border-primary/20">
                 <div className="mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center mb-4">
-                    <LogIn className="w-8 h-8 text-black" />
+                  <div className="w-16 h-16 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center mb-4 mx-auto">
+                    <User className="w-8 h-8 text-primary" />
                   </div>
-                  <GlitchText className="text-3xl font-black uppercase mb-2" color="cyan">
-                    Login
-                  </GlitchText>
-                  <p className="text-red-400 uppercase text-sm tracking-wider">Access Account</p>
+                  <h2 className="text-2xl font-bold text-center mb-1 text-ink">Chronicler</h2>
+                  <p className="text-ink/60 text-xs text-center uppercase tracking-widest font-sans truncate px-4">{user?.email}</p>
+                </div>
+                <div className="space-y-3">
+                  <Link href="/profile" className="book-button w-full flex items-center justify-center gap-2">
+                    <Settings className="w-4 h-4" />
+                    Library Settings
+                  </Link>
+                  <button
+                    className="book-button-secondary w-full flex items-center justify-center gap-2"
+                    onClick={() => signOut()}
+                  >
+                    <LogIn className="w-4 h-4" />
+                    Close Journal
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="book-card">
+                <div className="mb-6">
+                  <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5">
+                    <LogIn className="w-6 h-6" />
+                  </div>
+                  <h2 className="text-2xl font-bold mb-2 text-ink">Join the Guild</h2>
+                  <p className="text-ink/60 text-sm italic">
+                    Create an account to preserve your stories in the eternal archives and access them from anywhere.
+                  </p>
                 </div>
                 <div className="space-y-4">
-                  <EnergyButton variant="primary" className="w-full" href="/auth">
+                  <Link href="/auth" className="book-button w-full flex items-center justify-center gap-2">
                     <LogIn className="w-4 h-4" />
-                    Login / Register →
-                  </EnergyButton>
-                  <HologramCard className="p-4">
-                    <p className="text-gray-400 text-sm uppercase font-bold mb-2">Guest Mode</p>
-                    <p className="text-xs text-gray-500">Use without registration (no saving)</p>
-                  </HologramCard>
+                    Enter the Library →
+                  </Link>
+                  <div className="p-4 border border-dashed border-border rounded-sm bg-primary/5">
+                    <p className="text-ink/60 text-xs uppercase font-sans font-bold mb-1 tracking-wider">Guest Passage</p>
+                    <p className="text-[10px] italic text-ink/40">Transient exploration (not preserved in archives)</p>
+                  </div>
                 </div>
-              </HologramCard>
+              </div>
             )}
 
-            <HologramCard variant="neural" glowIntensity="medium">
+            <div className="book-card group">
               <div className="mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center mb-4">
-                  <Settings className="w-8 h-8 text-black" />
+                <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
+                  <MessageSquare className="w-6 h-6" />
                 </div>
-                <GlitchText className="text-3xl font-black uppercase mb-2" color="purple">
-                  Docs
-                </GlitchText>
-                <p className="text-purple-400 uppercase text-sm tracking-wider">How To Use</p>
+                <h2 className="text-2xl font-bold mb-2 text-ink">Oracle's Sanctum</h2>
+                <p className="text-ink/60 text-sm italic leading-relaxed">
+                  Engage in dialogue with the AI Oracle to refine your visions or seek guidance on complex scenarios.
+                </p>
               </div>
-              <EnergyButton variant="secondary" className="w-full" href="/docs/HOW_TO_USE">
-                <BookOpen className="w-4 h-4" />
-                Read Guide →
-              </EnergyButton>
-            </HologramCard>
-
-            <HologramCard variant="default" glowIntensity="high">
-              <div className="mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center mb-4">
-                  <MessageSquare className="w-8 h-8 text-black" />
-                </div>
-                <GlitchText className="text-3xl font-black uppercase mb-2" color="pink">
-                  Chat
-                </GlitchText>
-                <p className="text-orange-400 uppercase text-sm tracking-wider">AI Assistant</p>
-              </div>
-              <EnergyButton variant="primary" className="w-full" href="/chat">
+              <Link href="/chat" className="book-button w-full flex justify-center items-center gap-2">
                 <MessageSquare className="w-4 h-4" />
-                Start Chat →
-              </EnergyButton>
-            </HologramCard>
+                Consult Oracle →
+              </Link>
+            </div>
           </div>
         </div>
       </main>
 
-      {/* Официальный футер */}
-      <footer className="relative z-10 border-t border-slate-800 bg-slate-950/95 backdrop-blur-sm mt-20">
-        <div className="container mx-auto px-6 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* Элегантный футер */}
+      <footer className="relative z-10 border-t border-border bg-card/50 backdrop-blur-sm mt-32 font-serif">
+        <div className="container mx-auto px-6 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
 
             {/* Footer Section 1 - About */}
-            <HologramCard variant="default">
-              <GlitchText className="text-xl font-semibold uppercase mb-4" color="cyan">
-                About
-              </GlitchText>
-              <p className="text-sm font-mono leading-relaxed mb-4 text-slate-400">
-                What If Device - это мощный генератор альтернативных сценариев, использующий передовые технологии ИИ для создания уникального контента.
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">
+                Our Purpose
+              </h3>
+              <p className="text-sm italic leading-relaxed text-ink/70">
+                What If Device is a repository of human imagination, augmented by the wisdom of silicon minds. We provide the tools to explore the infinite "what ifs" of existence.
               </p>
-              <div className="flex space-x-2">
-                <div className="w-4 h-4 bg-blue-700 rounded-sm" />
-                <div className="w-4 h-4 bg-slate-600 rounded-sm" />
-                <div className="w-4 h-4 bg-indigo-700 rounded-sm" />
+              <div className="flex space-x-3 opacity-30">
+                <div className="w-5 h-5 bg-ink rounded-full" />
+                <div className="w-5 h-5 bg-ink/70 rounded-full" />
+                <div className="w-5 h-5 bg-ink/40 rounded-full" />
               </div>
-            </HologramCard>
+            </div>
 
-            {/* Footer Section 2 - Features */}
-            <HologramCard variant="energy">
-              <GlitchText className="text-xl font-semibold uppercase mb-4" color="pink">
-                Features
-              </GlitchText>
-              <ul className="space-y-2 text-sm font-mono text-slate-400">
-                <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-slate-500 rounded-full" />
-                  <span>AI-Powered Generation</span>
+            {/* Footer Section 2 - Collections */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">
+                Archives
+              </h3>
+              <ul className="space-y-3 text-sm italic text-ink/60">
+                <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">
+                  <div className="w-1 h-1 bg-primary/40 rounded-full" />
+                  The Scribe's Tools
                 </li>
-                <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-slate-500 rounded-full" />
-                  <span>64 Ready Templates</span>
+                <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">
+                  <div className="w-1 h-1 bg-primary/40 rounded-full" />
+                  Historical Manuscripts
                 </li>
-                <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-slate-500 rounded-full" />
-                  <span>Interactive Chat</span>
+                <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">
+                  <div className="w-1 h-1 bg-primary/40 rounded-full" />
+                  Dialogue with the Oracle
                 </li>
-                <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-slate-500 rounded-full" />
-                  <span>Dark/Light Themes</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-slate-500 rounded-full" />
-                  <span>Responsive Design</span>
+                <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">
+                  <div className="w-1 h-1 bg-primary/40 rounded-full" />
+                  The Scholar's Path
                 </li>
               </ul>
-            </HologramCard>
+            </div>
 
-            {/* Footer Section 3 - Tech Stack */}
-            <HologramCard variant="neural">
-              <GlitchText className="text-xl font-semibold uppercase mb-4" color="green">
-                Tech Stack
-              </GlitchText>
-              <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-                <div className="bg-slate-800 text-slate-300 p-2 text-center font-medium border border-slate-700 rounded">Next.js 14</div>
-                <div className="bg-slate-800 text-slate-300 p-2 text-center font-medium border border-slate-700 rounded">TypeScript</div>
-                <div className="bg-slate-800 text-slate-300 p-2 text-center font-medium border border-slate-700 rounded">Tailwind</div>
-                <div className="bg-slate-800 text-slate-300 p-2 text-center font-medium border border-slate-700 rounded">Supabase</div>
-                <div className="bg-slate-800 text-slate-300 p-2 text-center font-medium border border-slate-700 rounded">Hugging Face</div>
-                <div className="bg-slate-800 text-slate-300 p-2 text-center font-medium border border-slate-700 rounded">Vercel</div>
+            {/* Footer Section 3 - Scholarly Tech */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">
+                The Foundation
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {['Next.js', 'TypeScript', 'Tailwind', 'Supabase', 'Vercel', 'AI'].map(tech => (
+                  <span key={tech} className="px-2 py-1 bg-card border border-border text-[10px] uppercase tracking-widest font-sans font-bold text-ink/40">
+                    {tech}
+                  </span>
+                ))}
               </div>
-            </HologramCard>
+            </div>
           </div>
 
           {/* Footer Bottom */}
-          <div className="border-t border-slate-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <div className="border-t border-border/50 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center opacity-60">
             <div className="flex items-center space-x-4 mb-4 md:mb-0">
-              <AIBrainVisualization size="sm" />
-              <GlitchText className="font-semibold uppercase">
-                What If Device © 2026
-              </GlitchText>
+              <BookOpen className="w-5 h-5 text-ink/40" />
+              <p className="text-xs uppercase tracking-[0.2em] font-sans text-ink/60">
+                What If Device — Anno 2026
+              </p>
             </div>
-            <div className="flex space-x-4 text-sm font-mono">
-              <span className="text-slate-500">Made with</span>
-              <span className="text-red-400">❤️</span>
-              <span className="text-slate-500">and</span>
-              <GlitchText color="cyan">AI</GlitchText>
+            <div className="flex space-x-6 text-[10px] uppercase tracking-widest font-sans">
+              <span className="text-ink/40">Crafted with patience</span>
+              <span className="text-ink/40">For the curious mind</span>
             </div>
           </div>
         </div>

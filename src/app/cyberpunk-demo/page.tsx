@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react'
-import { 
+import {
   AIBrainVisualization,
   HologramCard,
   EnergyButton,
@@ -23,11 +23,11 @@ export default function CyberpunkDemo() {
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Matrix Rain Background */}
       <MatrixRain intensity="low" color="green" speed="medium" />
-      
+
       {/* Data Streams */}
       <DataStream direction="horizontal" speed="fast" density="low" color="cyan" />
       <DataStream direction="vertical" speed="medium" density="low" color="purple" />
-      
+
       <div className="relative z-10 container mx-auto px-6 py-12">
         {/* Header */}
         <div className="text-center mb-12">
@@ -38,7 +38,7 @@ export default function CyberpunkDemo() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-          
+
           {/* AI Brain Visualization */}
           <HologramCard variant="default" glowIntensity="high">
             <div className="text-center">
@@ -77,30 +77,30 @@ export default function CyberpunkDemo() {
               Neural Progress
             </GlitchText>
             <div className="space-y-6">
-              <NeuralProgressBar 
-                progress={progress} 
-                label="AI Processing" 
+              <NeuralProgressBar
+                progress={progress}
+                label="AI Processing"
                 variant="default"
               />
-              <NeuralProgressBar 
-                progress={85} 
-                label="Energy Level" 
+              <NeuralProgressBar
+                progress={85}
+                label="Energy Level"
                 variant="energy"
               />
-              <NeuralProgressBar 
-                progress={42} 
-                label="Quantum State" 
+              <NeuralProgressBar
+                progress={42}
+                label="Quantum State"
                 variant="quantum"
               />
               <div className="flex gap-2">
-                <EnergyButton 
-                  size="sm" 
+                <EnergyButton
+                  size="sm"
                   onClick={() => setProgress(Math.max(0, progress - 10))}
                 >
                   -10%
                 </EnergyButton>
-                <EnergyButton 
-                  size="sm" 
+                <EnergyButton
+                  size="sm"
                   onClick={() => setProgress(Math.min(100, progress + 10))}
                 >
                   +10%
@@ -136,17 +136,17 @@ export default function CyberpunkDemo() {
               Neural Input
             </GlitchText>
             <div className="space-y-4">
-              <NeuralInput 
+              <NeuralInput
                 placeholder="Default neural input..."
                 variant="default"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
               />
-              <NeuralInput 
+              <NeuralInput
                 placeholder="Energy neural input..."
                 variant="energy"
               />
-              <NeuralInput 
+              <NeuralInput
                 placeholder="Quantum neural input..."
                 variant="quantum"
               />
@@ -213,7 +213,7 @@ export default function CyberpunkDemo() {
 
         {/* Footer */}
         <div className="text-center mt-16">
-          <EnergyButton variant="primary" size="lg">
+          <EnergyButton variant="primary" size="lg" href="/">
             <Sparkles className="w-5 h-5" />
             Вернуться на главную
           </EnergyButton>

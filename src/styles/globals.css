@@ -6,85 +6,52 @@
 
 @layer base {
   :root {
-    --background: 220 15% 4%;
-    --foreground: 210 10% 90%;
-    --card: 220 20% 7%;
-    --card-foreground: 210 10% 90%;
-    --popover: 220 20% 5%;
-    --popover-foreground: 210 10% 90%;
-    --primary: 215 70% 35%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 220 15% 22%;
-    --secondary-foreground: 210 10% 85%;
-    --muted: 220 15% 18%;
-    --muted-foreground: 215 10% 55%;
-    --accent: 230 55% 40%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 65% 45%;
+    --background: 42 33% 91%; /* #f4ecd8 */
+    --foreground: 33 32% 18%; /* #3c2f1f */
+    --card: 42 33% 88%; /* #e6dfcc */
+    --card-foreground: 33 32% 18%;
+    --popover: 42 33% 91%;
+    --popover-foreground: 33 32% 18%;
+    --primary: 33 25% 29%; /* #5c4b37 */
+    --primary-foreground: 42 33% 91%;
+    --secondary: 42 25% 82%; /* #d3c6a6 */
+    --secondary-foreground: 33 25% 29%;
+    --muted: 42 25% 82%;
+    --muted-foreground: 33 15% 45%;
+    --accent: 33 30% 54%; /* #a68b6d */
+    --accent-foreground: 42 33% 91%;
+    --destructive: 0 45% 35%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 15% 20%;
-    --input: 220 15% 18%;
-    --ring: 215 60% 45%;
-    --chart-1: 215 60% 45%;
-    --chart-2: 160 45% 40%;
-    --chart-3: 30 55% 45%;
-    --chart-4: 250 45% 50%;
-    --chart-5: 340 50% 45%;
-    --radius: 0.5rem;
+    --border: 42 25% 75%;
+    --input: 42 25% 82%;
+    --ring: 33 25% 29%;
+    --radius: 0.25rem;
     
-    /* 🎯 Тёмная официальная палитра */
-    --official-blue: 215 70% 35%;
-    --official-slate: 220 15% 35%;
-    --official-indigo: 230 55% 40%;
-    --official-gray: 215 15% 45%;
-    --official-muted: 220 10% 30%;
-    
-    /* Глубокие тона */
-    --deep-space: 220 30% 6%;
-    --dark-matter: 220 25% 10%;
-    --void-blue: 215 35% 15%;
-    --shadow-blue: 220 40% 12%;
-    
-    /* Акценты */
-    --steel-blue: 210 40% 50%;
-    --silver-accent: 210 10% 65%;
-    --slate-border: 220 15% 25%;
-    
-    /* Приглушённые градиенты */
-    --subtle-gradient: linear-gradient(135deg, hsl(var(--deep-space)), hsl(var(--dark-matter)));
-    --card-gradient: linear-gradient(145deg, hsl(220 20% 8%), hsl(220 20% 6%));
-    --border-glow: linear-gradient(90deg, transparent, hsl(var(--official-blue) / 0.3), transparent);
-    
-    /* Тени */
-    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.3);
+    /* Book Theme Shadows */
+    --shadow-soft: 0 2px 10px rgba(60, 47, 31, 0.1);
+    --shadow-card: 0 4px 15px rgba(60, 47, 31, 0.15);
   }
 
-  .light {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 98%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 210 100% 50%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 210 40% 90%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 92%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 260 70% 65%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 85%;
-    --input: 214.3 31.8% 85%;
-    --ring: 210 100% 50%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+  .dark {
+    --background: 33 32% 12%; /* Darker ink-like background */
+    --foreground: 42 33% 85%;
+    --card: 33 32% 15%;
+    --card-foreground: 42 33% 85%;
+    --popover: 33 32% 12%;
+    --popover-foreground: 42 33% 85%;
+    --primary: 42 33% 85%;
+    --primary-foreground: 33 32% 12%;
+    --secondary: 33 20% 25%;
+    --secondary-foreground: 42 33% 85%;
+    --muted: 33 20% 25%;
+    --muted-foreground: 42 15% 65%;
+    --accent: 33 30% 54%;
+    --accent-foreground: 42 33% 91%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 33 20% 30%;
+    --input: 33 20% 30%;
+    --ring: 42 33% 85%;
   }
 }
 
@@ -95,609 +62,87 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+    background-attachment: fixed;
   }
 }
 
-/* Gaming-style animations and effects */
 @layer components {
-  .gaming-card {
-    @apply bg-card/50 border border-border/50 rounded-lg p-6 
-           transition-all duration-300 hover:bg-card/70 hover:border-primary/50 
-           hover:shadow-lg hover:shadow-primary/10;
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    background: rgba(255, 255, 255, 0.03);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-  }
-  
-  .gaming-card:hover {
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.2);
-  }
-  
-  /* 🎯 Официальные карточки */
-  .hologram-card {
-    background: linear-gradient(145deg, hsl(220 20% 8%), hsl(220 20% 6%));
-    border: 1px solid hsl(var(--slate-border));
-    box-shadow: var(--shadow-card);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  /* 🎯 Чистый фон */
-  .neural-particles {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .neural-particles::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    pointer-events: none;
-  }
-  
-  /* 🎯 Официальные кнопки */
-  .energy-button {
-    position: relative;
-    background: linear-gradient(135deg, hsl(var(--deep-space)), hsl(var(--dark-matter)));
-    border: 1px solid hsl(var(--slate-border));
-    color: hsl(var(--silver-accent));
-    overflow: hidden;
-    transition: all 0.2s ease;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-  
-  .energy-button::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, transparent, hsl(var(--official-blue) / 0.1), transparent);
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-  
-  .energy-button:hover::before {
-    opacity: 1;
-  }
-  
-  .energy-button:hover {
-    border-color: hsl(var(--official-blue));
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  }
-  
-  /* 🎯 Поля ввода */
-  .neural-input {
-    background: hsl(var(--deep-space) / 0.8);
-    border: 1px solid hsl(var(--slate-border));
-    border-radius: 8px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.2s ease;
-  }
-  
-  .neural-input::before {
-    display: none;
-  }
-  
-  .neural-input:focus::before {
-    display: none;
-  }
-  
-  .neural-input:focus {
-    border-color: hsl(var(--official-blue));
-    box-shadow: 0 0 0 2px hsl(var(--official-blue) / 0.2);
-  }
-  
-  /* 🎯 Текст без глитч-эффектов */
-  .glitch-text {
-    position: relative;
-    color: hsl(var(--silver-accent));
-  }
-  
-  .glitch-text::before,
-  .glitch-text::after {
-    display: none;
-  }
-  
-  /* 🎯 Плавный ховер */
-  .magnetic-hover {
-    transition: all 0.2s ease;
-  }
-  
-  .magnetic-hover:hover {
-    transform: translateY(-4px);
+  /* Book-style elements */
+  .book-card {
+    @apply bg-card border border-border rounded-sm p-6 
+           transition-all duration-300 hover:shadow-card;
     box-shadow: var(--shadow-soft);
   }
   
-  /* ⚡ Энергетическое свечение */
-  .energy-glow:hover {
-    box-shadow: 
-      0 0 20px currentColor,
-      0 0 40px currentColor,
-      0 0 60px currentColor;
-    text-shadow: 0 0 10px currentColor;
+  .book-button {
+    @apply bg-primary text-primary-foreground border border-primary
+           px-6 py-2 rounded-sm font-serif transition-all duration-200
+           hover:bg-primary/90 hover:shadow-soft active:scale-95;
   }
   
-  /* 🎯 Загрузчик */
-  .quantum-loader {
-    width: 60px;
-    height: 60px;
-    position: relative;
+  .book-button-secondary {
+    @apply bg-transparent text-primary border border-primary/50
+           px-6 py-2 rounded-sm font-serif transition-all duration-200
+           hover:bg-primary/10 hover:border-primary;
   }
   
-  .quantum-loader::before,
-  .quantum-loader::after {
-    content: '';
-    position: absolute;
-    border: 2px solid transparent;
-    border-top: 2px solid hsl(var(--official-blue));
-    border-radius: 50%;
-    animation: quantum-spin 1s linear infinite;
+  .book-input {
+    @apply bg-background border-b border-border p-2 font-serif focus:border-primary outline-none transition-all;
+  }
+
+  /* Legacy component overrides to maintain layout without cyberpunk effects */
+  .gaming-card, .hologram-card, .glass-card {
+    @apply book-card;
   }
   
-  .quantum-loader::before {
-    width: 100%;
-    height: 100%;
-  }
-  
-  .quantum-loader::after {
-    width: 70%;
-    height: 70%;
-    top: 15%;
-    left: 15%;
-    border-top-color: hsl(var(--steel-blue));
-    animation-direction: reverse;
-    animation-duration: 0.7s;
-  }
-  
-  .gaming-button {
-    @apply bg-primary/10 hover:bg-primary/20 border border-primary/30 hover:border-primary/60
-           text-primary hover:text-primary-foreground hover:bg-primary
-           px-6 py-3 rounded-lg font-semibold transition-all duration-300
-           hover:shadow-lg hover:shadow-primary/20 hover:scale-105
-           active:scale-95;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-  }
-  
-  .gaming-button:hover {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(147, 51, 234, 0.3) 100%);
-    box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.3);
+  .energy-button, .gaming-button, .glass-button {
+    @apply book-button;
   }
   
   .gaming-button-secondary {
-    @apply bg-secondary/50 hover:bg-secondary/70 border border-secondary/50 hover:border-secondary
-           text-secondary-foreground px-6 py-3 rounded-lg font-semibold 
-           transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    @apply book-button-secondary;
   }
   
-  .gaming-button-secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+  .neural-input {
+    @apply book-input;
   }
   
-  .glass-button {
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .glass-button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.3);
-    transform: translateY(-2px);
-  }
-  
-  .glass-card {
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-  }
-  
-  .neon-glow {
-    @apply hover:animate-glow;
-  }
-  
-  /* 🌟 Дополнительные утилиты */
-  .bg-gradient-radial {
-    background: radial-gradient(circle, var(--tw-gradient-stops));
-  }
-  
-  .writing-mode-vertical {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
+  .glitch-text {
+    @apply font-serif;
   }
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - Ink style */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--muted));
-  border-radius: 4px;
+  @apply bg-card;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary));
-  border-radius: 4px;
+  @apply bg-primary/40 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.8);
+  @apply bg-primary/60;
 }
 
-/* Дополнительные анимации для улучшенного UX */
 @layer utilities {
   .animate-fade-in {
     animation: fadeIn 0.8s ease-in-out;
-  }
-  
-  .animate-slide-up {
-    animation: slideUp 0.5s ease-out;
-  }
-  
-  .animate-bounce-subtle {
-    animation: bounceSubtle 3s infinite;
-  }
-  
-  .animate-pulse-glow {
-    animation: pulseGlow 3s ease-in-out infinite;
-  }
-  
-  .animate-scale-in {
-    animation: scaleIn 0.8s ease-out;
-  }
-  
-  .animate-float {
-    animation: float 4s ease-in-out infinite;
-  }
-  
-  .animate-glow {
-    animation: glow 2s ease-in-out infinite alternate;
-  }
-  
-  .animate-shimmer {
-    animation: shimmer 2s linear infinite;
-  }
-  
-  .animate-rotate-slow {
-    animation: rotateSlow 20s linear infinite;
-  }
-  
-  /* 🚀 Новые киберпанк анимации */
-  .animate-hologram {
-    animation: hologram-shift 3s ease-in-out infinite;
-  }
-  
-  .animate-neural-flow {
-    animation: neural-flow 20s linear infinite;
-  }
-  
-  .animate-energy-rotate {
-    animation: energy-rotate 2s linear infinite;
-  }
-  
-  .animate-glitch {
-    animation: glitch 2s infinite;
-  }
-  
-  .animate-quantum-spin {
-    animation: quantum-spin 1s linear infinite;
-  }
-  
-  .animate-data-pulse {
-    animation: data-pulse 2s ease-in-out infinite;
-  }
-  
-  .animate-energy-flow {
-    animation: energy-flow 4s ease-in-out infinite;
-  }
-  
-  .animate-quantum-flicker {
-    animation: quantum-flicker 3s ease-in-out infinite;
-  }
-  
-  .animate-matrix-dissolve {
-    animation: matrix-dissolve 0.8s ease-in-out;
-  }
-  
-  .hover-lift {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .hover-lift:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* 🎯 GPU-ускоренные элементы */
-  .gpu-accelerated {
-    transform: translateZ(0);
-    will-change: transform, opacity;
-    backface-visibility: hidden;
-  }
-  
-  .smooth-transition {
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .lazy-animate {
-    animation-play-state: paused;
-  }
-  
-  .lazy-animate.in-view {
-    animation-play-state: running;
   }
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-15px);
-  }
-}
-
-@keyframes glow {
-  from {
-    box-shadow: 0 0 20px rgba(147, 51, 234, 0.4);
-  }
-  to {
-    box-shadow: 0 0 30px rgba(147, 51, 234, 0.8), 0 0 40px rgba(147, 51, 234, 0.6);
-  }
-}
-
-@keyframes rotateSlow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes bounceSubtle {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-5px);
-  }
-  60% {
-    transform: translateY(-3px);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.9), 0 0 40px rgba(59, 130, 246, 0.7);
-  }
-}
-
-/* 🚀 Новые киберпанк анимации */
-@keyframes hologram-shift {
-  0%, 100% { 
-    background-position: 0% 0%; 
-    filter: hue-rotate(0deg);
-  }
-  50% { 
-    background-position: 100% 100%; 
-    filter: hue-rotate(180deg);
-  }
-}
-
-@keyframes neural-flow {
-  0% { 
-    transform: translate(0, 0); 
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 0.8;
-  }
-  100% { 
-    transform: translate(-100px, -100px); 
-    opacity: 0.6;
-  }
-}
-
-@keyframes energy-rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes glitch {
-  0%, 100% { transform: translate(0); }
-  100% { transform: translate(0); }
-}
-
-@keyframes glitch-1 {
-  0%, 100% { 
-    transform: translate(0); 
-    opacity: 1;
-  }
-}
-
-@keyframes glitch-2 {
-  0%, 100% { 
-    transform: translate(0); 
-    opacity: 1;
-  }
-}
-
-@keyframes quantum-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes data-pulse {
-  0%, 100% { 
-    transform: scale(1);
-    box-shadow: 0 0 15px hsl(var(--neon-cyan) / 0.4);
-  }
-}
-
-@keyframes energy-flow {
-  0% { 
-    background-position: 0% 50%;
-    filter: hue-rotate(0deg);
-  }
-  50% { 
-    background-position: 100% 50%;
-    filter: hue-rotate(180deg);
-  }
-  100% { 
-    background-position: 0% 50%;
-    filter: hue-rotate(360deg);
-  }
-}
-
-@keyframes quantum-flicker {
-  0%, 100% { opacity: 1; }
-}
-
-@keyframes matrix-dissolve {
-  0% {
-    opacity: 1;
-    transform: scale(1) rotateX(0deg);
-    filter: blur(0px);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(0.8) rotateX(90deg);
-    filter: blur(5px);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.6) rotateX(180deg);
-    filter: blur(10px);
-  }
-}
-
-/* Улучшения для игрового интерфейса */
-@layer components {
-  .loading-shimmer {
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-  }
-  
-  .interactive-element {
-    @apply transition-all duration-200 hover:scale-105 active:scale-95;
-    @apply cursor-pointer select-none;
-  }
-  
-  .ai-thinking {
-    @apply relative overflow-hidden;
-  }
-  
-  .ai-thinking::before {
-    content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent;
-    transform: translateX(-100%);
-    animation: thinking 2s infinite;
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-@keyframes thinking {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-/* Responsive improvements */
-@media (max-width: 768px) {
-  .gaming-card {
-    @apply p-4;
-  }
-  
-  .gaming-button {
-    @apply px-4 py-2 text-sm;
-  }
-}
-
-/* Accessibility improvements */
-@media (prefers-reduced-motion: reduce) {
-  .animate-fade-in,
-  .animate-slide-up,
-  .animate-bounce-subtle,
-  .animate-pulse-glow {
-    animation: none;
-  }
-  
-  .hover-lift {
-    transition: none;
-  }
-  
-  .interactive-element {
-    @apply hover:scale-100 active:scale-100;
   }
 }

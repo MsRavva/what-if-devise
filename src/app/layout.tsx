@@ -1,18 +1,21 @@
 import type { Metadata } from 'next'
-import { Space_Grotesk, Inter } from 'next/font/google'
+import { EB_Garamond, Inter } from 'next/font/google'
 import { ThemeProvider } from '@/components/theme-provider'
 import { AuthProvider } from '@/components/auth-provider'
 import { ToastProvider } from '@/components/toast-provider'
+import PageTransition from '@/components/page-transition'
 import '@/styles/globals.css'
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-space-grotesk',
+const ebGaramond = EB_Garamond({
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-eb-garamond',
+  display: 'swap',
 })
 
 const inter = Inter({
-  subsets: ['latin'],
+  subsets: ['latin', 'cyrillic'],
   variable: '--font-inter',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -36,14 +39,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru" suppressHydrationWarning>
-      <body className={`${spaceGrotesk.variable} ${inter.variable} font-sans`}>
+      <body className={`${ebGaramond.variable} ${inter.variable} font-serif antialiased`}>
         <ThemeProvider
-          defaultTheme="dark"
+          defaultTheme="light"
           storageKey="what-if-theme"
         >
           <AuthProvider>
             <ToastProvider>
-              {children}
+              <PageTransition>
+                {children}
+              </PageTransition>
             </ToastProvider>
           </AuthProvider>
         </ThemeProvider>

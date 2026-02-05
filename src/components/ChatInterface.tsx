@@ -216,99 +216,86 @@ ${chatHistory}
   }, [isNewSession, scenarioGenerated, initialStory, initialQuestion, sessionId]);
 
   return (
-    <div className="min-h-screen bg-black text-white font-mono relative overflow-hidden neural-particles">
-      {/* Киберпанк фон */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Голографические геометрические фигуры */}
-        <div className="absolute top-10 left-10 w-20 h-20 bg-gradient-to-br from-cyan-400 to-blue-500 transform rotate-45 opacity-15 animate-hologram" />
-        <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-br from-pink-400 to-red-500 transform -rotate-12 opacity-20 animate-energy-flow" />
-        <div className="absolute bottom-40 left-1/4 w-24 h-24 bg-gradient-to-br from-green-400 to-emerald-500 transform rotate-12 opacity-10 animate-quantum-flicker" />
-        
-        {/* Энергетические линии */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent animate-energy-flow" />
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-pink-400/30 to-transparent animate-energy-flow" style={{ animationDirection: 'reverse' }} />
-      </div>
-
-      <div className="flex h-screen relative z-10">
+    <div className="min-h-screen font-serif relative overflow-hidden flex flex-col">
+      {/* Мягкий фон с текстурой бумаги задан в body */}
+      
+      <div className="flex h-screen relative z-10 overflow-hidden">
         {/* Sidebar */}
         <ChatSidebar currentSessionId={sessionId} />
 
         {/* Main Chat Area */}
-        <div className="flex flex-col flex-1">
-          {/* Киберпанк Header */}
-          <header className="sticky top-0 z-20 border-b-2 border-cyan-400/50 bg-black/90 backdrop-blur-sm">
+        <div className="flex flex-col flex-1 min-w-0">
+          {/* Book-style Header */}
+          <header className="sticky top-0 z-20 border-b border-border bg-card/80 backdrop-blur-sm shadow-sm">
             <div className="flex h-16 items-center justify-between px-6">
               <div className="flex items-center gap-4">
-                <AIBrainVisualization size="sm" />
+                <div className="text-primary">
+                  <BookOpen className="w-6 h-6" />
+                </div>
                 <div>
-                  <GlitchText className="text-lg font-black uppercase tracking-wider">
-                    Чат по сценарию
-                  </GlitchText>
-                  <p className="text-xs text-cyan-400 uppercase tracking-widest animate-quantum-flicker">
-                    AI Conversation
+                  <h2 className="text-lg font-bold italic text-ink">
+                    Chronicle Dialogue
+                  </h2>
+                  <p className="text-[10px] text-ink/60 uppercase tracking-[0.2em] font-sans">
+                    Consulting the AI Oracle
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <EnergyButton variant="secondary" size="sm">
-                  <Link href="/" className="flex items-center gap-2">
-                    <Home className="w-4 h-4" />
-                    Home
-                  </Link>
-                </EnergyButton>
+                <Link href="/" className="book-button-secondary py-1 px-3 text-xs flex items-center gap-2">
+                  <Home className="w-3 h-3" />
+                  Library
+                </Link>
                 <ThemeToggle />
               </div>
             </div>
           </header>
 
           {/* Messages Container */}
-          <div className="flex-1 overflow-y-auto px-4 py-6">
-            <div className="container max-w-4xl mx-auto space-y-6">
+          <div className="flex-1 overflow-y-auto px-4 py-8 animate-fade-in">
+            <div className="container max-w-3xl mx-auto space-y-10">
               {messages.map((message, index) => (
                 <div
                   key={index}
-                  className={`flex gap-4 ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
+                  className={`flex gap-6 ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
                 >
-                  {/* Avatar */}
-                  <div className={`flex-shrink-0 w-12 h-12 flex items-center justify-center ${
+                  {/* Avatar/Signifier */}
+                  <div className={`flex-shrink-0 w-10 h-10 border rounded-full flex items-center justify-center ${
                     message.role === 'user' 
-                      ? 'bg-gradient-to-br from-blue-500 to-blue-600 animate-data-pulse' 
-                      : 'bg-gradient-to-br from-cyan-400 to-pink-500 animate-hologram'
+                      ? 'border-primary/20 bg-primary/5 text-primary' 
+                      : 'border-ink/20 bg-ink/5 text-ink'
                   }`}>
                     {message.role === 'user' ? (
-                      <User className="w-6 h-6 text-black" />
+                      <User className="w-5 h-5" />
                     ) : (
-                      <Sparkles className="w-6 h-6 text-black" />
+                      <Sparkles className="w-5 h-5" />
                     )}
                   </div>
 
                   {/* Message Content */}
-                  <div className={`flex-1 max-w-[85%] ${message.role === 'user' ? 'items-end' : 'items-start'}`}>
-                    <HologramCard 
-                      variant={message.role === 'user' ? 'energy' : 'default'}
-                      className="p-4"
-                    >
-                      <div className="text-sm leading-relaxed whitespace-pre-wrap break-words font-mono">
+                  <div className={`flex-1 max-w-[80%] ${message.role === 'user' ? 'text-right' : 'text-left'}`}>
+                    <div className={`book-card p-5 ${message.role === 'user' ? 'bg-primary/5 border-primary/10' : ''}`}>
+                      <div className="text-sm leading-relaxed whitespace-pre-wrap break-words italic text-ink">
                         {message.content}
                       </div>
-                    </HologramCard>
+                    </div>
                   </div>
                 </div>
               ))}
               
               {/* Loading Indicator */}
               {isLoading && (
-                <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-cyan-400 to-pink-500 flex items-center justify-center animate-quantum-spin">
-                    <Zap className="w-6 h-6 text-black" />
+                <div className="flex gap-6">
+                  <div className="flex-shrink-0 w-10 h-10 border border-ink/20 bg-ink/5 rounded-full flex items-center justify-center animate-pulse">
+                    <Zap className="w-5 h-5 text-ink" />
                   </div>
-                  <div className="flex-1 max-w-[85%]">
-                    <HologramCard variant="neural" className="p-4">
-                      <div className="flex items-center gap-3 text-sm text-cyan-400 font-mono uppercase">
-                        <div className="quantum-loader w-6 h-6" />
-                        <GlitchText intensity="low">Генерирую ответ...</GlitchText>
+                  <div className="flex-1 max-w-[80%]">
+                    <div className="book-card p-4 border-dashed">
+                      <div className="flex items-center gap-3 text-xs text-ink/40 italic">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>The Oracle is weaving your story...</span>
                       </div>
-                    </HologramCard>
+                    </div>
                   </div>
                 </div>
               )}
@@ -317,11 +304,11 @@ ${chatHistory}
             </div>
           </div>
 
-          {/* Киберпанк Input Area */}
-          <div className="sticky bottom-0 border-t-2 border-cyan-400/50 bg-black/90 backdrop-blur-sm">
-            <div className="container max-w-4xl mx-auto px-4 py-4">
-              <div className="flex gap-3 items-end">
-                <div className="flex-1 relative">
+          {/* Book-style Input Area */}
+          <div className="sticky bottom-0 border-t border-border bg-card/90 backdrop-blur-md pb-6 pt-4 px-4">
+            <div className="container max-w-3xl mx-auto">
+              <div className="flex gap-4 items-end">
+                <div className="flex-1">
                   <Textarea
                     ref={textareaRef}
                     value={inputMessage}
@@ -332,26 +319,25 @@ ${chatHistory}
                         handleSendMessage();
                       }
                     }}
-                    placeholder="Задайте вопрос или уточните детали сценария..."
-                    className="min-h-[60px] max-h-[200px] resize-none neural-input bg-black/80 border-2 border-cyan-400/30 focus:border-cyan-400 text-white placeholder:text-gray-500 font-mono transition-all duration-300"
+                    placeholder="Write your question for the oracle..."
+                    className="book-input min-h-[50px] max-h-[150px] w-full resize-none text-ink placeholder:text-ink/30 italic"
                     disabled={isLoading}
                   />
                 </div>
-                <EnergyButton
-                  variant="primary"
+                <button
                   onClick={handleSendMessage}
                   disabled={isLoading || !inputMessage.trim()}
-                  className="h-[60px] w-[60px] flex items-center justify-center"
+                  className="book-button h-12 w-12 flex items-center justify-center rounded-full"
                 >
                   {isLoading ? (
-                    <Loader2 className="w-6 h-6 animate-spin" />
+                    <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
-                    <Send className="w-6 h-6" />
+                    <Send className="w-5 h-5" />
                   )}
-                </EnergyButton>
+                </button>
               </div>
-              <div className="mt-3 text-xs text-center text-cyan-400/60 uppercase tracking-wider font-mono">
-                Enter для отправки • Shift+Enter для новой строки
+              <div className="mt-3 text-[10px] text-center text-ink/40 uppercase tracking-widest font-sans">
+                Enter to send message • Shift+Enter for newline
               </div>
             </div>
           </div>

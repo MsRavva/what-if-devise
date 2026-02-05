@@ -127,59 +127,72 @@ export default function HistoryList() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-4 sm:p-6">
-      <h1 className="text-3xl font-bold mb-6">История ваших историй</h1>
+    <div className="max-w-4xl mx-auto py-4 sm:py-6 animate-fade-in">
       {stories.length === 0 ? (
-        <p className="text-muted-foreground">Истории не найдены. Создайте свою первую историю!</p>
+        <div className="book-card text-center py-12">
+          <p className="text-ink/60 italic">Your chronicles are currently empty. Begin your first journey to see it recorded here.</p>
+        </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-12">
           {stories.map((story) => (
-            <Card key={story.id}>
-              <CardHeader>
-                <CardTitle className="truncate">{story.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="mb-4">
-                  <h3 className="font-semibold text-lg mb-2">Содержание истории:</h3>
-                  <p className="whitespace-pre-line line-clamp-3 text-muted-foreground">{story.content}</p>
+            <div key={story.id} className="book-card p-0 overflow-hidden border-primary/10">
+              <div className="bg-primary/5 border-b border-primary/10 px-6 py-4">
+                <h2 className="text-2xl font-bold italic text-ink truncate">{story.title || 'Untitled Manuscript'}</h2>
+                <p className="text-[10px] text-ink/40 uppercase tracking-widest font-sans mt-1">
+                  Recorded on {new Date(story.created_at).toLocaleDateString()}
+                </p>
+              </div>
+              
+              <div className="p-6 space-y-8">
+                <div>
+                  <h3 className="text-xs uppercase tracking-[0.2em] font-sans font-bold text-ink/40 mb-3">Original Narrative</h3>
+                  <p className="text-ink italic leading-relaxed line-clamp-4 border-l-2 border-primary/10 pl-4">
+                    {story.content}
+                  </p>
                 </div>
                 
                 {story.scenarios.length > 0 ? (
                   <div>
-                    <h3 className="font-semibold text-lg mb-2">Сценарии "Что если":</h3>
-                    <div className="space-y-3">
+                    <h3 className="text-xs uppercase tracking-[0.2em] font-sans font-bold text-ink/40 mb-4 flex items-center gap-2">
+                      <div className="h-px flex-1 bg-primary/10" />
+                      Alternative Visions
+                      <div className="h-px flex-1 bg-primary/10" />
+                    </h3>
+                    <div className="grid grid-cols-1 gap-4">
                       {story.scenarios.map((scenario) => (
                         <a
                           key={scenario.id}
                           href={`/chat/${scenario.id}`}
-                          className="block border-l-4 border-primary pl-4 py-2 hover:bg-muted/50 transition-colors rounded-r cursor-pointer"
+                          className="group block p-4 border border-border rounded-sm hover:border-primary/30 hover:bg-primary/5 transition-all"
                         >
-                          <p className="font-medium truncate max-w-full">
-                            <span className="text-primary">Вопрос:</span> {scenario.question}
-                          </p>
-                          <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                          <div className="flex justify-between items-start mb-2">
+                            <p className="font-bold italic text-ink truncate flex-1">
+                              "{scenario.question}"
+                            </p>
+                            <span className="text-[10px] text-primary opacity-0 group-hover:opacity-100 transition-opacity font-sans uppercase font-bold ml-2">
+                              Enter →
+                            </span>
+                          </div>
+                          <p className="text-sm text-ink/60 line-clamp-2 italic">
                             {scenario.ai_response}
-                          </p>
-                          <p className="mt-1 text-xs text-muted-foreground">
-                            Нажмите чтобы открыть чат
                           </p>
                         </a>
                       ))}
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center py-4">
-                    <p className="text-muted-foreground mb-3">Сценарии еще не созданы</p>
+                  <div className="text-center py-6 border border-dashed border-border rounded-sm bg-card/50">
+                    <p className="text-ink/40 text-sm italic mb-4">No alternative paths explored yet.</p>
                     <a
-                      href={`/chat/${crypto.randomUUID()}?story=${encodeURIComponent(story.content)}&question=${encodeURIComponent('Создайте альтернативный сценарий для этой истории')}`}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-primary to-accent text-white rounded-lg hover:opacity-90 transition-opacity"
+                      href={`/chat/${crypto.randomUUID()}?story=${encodeURIComponent(story.content)}&question=${encodeURIComponent('Create an alternative path for this story.')}`}
+                      className="book-button text-xs py-2 px-4"
                     >
-                      Создать сценарий
+                      Summon the Oracle
                     </a>
                   </div>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       )}
