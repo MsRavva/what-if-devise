@@ -42,6 +42,7 @@ export default function RootLayout({
       <body className={`${ebGaramond.variable} ${inter.variable} font-serif antialiased`}>
         <ThemeProvider
           defaultTheme="light"
+          forcedTheme="light"
           storageKey="what-if-theme"
         >
           <AuthProvider>

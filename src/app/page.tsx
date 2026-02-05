@@ -16,12 +16,8 @@ import {
   Zap,
   MessageSquare
 } from 'lucide-react'
-import {
-  AIBrainVisualization,
-  HologramCard,
-  EnergyButton,
-  GlitchText
-} from '@/components/cyberpunk'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false)
@@ -60,14 +56,16 @@ export default function HomePage() {
             <div className="flex items-center space-x-4">
               <ThemeToggle />
               {isAuthenticated ? (
-                <div className="flex items-center space-x-2 border border-primary/20 bg-primary/5 px-3 py-1 text-primary font-medium text-sm rounded-sm">
+                <div className="flex items-center space-x-2 border border-primary/20 bg-primary/5 px-3 py-1 text-primary font-medium text-sm rounded-md">
                   <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                   <span className="font-sans uppercase tracking-wider text-xs">Keeper</span>
                 </div>
               ) : (
-                <Link href="/auth" className="book-button text-sm">
-                  Enter Library
-                </Link>
+                <Button asChild size="sm">
+                  <Link href="/auth">
+                    Enter Library
+                  </Link>
+                </Button>
               )}
             </div>
           </div>
@@ -75,23 +73,33 @@ export default function HomePage() {
           {/* Navigation */}
           <nav className="border-t border-border/50 pt-4">
             <div className="flex flex-wrap gap-4">
-              <Link href="/what-if" className="book-button">
-                Write New Story
-              </Link>
-              <Link href="/templates" className="book-button-secondary">
-                Manuscripts
-              </Link>
-              <Link href="/chat" className="book-button-secondary">
-                Consult Oracle
-              </Link>
+              <Button asChild>
+                <Link href="/what-if">
+                  Write New Story
+                </Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/templates">
+                  Manuscripts
+                </Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/chat">
+                  Consult Oracle
+                </Link>
+              </Button>
               {isAuthenticated && (
                 <>
-                  <Link href="/history" className="book-button-secondary">
-                    Chronicles
-                  </Link>
-                  <Link href="/profile" className="book-button-secondary">
-                    Scholar Profile
-                  </Link>
+                  <Button asChild variant="outline">
+                    <Link href="/history">
+                      Chronicles
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline">
+                    <Link href="/profile">
+                      Scholar Profile
+                    </Link>
+                  </Button>
                 </>
               )}
             </div>
@@ -105,37 +113,45 @@ export default function HomePage() {
 
           {/* Левая колонка - Основные действия */}
           <div className="lg:col-span-1 space-y-10">
-            <div className="book-card group">
-              <div className="mb-6">
-                <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
-                  <Wand2 className="w-6 h-6" />
+            <Card className="group">
+              <CardContent className="pt-6">
+                <div className="mb-6">
+                  <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
+                    <Wand2 className="w-6 h-6" />
+                  </div>
+                  <h2 className="text-2xl font-bold mb-2 text-ink">The Scribe's Desk</h2>
+                  <p className="text-ink/60 text-sm italic leading-relaxed">
+                    Summon the powers of artificial intelligence to weave new threads of reality and explore alternative histories.
+                  </p>
                 </div>
-                <h2 className="text-2xl font-bold mb-2 text-ink">The Scribe's Desk</h2>
-                <p className="text-ink/60 text-sm italic leading-relaxed">
-                  Summon the powers of artificial intelligence to weave new threads of reality and explore alternative histories.
-                </p>
-              </div>
-              <Link href="/what-if" className="book-button w-full flex justify-center items-center gap-2">
-                <Wand2 className="w-4 h-4" />
-                Begin Writing →
-              </Link>
-            </div>
+                <Button asChild className="w-full">
+                  <Link href="/what-if">
+                    <Wand2 className="w-4 h-4 mr-2" />
+                    Begin Writing →
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
 
-            <div className="book-card group">
-              <div className="mb-6">
-                <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
-                  <BookOpen className="w-6 h-6" />
+            <Card className="group">
+              <CardContent className="pt-6">
+                <div className="mb-6">
+                  <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
+                    <BookOpen className="w-6 h-6" />
+                  </div>
+                  <h2 className="text-2xl font-bold mb-2 text-ink">Great Library</h2>
+                  <p className="text-ink/60 text-sm italic leading-relaxed">
+                    Browse through 64 ancient manuscripts and templates to find inspiration for your own journey.
+                  </p>
                 </div>
-                <h2 className="text-2xl font-bold mb-2 text-ink">Great Library</h2>
-                <p className="text-ink/60 text-sm italic leading-relaxed">
-                  Browse through 64 ancient manuscripts and templates to find inspiration for your own journey.
-                </p>
-              </div>
-              <Link href="/templates" className="book-button-secondary w-full flex justify-center items-center gap-2">
-                <BookOpen className="w-4 h-4" />
-                Enter Archives →
-              </Link>
-            </div>
+                <Button asChild variant="outline" className="w-full">
+                  <Link href="/templates">
+                    <BookOpen className="w-4 h-4 mr-2" />
+                    Enter Archives →
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Центральная колонка - Герой контент */}
@@ -179,67 +195,76 @@ export default function HomePage() {
           {/* Правая колонка - Пользовательские действия и информация */}
           <div className="lg:col-span-1 space-y-10">
             {isAuthenticated ? (
-              <div className="book-card border-primary/20">
-                <div className="mb-6">
-                  <div className="w-16 h-16 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center mb-4 mx-auto">
-                    <User className="w-8 h-8 text-primary" />
+              <Card className="border-primary/20">
+                <CardContent className="pt-6">
+                  <div className="mb-6">
+                    <div className="w-16 h-16 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center mb-4 mx-auto">
+                      <User className="w-8 h-8 text-primary" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-center mb-1 text-ink">Chronicler</h2>
+                    <p className="text-ink/60 text-xs text-center uppercase tracking-widest font-sans truncate px-4">{user?.email}</p>
                   </div>
-                  <h2 className="text-2xl font-bold text-center mb-1 text-ink">Chronicler</h2>
-                  <p className="text-ink/60 text-xs text-center uppercase tracking-widest font-sans truncate px-4">{user?.email}</p>
-                </div>
-                <div className="space-y-3">
-                  <Link href="/profile" className="book-button w-full flex items-center justify-center gap-2">
-                    <Settings className="w-4 h-4" />
-                    Library Settings
-                  </Link>
-                  <button
-                    className="book-button-secondary w-full flex items-center justify-center gap-2"
-                    onClick={() => signOut()}
-                  >
-                    <LogIn className="w-4 h-4" />
-                    Close Journal
-                  </button>
-                </div>
-              </div>
+                  <div className="space-y-3">
+                    <Button asChild className="w-full">
+                      <Link href="/profile">
+                        <Settings className="w-4 h-4 mr-2" />
+                        Library Settings
+                      </Link>
+                    </Button>
+                    <Button variant="outline" className="w-full" onClick={() => signOut()}>
+                      <LogIn className="w-4 h-4 mr-2" />
+                      Close Journal
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             ) : (
-              <div className="book-card">
-                <div className="mb-6">
-                  <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5">
-                    <LogIn className="w-6 h-6" />
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="mb-6">
+                    <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5">
+                      <LogIn className="w-6 h-6" />
+                    </div>
+                    <h2 className="text-2xl font-bold mb-2 text-ink">Join the Guild</h2>
+                    <p className="text-ink/60 text-sm italic">
+                      Create an account to preserve your stories in the eternal archives and access them from anywhere.
+                    </p>
                   </div>
-                  <h2 className="text-2xl font-bold mb-2 text-ink">Join the Guild</h2>
-                  <p className="text-ink/60 text-sm italic">
-                    Create an account to preserve your stories in the eternal archives and access them from anywhere.
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  <Link href="/auth" className="book-button w-full flex items-center justify-center gap-2">
-                    <LogIn className="w-4 h-4" />
-                    Enter the Library →
-                  </Link>
-                  <div className="p-4 border border-dashed border-border rounded-sm bg-primary/5">
-                    <p className="text-ink/60 text-xs uppercase font-sans font-bold mb-1 tracking-wider">Guest Passage</p>
-                    <p className="text-[10px] italic text-ink/40">Transient exploration (not preserved in archives)</p>
+                  <div className="space-y-4">
+                    <Button asChild className="w-full">
+                      <Link href="/auth">
+                        <LogIn className="w-4 h-4 mr-2" />
+                        Enter the Library →
+                      </Link>
+                    </Button>
+                    <div className="p-4 border border-dashed border-border rounded-md bg-primary/5">
+                      <p className="text-ink/60 text-xs uppercase font-sans font-bold mb-1 tracking-wider">Guest Passage</p>
+                      <p className="text-[10px] italic text-ink/40">Transient exploration (not preserved in archives)</p>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             )}
 
-            <div className="book-card group">
-              <div className="mb-6">
-                <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
-                  <MessageSquare className="w-6 h-6" />
+            <Card className="group">
+              <CardContent className="pt-6">
+                <div className="mb-6">
+                  <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
+                    <MessageSquare className="w-6 h-6" />
+                  </div>
+                  <h2 className="text-2xl font-bold mb-2 text-ink">Oracle's Sanctum</h2>
+                  <p className="text-ink/60 text-sm italic leading-relaxed">
+                    Engage in dialogue with the AI Oracle to refine your visions or seek guidance on complex scenarios.
+                  </p>
                 </div>
-                <h2 className="text-2xl font-bold mb-2 text-ink">Oracle's Sanctum</h2>
-                <p className="text-ink/60 text-sm italic leading-relaxed">
-                  Engage in dialogue with the AI Oracle to refine your visions or seek guidance on complex scenarios.
-                </p>
-              </div>
-              <Link href="/chat" className="book-button w-full flex justify-center items-center gap-2">
-                <MessageSquare className="w-4 h-4" />
-                Consult Oracle →
-              </Link>
-            </div>
+                <Button asChild variant="outline" className="w-full">
+                  <Link href="/chat">
+                    <MessageSquare className="w-4 h-4 mr-2" />
+                    Consult Oracle →
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </main>

@@ -10,8 +10,8 @@ const config: Config = {
   theme: {
   	extend: {
   		fontFamily: {
-  			serif: ['var(--font-eb-garamond)', 'serif'],
-  			sans: ['var(--font-inter)', 'sans-serif'],
+  			serif: ['EB Garamond', 'var(--font-eb-garamond)', 'serif'],
+  			sans: ['Inter', 'var(--font-inter)', 'sans-serif'],
   		},
   		colors: {
   			background: 'hsl(var(--background))',
