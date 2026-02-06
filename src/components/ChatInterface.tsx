@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { WhatIfResponse } from '@/types/ai-types';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Send, Sparkles, User, Loader2, Home, Zap } from 'lucide-react';
+import { Send, Sparkles, User, Loader2, Home, Zap, BookOpen } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { ChatSidebar } from './ChatSidebar';
 import { 
@@ -81,21 +81,23 @@ ${chatHistory}
 Задача: Ответь на последний вопрос пользователя "${inputMessage}", продолжая и развивая сценарий. НЕ повторяй то, что уже было сказано. Добавь новые детали, события или повороты сюжета. Будь креативным и интересным.`
       };
       
-      // Получаем токен авторизации
+      // Получаем токен авторизации (опционально для гостевого режима)
       const { data: { session } } = await supabase!.auth.getSession();
       const token = session?.access_token;
 
-      if (!token) {
-        throw new Error('Требуется авторизация');
+      // Вызываем API endpoint вместо прямого вызова функции
+      const headers: HeadersInit = { 
+        'Content-Type': 'application/json'
+      };
+      
+      // Добавляем токен только если пользователь авторизован
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
       }
 
-      // Вызываем API endpoint вместо прямого вызова функции
       const apiResponse = await fetch('/api/generate-scenario', {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
+        headers,
         body: JSON.stringify({
           story: request.story,
           question: request.whatIfQuestion
@@ -139,21 +141,23 @@ ${chatHistory}
         ]);
 
         try {
-          // Получаем токен авторизации
+          // Получаем токен авторизации (опционально для гостевого режима)
           const { data: { session } } = await supabase!.auth.getSession();
           const token = session?.access_token;
 
-          if (!token) {
-            throw new Error('Требуется авторизация');
+          // Вызываем API endpoint вместо прямого вызова функции
+          const headers: HeadersInit = { 
+            'Content-Type': 'application/json'
+          };
+          
+          // Добавляем токен только если пользователь авторизован
+          if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
           }
 
-          // Вызываем API endpoint вместо прямого вызова функции
           const apiResponse = await fetch('/api/generate-scenario', {
             method: 'POST',
-            headers: { 
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
+            headers,
             body: JSON.stringify({
               story: initialStory,
               question: initialQuestion
@@ -174,22 +178,25 @@ ${chatHistory}
               { role: 'assistant', content: `Вопрос: ${initialQuestion}\n\nТеперь вы можете задать дополнительные вопросы или уточнить детали сценария.` }
             ]);
 
-            try {
-              await fetch('/api/scenario', {
-                method: 'POST',
-                headers: { 
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                  id: sessionId,
-                  story: initialStory,
-                  question: initialQuestion,
-                  scenario: response.scenario
-                })
-              });
-            } catch (saveError) {
-              console.error('Ошибка сохранения сценария:', saveError);
+            // Сохраняем сценарий только если пользователь авторизован
+            if (token) {
+              try {
+                await fetch('/api/scenario', {
+                  method: 'POST',
+                  headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                  },
+                  body: JSON.stringify({
+                    id: sessionId,
+                    story: initialStory,
+                    question: initialQuestion,
+                    scenario: response.scenario
+                  })
+                });
+              } catch (saveError) {
+                console.error('Ошибка сохранения сценария:', saveError);
+              }
             }
           } else {
             setMessages([
