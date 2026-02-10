@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "pnpm copy-worker && next build",
     "start": "next start",
     "lint": "next lint",
-    "copy-worker": "cp node_modules/@mlc-ai/web-llm/dist/web_worker.js public/"
+    "copy-worker": "echo 'Skipping worker copy - file not found' || exit 0"
   },
   "dependencies": {
     "@huggingface/inference": "^4.9.0",

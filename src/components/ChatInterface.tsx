@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { WhatIfResponse } from '@/types/ai-types';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Send, Sparkles, User, Loader2, Home, Zap } from 'lucide-react';
+import { Send, Sparkles, User, Loader2, Home, Zap, BookOpen } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { ChatSidebar } from './ChatSidebar';
 import { 

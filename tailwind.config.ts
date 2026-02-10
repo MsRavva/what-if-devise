@@ -59,6 +59,10 @@ const config: Config = {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
+  		boxShadow: {
+  			soft: 'var(--shadow-soft)',
+  			card: 'var(--shadow-card)',
+  		},
   		animation: {
   			'fade-in': 'fadeIn 0.5s ease-in-out',
   			'scale-in': 'scaleIn 0.3s ease-out',

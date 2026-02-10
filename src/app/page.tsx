@@ -14,7 +14,8 @@ import {
   Sparkles,
   Stars,
   Zap,
-  MessageSquare
+  MessageSquare,
+  Film
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -79,9 +80,14 @@ export default function HomePage() {
                   Manuscripts
                 </Link>
               </Button>
-              <Button asChild variant="outline">
+<Button asChild variant="outline">
                 <Link href="/chat">
                   Consult Oracle
+                </Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/cinema">
+                  Cinema Mode
                 </Link>
               </Button>
               {isAuthenticated && (
@@ -237,17 +243,17 @@ export default function HomePage() {
               <CardContent className="pt-6">
                 <div className="mb-6">
                   <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
-                    <MessageSquare className="w-6 h-6" />
+                    <Film className="w-6 h-6" />
                   </div>
-                  <h2 className="text-2xl font-bold mb-2 text-ink">Oracle's Sanctum</h2>
+                  <h2 className="text-2xl font-bold mb-2 text-ink">Cinema Mode</h2>
                   <p className="text-ink/60 text-sm italic leading-relaxed">
-                    Engage in dialogue with the AI Oracle to refine your visions.
+                    Interactive movie experience. Make choices and share the story code with friends.
                   </p>
                 </div>
                 <Button asChild variant="outline" className="w-full">
-                  <Link href="/chat">
-                    <MessageSquare className="w-4 h-4 mr-2" />
-                    Consult Oracle →
+                  <Link href="/cinema">
+                    <Film className="w-4 h-4 mr-2" />
+                    Start Cinema →
                   </Link>
                 </Button>
               </CardContent>
@@ -261,7 +267,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             <div className="space-y-4">
               <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">Our Purpose</h3>
-              <p className="text-sm italic leading-relaxed text-ink/70">What If Device is a repository of human imagination, augmented by silicon minds.</p>
+              <p className="text-sm italic leading-relaxed text-ink/70">What If Device - инструмент для творчества и развития воображения.</p>
             </div>
             <div className="space-y-4">
               <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">Archives</h3>

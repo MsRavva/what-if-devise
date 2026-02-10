@@ -37,3 +37,8 @@ pnpm-debug.log*
 
 # Windows
 Thumbs.db
+
+# Misc
+*.log
+.DS_Store
+.env*.local

@@ -46,7 +46,7 @@ async function generateWithHuggingFace(storyContent: string, question: string, p
     progressCallback('Генерация сценария с помощью Hugging Face API...');
     
     // Создаем промпт для генерации альтернативного сценария
-    const prompt = `Ты - креативный писатель, который создает альтернативные сценарии историй.
+    const prompt = `Система генерации сценариев.
 
 Исходная история:
 ${storyContent}
@@ -61,7 +61,7 @@ ${question}
     const response = await client.chat.completions.create({
       model: "Qwen/Qwen2.5-72B-Instruct",
       messages: [
-        { role: 'system', content: 'Ты - креативный писатель, который создает увлекательные альтернативные сценарии историй на русском языке.' },
+        { role: 'system', content: 'Система генерации сценариев на русском языке.' },
         { role: 'user', content: prompt }
       ],
       temperature: 0.7,

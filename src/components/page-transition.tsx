@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { ReactNode } from 'react';
 
@@ -8,7 +8,7 @@ import { ReactNode } from 'react';
  * Варианты анимации для имитации перелистывания страницы старой книги.
  * Включает эффект затухания и небольшого скольжения, а также "проявление" контента.
  */
-const pageVariants = {
+const pageVariants: Variants = {
   initial: {
     opacity: 0,
     x: 20,
@@ -38,7 +38,7 @@ const pageVariants = {
 /**
  * Варианты для эффекта "чернильного пятна" или проявления текста.
  */
-const inkVariants = {
+const inkVariants: Variants = {
   initial: { opacity: 0, scale: 0.95 },
   enter: { 
     opacity: 1, 
