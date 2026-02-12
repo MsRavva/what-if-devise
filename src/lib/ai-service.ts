@@ -1,6 +1,65 @@
 import { OpenAI } from "openai";
-import { WhatIfRequest, WhatIfResponse } from '../types/ai-types';
+import { WhatIfRequest, WhatIfResponse, CinemaScene } from '../types/ai-types';
 
+
+/**
+ * Системный промпт для режима "cinema"
+ */
+const CINEMA_SYSTEM_PROMPT = `Ты — профессиональный сценарист интерактивного кино. Твоя задача — генерировать захватывающие сцены на основе заданной завязки (premise) и истории предыдущих выборов (history). 
+
+Генерируй ответ СТРОГО в формате JSON.
+Объект JSON должен содержать следующие поля:
+- text: Текст текущей сцены (от 2 до 5 предложений).
+- choices: Массив из ровно 3 объектов, каждый из которых содержит id (строка, например 'c1', 'c2', 'c3') и text (краткое описание выбора).
+
+Если сцена является финалом истории:
+- choices должен быть пустым массивом [].
+- isEnding: true
+- endingTitle: Название концовки.
+- endingCode: Уникальный код концовки (например, 'bad_end', 'hero_end').
+
+Важно: Ответ должен быть только валидным JSON. Никаких пояснений или markdown-разметки (кроме JSON блока если необходимо, но лучше чистый JSON).`;
+
+/**
+ * Генерирует сцену для интерактивного кино
+ */
+export async function generateCinemaScene(premise: string, history: string[] = []): Promise<CinemaScene> {
+  try {
+    const apiKey = process.env.HF_TOKEN;
+    if (!apiKey) {
+      throw new Error('HF_TOKEN не найден');
+    }
+
+    const client = new OpenAI({
+      baseURL: "https://router.huggingface.co/v1",
+      apiKey: apiKey
+    });
+
+    const historyText = history.length > 0 
+      ? `История выборов пользователя: ${history.join(' -> ')}` 
+      : 'Это начало истории.';
+
+    const userPrompt = `Завязка: ${premise}\n${historyText}\nСгенерируй следующую сцену.`;
+
+    const response = await client.chat.completions.create({
+      model: "Qwen/Qwen2.5-72B-Instruct",
+      messages: [
+        { role: 'system', content: CINEMA_SYSTEM_PROMPT },
+        { role: 'user', content: userPrompt }
+      ],
+      temperature: 0.8,
+      response_format: { type: "json_object" }
+    });
+
+    const content = response.choices[0]?.message?.content || '{}';
+    // Очистка от markdown если AI его добавил несмотря на промпт
+    const jsonStr = content.replace(/```json\n?|\n?```/g, '').trim();
+    return JSON.parse(jsonStr) as CinemaScene;
+  } catch (error) {
+    console.error('Error generating cinema scene:', error);
+    throw error;
+  }
+}
 
 /**
  * Генерирует альтернативный сценарий на основе исходной истории и вопроса "что если"

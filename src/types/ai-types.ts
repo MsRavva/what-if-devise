@@ -88,5 +88,24 @@ export interface Story {
   content: string;
   createdAt: string;
   updatedAt: string;
-  scenarioCount?: number;
+    scenarioCount?: number;
+}
+
+/**
+ * Выбор в режиме кино
+ */
+export interface CinemaChoice {
+  id: string;
+  text: string;
+}
+
+/**
+ * Сцена в режиме кино
+ */
+export interface CinemaScene {
+  text: string;
+  choices: CinemaChoice[];
+  isEnding?: boolean;
+  endingTitle?: string;
+  endingCode?: string;
 }

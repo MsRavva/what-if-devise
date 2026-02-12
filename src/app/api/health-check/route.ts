@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function GET(request: NextRequest) {
   try {
     // Проверяем наличие API ключа
-    const hasApiKey = !!process.env.HUGGING_FACE_API_KEY &&
-                     process.env.HUGGING_FACE_API_KEY !== 'your-hugging-face-api-key-here';
+    const hasApiKey = !!process.env.HF_TOKEN &&
+                     process.env.HF_TOKEN !== 'your-hugging-face-api-key-here';
     
     if (!hasApiKey) {
       return NextResponse.json({

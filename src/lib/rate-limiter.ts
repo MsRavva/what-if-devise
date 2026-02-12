@@ -12,14 +12,14 @@ const rateLimitStore = new Map<string, RateLimitRecord>();
 
 // Конфигурация
 const RATE_LIMITS = {
-    guest: {
-        requests: 10,
-        windowMs: 60 * 1000, // 1 минута
-    },
-    authenticated: {
+    user: {
         requests: 30,
         windowMs: 60 * 1000, // 1 минута
     },
+    guest: {
+        requests: 5,
+        windowMs: 60 * 1000, // 1 минута
+    }
 };
 
 /**
@@ -50,12 +50,12 @@ export interface RateLimitResult {
  * Проверяет rate limit для указанного ключа
  * 
  * @param key - Уникальный идентификатор (IP, userId)
- * @param isAuthenticated - Авторизован ли пользователь
  * @returns Результат проверки rate limit
  */
-export function checkRateLimit(key: string, isAuthenticated: boolean = false): RateLimitResult {
+export function checkRateLimit(key: string): RateLimitResult {
     const now = Date.now();
-    const config = isAuthenticated ? RATE_LIMITS.authenticated : RATE_LIMITS.guest;
+    const isGuest = key.startsWith('guest:');
+    const config = isGuest ? RATE_LIMITS.guest : RATE_LIMITS.user;
 
     const record = rateLimitStore.get(key);
 
@@ -98,20 +98,18 @@ export function checkRateLimit(key: string, isAuthenticated: boolean = false): R
 
 /**
  * Получает ключ rate limit из запроса
- * Использует IP-адрес или userId
+ * Использует userId или IP для гостей
  */
 export function getRateLimitKey(request: Request, userId?: string | null): string {
     if (userId) {
         return `user:${userId}`;
     }
 
-    // Извлекаем IP из заголовков
+    // Пытаемся получить IP адрес
     const forwarded = request.headers.get('x-forwarded-for');
-    const ip = forwarded ? forwarded.split(',')[0].trim() :
-        request.headers.get('x-real-ip') ||
-        'unknown';
-
-    return `ip:${ip}`;
+    const ip = forwarded ? forwarded.split(',')[0] : 'unknown';
+    
+    return `guest:${ip}`;
 }
 
 /**
