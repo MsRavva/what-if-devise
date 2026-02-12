@@ -41,6 +41,8 @@ export async function POST(request: NextRequest) {
 
     const { story, question, storyId, mode, history } = await request.json();
 
+    console.log(`Generating scenario for mode: ${mode || 'default'}. User: ${userId || 'Guest'}`);
+
     // Обработка режима Cinema
     if (mode === 'cinema') {
       try {
@@ -130,6 +132,7 @@ export async function POST(request: NextRequest) {
           
           if (!supabaseClient) {
             console.error('Supabase client not initialized');
+            // Если клиент не инициализирован, но пользователь авторизован — это ошибка конфигурации
             return Response.json({ error: 'Database not configured' }, { status: 500 });
           }
 
@@ -177,10 +180,10 @@ export async function POST(request: NextRequest) {
       }
       console.log('Saved scenario ID:', savedScenarioId);
       console.log('Создание сценария с id:', savedScenarioId);
-    } else if (!userId && result && result.scenario) {
-      console.log('User is guest, skipping database save');
+    } else if (result && result.scenario) {
+      console.log('User is guest or saving skipped, proceeding with generated scenario');
     } else {
-      console.error('No scenario returned from AI service, cannot save');
+      console.error('No scenario returned from AI service, cannot save or return');
       return Response.json({ error: 'Failed to generate scenario text' }, { status: 500 });
     }
 

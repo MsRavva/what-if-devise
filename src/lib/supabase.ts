@@ -110,13 +110,12 @@ export async function getAuthenticatedUser(headers: Headers) {
   const token = authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : authHeader;
   
   if (!token) {
+    // Для гостевого режима отсутствие токена — это нормально, не логируем как ошибку
     throw new Error('Authentication token is required');
   }
 
  try {
     const { data, error } = await newClient.auth.getUser(token);
-    
-    console.log('Supabase getUser result - user:', data?.user, 'error:', error);
     
     if (error || !data?.user) {
       if (error && (error.status === 401 || error.message.toLowerCase().includes('auth'))) {
@@ -127,7 +126,11 @@ export async function getAuthenticatedUser(headers: Headers) {
 
     return data.user;
   } catch (error: any) {
-    console.error('Supabase authentication error:', error);
+    // Логируем только реальные ошибки аутентификации, а не отсутствие токена
+    if (error.message !== 'Authentication token is required') {
+      console.error('Supabase authentication error:', error);
+    }
+    
     if (error.status === 401 || (error.message && error.message.toLowerCase().includes('auth'))) {
       throw new Error('Authentication token is required');
     }
