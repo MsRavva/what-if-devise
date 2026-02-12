@@ -6,12 +6,14 @@ interface MatrixRainProps {
   intensity?: 'low' | 'medium' | 'high'
   color?: 'green' | 'cyan' | 'purple'
   speed?: 'slow' | 'medium' | 'fast'
+  className?: string
 }
 
 export const MatrixRain = ({
   intensity = 'medium',
   color = 'green',
-  speed = 'medium'
+  speed = 'medium',
+  className = "absolute inset-0 pointer-events-none opacity-20"
 }: MatrixRainProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   
@@ -31,8 +33,18 @@ export const MatrixRain = ({
       purple: '#bf00ff'
     }
     
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
+    // Используем размеры родительского контейнера или окна
+    const updateSize = () => {
+      if (canvas.parentElement) {
+        canvas.width = canvas.parentElement.clientWidth
+        canvas.height = canvas.parentElement.clientHeight
+      } else {
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+      }
+    }
+    
+    updateSize()
     
     const fontSize = 14
     const columns = canvas.width / fontSize
@@ -43,7 +55,7 @@ export const MatrixRain = ({
       drops[i] = 1
     }
     
-    const characters = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン01'
+    const characters = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホмамимумемояюйорарируреровавон01'
     
     function draw() {
       if (!ctx || !canvas) return
@@ -68,24 +80,19 @@ export const MatrixRain = ({
     
     const interval = setInterval(draw, speedMap[speed])
     
-    const handleResize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-    }
-    
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', updateSize)
     
     return () => {
       clearInterval(interval)
-      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('resize', updateSize)
     }
   }, [intensity, color, speed])
   
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none opacity-20"
-      style={{ zIndex: -1 }}
+      className={className}
+      style={{ zIndex: 0 }}
     />
   )
 }

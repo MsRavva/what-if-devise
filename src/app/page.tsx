@@ -159,6 +159,26 @@ export default function HomePage() {
               <div className="w-24 h-px bg-primary/30 mx-auto mt-4" />
             </div>
 
+            {/* Suggestions */}
+            <div className="w-full max-w-md space-y-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-primary font-sans font-bold">Попробуйте спросить:</p>
+              <div className="flex flex-col gap-2">
+                {[
+                  "Что если люди могли бы слышать мысли друг друга?",
+                  "Что если бы электричество никогда не было изобретено?",
+                  "Что если бы коты правили миром?",
+                ].map((suggestion, i) => (
+                  <Link 
+                    key={i}
+                    href={`/what-if?question=${encodeURIComponent(suggestion)}`}
+                    className="p-3 text-sm italic border border-primary/10 bg-card/50 hover:bg-primary/5 hover:border-primary/30 transition-all duration-300 rounded-md text-ink/70 hover:text-primary text-left"
+                  >
+                    "{suggestion}"
+                  </Link>
+                ))}
+              </div>
+            </div>
+
             <div className="max-w-md italic text-ink/80 text-lg border-y border-primary/10 py-6">
               "У каждой истории есть начало, но путь зависит от вопросов, которые мы осмеливаемся задать."
             </div>

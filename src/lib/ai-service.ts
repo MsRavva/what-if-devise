@@ -23,7 +23,7 @@ const CINEMA_SYSTEM_PROMPT = `Ты — профессиональный сцен
 /**
  * Генерирует сцену для интерактивного кино
  */
-export async function generateCinemaScene(premise: string, history: string[] = []): Promise<CinemaScene> {
+export async function generateCinemaScene(premise: string, history: string[] = [], genre?: string): Promise<CinemaScene> {
   try {
     const apiKey = process.env.HF_TOKEN;
     if (!apiKey) {
@@ -39,7 +39,8 @@ export async function generateCinemaScene(premise: string, history: string[] = [
       ? `История выборов пользователя: ${history.join(' -> ')}` 
       : 'Это начало истории.';
 
-    const userPrompt = `Завязка: ${premise}\n${historyText}\nСгенерируй следующую сцену.`;
+    const genreText = genre ? `Жанр истории: ${genre}. Соблюдай стилистику этого жанра.\n` : '';
+    const userPrompt = `${genreText}Завязка: ${premise}\n${historyText}\nСгенерируй следующую сцену.`;
 
     const response = await client.chat.completions.create({
       model: "Qwen/Qwen2.5-72B-Instruct",

@@ -39,14 +39,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { story, question, storyId, mode, history } = await request.json();
+    const { story, question, storyId, mode, history, genre } = await request.json();
 
     console.log(`Generating scenario for mode: ${mode || 'default'}. User: ${userId || 'Guest'}`);
 
     // Обработка режима Cinema
     if (mode === 'cinema') {
       try {
-        const scene = await generateCinemaScene(story || question, history || []);
+        const scene = await generateCinemaScene(story || question, history || [], genre);
         return new Response(JSON.stringify(scene), {
           status: 200,
           headers: {

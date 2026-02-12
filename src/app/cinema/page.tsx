@@ -6,10 +6,20 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { ArrowLeft, Play, Film, BookOpen, Sparkles, Wand2, Save, Copy, Check } from 'lucide-react';
-import { HologramCard, GlitchText, EnergyButton } from '@/components/cyberpunk';
+import { ArrowLeft, Play, Film, BookOpen, Sparkles, Wand2, Save, Copy, Check, Zap } from 'lucide-react';
+import { HologramCard, GlitchText, EnergyButton, MatrixRain } from '@/components/cyberpunk';
 import { CinemaScene, CinemaChoice } from '@/types/ai-types';
 import { useToast } from '@/components/toast-provider';
+
+// Жанры для выбора
+const GENRES = [
+  { id: 'cyberpunk', name: 'Киберпанк', icon: '🤖' },
+  { id: 'fantasy', name: 'Фэнтези', icon: '🧙' },
+  { id: 'noir', name: 'Нуар', icon: '🕵️' },
+  { id: 'horror', name: 'Хоррор', icon: '👻' },
+  { id: 'sci-fi', name: 'Научная фантастика', icon: '🚀' },
+  { id: 'mystery', name: 'Мистика', icon: '🔮' },
+];
 
 // Типы для режима кино
 interface MovieScene extends CinemaScene {
@@ -20,6 +30,7 @@ interface MovieSession {
   id: string;
   title: string;
   premise: string;
+  genre: string;
   currentSceneId: string;
   history: string[];
   scenes: Record<string, MovieScene>;
@@ -32,8 +43,21 @@ const SceneDisplay = ({ scene, onChoice, isLoading }: {
   isLoading: boolean;
 }) => {
   return (
-    <div className="space-y-6">
-      <div className="bg-card/30 border border-primary/20 p-6 rounded-lg animate-fade-up">
+    <div className="space-y-6 relative">
+      {isLoading && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-md rounded-lg overflow-hidden">
+          <MatrixRain className="absolute inset-0 opacity-30" />
+          <div className="relative z-10 text-center">
+            <GlitchText className="text-2xl font-bold text-primary mb-2">ГЕНЕРАЦИЯ СЛЕДУЮЩЕГО ШАГА...</GlitchText>
+            <div className="flex justify-center gap-1">
+              <div className="w-2 h-2 bg-primary animate-bounce delay-0" />
+              <div className="w-2 h-2 bg-primary animate-bounce delay-150" />
+              <div className="w-2 h-2 bg-primary animate-bounce delay-300" />
+            </div>
+          </div>
+        </div>
+      )}
+      <div className={`bg-card/30 border border-primary/20 p-6 rounded-lg animate-fade-up ${isLoading ? 'opacity-20 blur-sm' : ''}`}>
         <p className="text-lg text-ink leading-relaxed font-serif italic">
           {scene.text}
         </p>
@@ -46,7 +70,7 @@ const SceneDisplay = ({ scene, onChoice, isLoading }: {
           <p className="text-ink/60 text-sm font-serif">Код концовки: <span className="font-bold text-primary">{scene.endingCode}</span></p>
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className={`space-y-3 ${isLoading ? 'opacity-20 blur-sm' : ''}`}>
           <p className="text-sm text-ink/50 uppercase tracking-widest font-sans">Что выберете?</p>
           {scene.choices.map((choice) => (
             <EnergyButton
@@ -69,6 +93,7 @@ const SceneDisplay = ({ scene, onChoice, isLoading }: {
 export default function CinemaModePage() {
   const [session, setSession] = useState<MovieSession | null>(null);
   const [premise, setPremise] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState(GENRES[0].id);
   const [isLoading, setIsLoading] = useState(false);
   const [savedSessions, setSavedSessions] = useState<MovieSession[]>([]);
   const toast = useToast();
@@ -86,14 +111,13 @@ export default function CinemaModePage() {
   }, []);
   
   // Сохранение сессии
-  const saveSession = useCallback(() => {
-    if (!session) return;
-    
-    const updatedSessions = [...savedSessions.filter(s => s.id !== session.id), session];
-    setSavedSessions(updatedSessions);
-    localStorage.setItem('cinema-sessions', JSON.stringify(updatedSessions));
-    toast.success("История сохранена локально");
-  }, [session, savedSessions, toast]);
+  const saveSession = useCallback((sessionToSave: MovieSession) => {
+    setSavedSessions(prev => {
+      const updated = [...prev.filter(s => s.id !== sessionToSave.id), sessionToSave];
+      localStorage.setItem('cinema-sessions', JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
   
   // Начало новой игры
   const startNewGame = async () => {
@@ -107,7 +131,8 @@ export default function CinemaModePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode: 'cinema',
-          story: premise
+          story: premise,
+          genre: GENRES.find(g => g.id === selectedGenre)?.name
         }),
       });
 
@@ -128,12 +153,14 @@ export default function CinemaModePage() {
         id: Date.now().toString(),
         title: premise.substring(0, 50) + (premise.length > 50 ? '...' : ''),
         premise,
+        genre: selectedGenre,
         currentSceneId: sceneId,
         history: [],
         scenes: { [sceneId]: newScene }
       };
       
       setSession(newSession);
+      saveSession(newSession);
     } catch (error: any) {
       console.error('Error starting game:', error);
       toast.error(error.message || "Не удалось начать историю");
@@ -157,6 +184,7 @@ export default function CinemaModePage() {
         body: JSON.stringify({
           mode: 'cinema',
           story: session.premise,
+          genre: GENRES.find(g => g.id === session.genre)?.name,
           history: newHistory
         }),
       });
@@ -182,9 +210,7 @@ export default function CinemaModePage() {
       };
       
       setSession(updatedSession);
-      
-      // Автосохранение
-      localStorage.setItem('cinema-session-' + updatedSession.id, JSON.stringify(updatedSession));
+      saveSession(updatedSession);
     } catch (error: any) {
       console.error('Error in handleChoice:', error);
       toast.error(error.message || "Не удалось загрузить следующую сцену");
@@ -215,7 +241,7 @@ export default function CinemaModePage() {
           
           {session && (
             <div className="flex items-center gap-2">
-              <EnergyButton variant="secondary" size="sm" onClick={saveSession}>
+              <EnergyButton variant="secondary" size="sm" onClick={() => session && saveSession(session)}>
                 <Save className="w-4 h-4 mr-2" />
                 Сохранить
               </EnergyButton>
@@ -244,7 +270,31 @@ export default function CinemaModePage() {
               
               {/* Start Form */}
               <HologramCard variant="default" glowIntensity="high" className="p-8 animate-fade-up">
-                <div className="space-y-6">
+                <div className="space-y-8">
+                  {/* Genre Selection */}
+                  <div className="space-y-4">
+                    <label className="flex items-center gap-3 text-sm uppercase tracking-widest text-primary font-sans mb-3">
+                      <Zap className="w-4 h-4" />
+                      Выбор жанра
+                    </label>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {GENRES.map((genre) => (
+                        <button
+                          key={genre.id}
+                          onClick={() => setSelectedGenre(genre.id)}
+                          className={`p-4 rounded-lg border-2 transition-all duration-300 flex flex-col items-center gap-2 ${
+                            selectedGenre === genre.id
+                              ? 'border-primary bg-primary/10 shadow-[0_0_15px_rgba(var(--primary-rgb),0.3)]'
+                              : 'border-primary/10 bg-background/50 hover:border-primary/40'
+                          }`}
+                        >
+                          <span className="text-2xl">{genre.icon}</span>
+                          <span className="text-xs uppercase tracking-wider font-bold">{genre.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
                   <div>
                     <label className="flex items-center gap-3 text-sm uppercase tracking-widest text-primary font-sans mb-3">
                       <Wand2 className="w-4 h-4" />
@@ -288,6 +338,14 @@ export default function CinemaModePage() {
                         <CardContent className="p-4 flex justify-between items-center">
                           <div>
                             <p className="text-ink font-serif italic">{savedSession.title}</p>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-[10px] uppercase tracking-tighter bg-primary/20 px-2 py-0.5 rounded text-primary font-sans font-bold">
+                                {GENRES.find(g => g.id === savedSession.genre)?.name || 'Неизвестный жанр'}
+                              </span>
+                              <span className="text-[10px] text-ink/40 font-sans">
+                                {Object.keys(savedSession.scenes).length} сцен(ы)
+                              </span>
+                            </div>
                           </div>
                           <div className="flex gap-2">
                             <EnergyButton 
@@ -309,8 +367,16 @@ export default function CinemaModePage() {
             <div className="space-y-8 animate-fade-in">
               {/* Session Info */}
               <div className="flex justify-between items-center">
-                <div>
-                  <h2 className="text-2xl font-bold text-ink font-serif">{session.title}</h2>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-2xl border border-primary/30">
+                    {GENRES.find(g => g.id === session.genre)?.icon || '📖'}
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-ink font-serif">{session.title}</h2>
+                    <p className="text-xs uppercase tracking-widest text-primary font-sans font-bold">
+                      {GENRES.find(g => g.id === session.genre)?.name}
+                    </p>
+                  </div>
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-ink/40 font-sans">Сцена {Object.keys(session.scenes).length}</p>
@@ -327,12 +393,14 @@ export default function CinemaModePage() {
               )}
               
               {/* Start New Button */}
-              <div className="text-center pt-8">
-                <EnergyButton variant="secondary" onClick={() => setSession(null)}>
-                  <Film className="w-4 h-4 mr-2" />
-                  Начать новую историю
-                </EnergyButton>
-              </div>
+              {!isLoading && (
+                <div className="text-center pt-8">
+                  <EnergyButton variant="secondary" onClick={() => setSession(null)}>
+                    <Film className="w-4 h-4 mr-2" />
+                    Начать новую историю
+                  </EnergyButton>
+                </div>
+              )}
             </div>
           )}
         </div>
