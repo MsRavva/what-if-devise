@@ -1,0 +1,22 @@
+<!-- Эта инструкция объясняет как создать favicon.ico -->
+<!-- 
+  Для конвертации SVG в ICO рекомендуется использовать:
+  
+  1. Онлайн конвертер: https://convertio.co/svg-ico/
+  2. Или imagemagick: convert icon.svg -define icon:auto-resize=256,128,64,48,32,16 favicon.ico
+  3. Или ffmpeg: ffmpeg -i icon.svg -vf "scale=256:256" favicon.ico
+  
+  Для использования SVG напрямую (рекомендуется для современных браузеров):
+  - Используйте <link rel="icon" type="image/svg+xml" href="/icon.svg">
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" type="image/svg+xml" href="/icon.svg">
+    <link rel="apple-touch-icon" href="/apple-icon.svg">
+</head>
+<body>
+    Иконки созданы!
+</body>
+</html>

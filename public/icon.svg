@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Фон - пергамент -->
+  <rect width="256" height="256" rx="32" fill="#f4ecd8"/>
+  
+  <!-- Текстура бумаги -->
+  <rect width="256" height="256" rx="32" fill="url(#paper-texture)" opacity="0.3"/>
+  
+  <!-- Рамка -->
+  <rect x="16" y="16" width="224" height="224" rx="24" stroke="#3c2f1f" stroke-width="4" fill="none"/>
+  <rect x="24" y="24" width="208" height="208" rx="20" stroke="#3c2f1f" stroke-width="1.5" fill="none" opacity="0.4"/>
+  
+  <!-- Книга -->
+  <g transform="translate(128, 115)">
+    <!-- Левая страница -->
+    <path d="M-55 35 Q-55 -25 -25 -30 L-25 40 Q-55 35 -55 35Z" fill="#fdf6e3" stroke="#3c2f1f" stroke-width="2"/>
+    <!-- Правая страница -->
+    <path d="M55 35 Q55 -25 25 -30 L25 40 Q55 35 55 35Z" fill="#fdf6e3" stroke="#3c2f1f" stroke-width="2"/>
+    <!-- Корешок -->
+    <rect x="-25" y="-32" width="50" height="74" rx="2" fill="#e6dfcc" stroke="#3c2f1f" stroke-width="2"/>
+    <!-- Линии на страницах -->
+    <line x1="-48" y1="-10" x2="-30" y2="-10" stroke="#3c2f1f" stroke-width="1.5" opacity="0.5"/>
+    <line x1="-48" y1="0" x2="-30" y2="0" stroke="#3c2f1f" stroke-width="1.5" opacity="0.5"/>
+    <line x1="-48" y1="10" x2="-30" y2="10" stroke="#3c2f1f" stroke-width="1.5" opacity="0.5"/>
+    <line x1="30" y1="-10" x2="48" y2="-10" stroke="#3c2f1f" stroke-width="1.5" opacity="0.5"/>
+    <line x1="30" y1="0" x2="48" y2="0" stroke="#3c2f1f" stroke-width="1.5" opacity="0.5"/>
+    <line x1="30" y1="10" x2="48" y2="10" stroke="#3c2f1f" stroke-width="1.5" opacity="0.5"/>
+  </g>
+  
+  <!-- Буквы "W" и "?" - стилизованные -->
+  <text x="128" y="195" text-anchor="middle" font-family="Georgia, serif" font-size="42" font-weight="bold" font-style="italic" fill="#3c2f1f">W<tspan font-size="36">?</tspan></text>
+  
+  <!-- Декоративные элементы - уголки -->
+  <path d="M40 40 L60 40 L60 44 L44 44 L44 60 L40 60 Z" fill="#3c2f1f" opacity="0.6"/>
+  <path d="M216 40 L196 40 L196 44 L212 44 L212 60 L216 60 Z" fill="#3c2f1f" opacity="0.6"/>
+  <path d="M40 216 L60 216 L60 212 L44 212 L44 196 L40 196 Z" fill="#3c2f1f" opacity="0.6"/>
+  <path d="M216 216 L196 216 L196 212 L212 212 L212 196 L216 196 Z" fill="#3c2f1f" opacity="0.6"/>
+  
+  <!-- Градиент для текстуры -->
+  <defs>
+    <pattern id="paper-texture" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+      <rect width="100" height="100" fill="#f4ecd8"/>
+      <circle cx="10" cy="10" r="1" fill="#3c2f1f" opacity="0.03"/>
+      <circle cx="50" cy="30" r="0.8" fill="#3c2f1f" opacity="0.02"/>
+      <circle cx="80" cy="70" r="1.2" fill="#3c2f1f" opacity="0.03"/>
+      <circle cx="30" cy="80" r="0.9" fill="#3c2f1f" opacity="0.02"/>
+    </pattern>
+  </defs>
+</svg>

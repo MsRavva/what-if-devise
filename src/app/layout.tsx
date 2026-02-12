@@ -22,6 +22,14 @@ export const metadata: Metadata = {
   title: 'What If Device - Генератор альтернативных сценариев',
   description: 'Создавайте уникальные альтернативные сценарии для ваших историй с помощью ИИ',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/apple-icon.svg', type: 'image/svg+xml', sizes: '180x180' },
+    ],
+  },
 }
 
 export default function RootLayout({

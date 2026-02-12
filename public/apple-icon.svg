@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="180" height="180" rx="40" fill="#f4ecd8"/>
+  <rect x="12" y="12" width="156" height="156" rx="32" stroke="#3c2f1f" stroke-width="3" fill="none"/>
+  <rect x="18" y="18" width="144" height="144" rx="28" stroke="#3c2f1f" stroke-width="1" fill="none" opacity="0.4"/>
+  <g transform="translate(90, 80)">
+    <path d="M-40 25 Q-40 -20 -18 -22 L-18 30 Q-40 25 -40 25Z" fill="#fdf6e3" stroke="#3c2f1f" stroke-width="2"/>
+    <path d="M40 25 Q40 -20 18 -22 L18 30 Q40 25 40 25Z" fill="#fdf6e3" stroke="#3c2f1f" stroke-width="2"/>
+    <rect x="-18" y="-24" width="36" height="56" rx="2" fill="#e6dfcc" stroke="#3c2f1f" stroke-width="2"/>
+  </g>
+  <text x="90" y="142" text-anchor="middle" font-family="Georgia, serif" font-size="32" font-weight="bold" font-style="italic" fill="#3c2f1f">W<tspan font-size="28">?</tspan></text>
+  <path d="M28 28 L45 28 L45 31 L31 31 L31 45 L28 45 Z" fill="#3c2f1f" opacity="0.6"/>
+  <path d="M152 28 L135 28 L135 31 L149 31 L149 45 L152 45 Z" fill="#3c2f1f" opacity="0.6"/>
+  <path d="M28 152 L45 152 L45 149 L31 149 L31 135 L28 135 Z" fill="#3c2f1f" opacity="0.6"/>
+  <path d="M152 152 L135 152 L135 149 L149 149 L149 135 L152 135 Z" fill="#3c2f1f" opacity="0.6"/>
+</svg>
