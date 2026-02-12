@@ -104,10 +104,15 @@ export async function POST(request: NextRequest) {
         // Если storyId не предоставлен, создаем новую историю используя серверный клиент
         console.log('Creating new story for scenario...');
         try {
-          const supabase = createServerSupabaseClient(headers());
+          const supabaseClient = createServerSupabaseClient(headers());
+          
+          if (!supabaseClient) {
+            console.error('Supabase client not initialized');
+            return Response.json({ error: 'Database not configured' }, { status: 500 });
+          }
 
           // Создаем историю
-          const { data: storyData, error: storyError } = await supabase
+          const { data: storyData, error: storyError } = await supabaseClient
             .from('stories')
             .insert({
               user_id: userId,
@@ -125,7 +130,7 @@ export async function POST(request: NextRequest) {
           console.log('New story created with ID:', storyData.id);
 
           // Создаем сценарий
-          const { data: scenarioData, error: scenarioError } = await supabase
+          const { data: scenarioData, error: scenarioError } = await supabaseClient
             .from('scenarios')
             .insert({
               story_id: storyData.id,

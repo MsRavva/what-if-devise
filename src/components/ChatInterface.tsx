@@ -246,18 +246,18 @@ ${chatHistory}
                   <BookOpen className="w-6 h-6" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold italic text-ink">
-                    Chronicle Dialogue
+          <h2 className="text-lg font-bold italic text-ink">
+                    Диалог
                   </h2>
                   <p className="text-[10px] text-ink/60 uppercase tracking-[0.2em] font-sans">
-                    Consulting the AI Oracle
+                    Развитие сценария
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
                 <Link href="/" className="book-button-secondary py-1 px-3 text-xs flex items-center gap-2">
                   <Home className="w-3 h-3" />
-                  Library
+                  Библиотека
                 </Link>
                 <ThemeToggle />
               </div>
@@ -306,7 +306,7 @@ ${chatHistory}
                     <div className="book-card p-4 border-dashed">
                       <div className="flex items-center gap-3 text-xs text-ink/40 italic">
                         <Loader2 className="w-4 h-4 animate-spin" />
-                        <span>The Oracle is weaving your story...</span>
+                        <span>Генерация ответа...</span>
                       </div>
                     </div>
                   </div>
@@ -332,7 +332,7 @@ ${chatHistory}
                         handleSendMessage();
                       }
                     }}
-                    placeholder="Write your question for the oracle..."
+                    placeholder="Напишите ваш вопрос..."
                     className="book-input min-h-[50px] max-h-[150px] w-full resize-none text-ink placeholder:text-ink/30 italic"
                     disabled={isLoading}
                   />
@@ -349,8 +349,8 @@ ${chatHistory}
                   )}
                 </button>
               </div>
-              <div className="mt-3 text-[10px] text-center text-ink/40 uppercase tracking-widest font-sans">
-                Enter to send message • Shift+Enter for newline
+<div className="mt-3 text-[10px] text-center text-ink/40 uppercase tracking-widest font-sans">
+                Enter - отправить • Shift+Enter - новая строка
               </div>
             </div>
           </div>

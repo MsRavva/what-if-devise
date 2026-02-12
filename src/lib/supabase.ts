@@ -72,7 +72,8 @@ export function createServerSupabaseClient(headers?: Headers) {
   const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl || !supabaseServiceRoleKey) {
-    throw new Error('Missing Supabase environment variables: SUPABASE_SERVICE_ROLE_KEY is required');
+    console.warn('Supabase серверный клиент не настроен: отсутствуют переменные окружения');
+    return null;
   }
 
   const supabaseServer = createClient(

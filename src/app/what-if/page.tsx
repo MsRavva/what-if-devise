@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link'
-import { ArrowLeft, Wand2, User, AlertCircle, Sparkles, Zap, Home } from 'lucide-react'
+import { ArrowLeft, Wand2, User, AlertCircle, Sparkles, Zap } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -28,21 +28,15 @@ export default function WhatIfPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-mono relative overflow-hidden">
-      {/* Тёмный официальный фон */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-20 w-40 h-40 bg-slate-900 transform rotate-45 opacity-40" />
-        <div className="absolute top-60 right-10 w-32 h-32 bg-slate-800 transform -rotate-12 opacity-30" />
-        <div className="absolute bottom-40 left-1/4 w-48 h-48 bg-slate-900 transform rotate-12 opacity-25" />
-        <div className="absolute bottom-20 right-1/4 w-36 h-36 bg-slate-800 transform -rotate-45 opacity-35" />
-
-        {/* Верхняя и нижняя линии */}
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
+    <div className="min-h-screen font-serif relative overflow-hidden">
+      {/* Фон */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-ink-light/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-ink-light/10 to-transparent" />
       </div>
 
       {/* Header */}
-      <header className="relative z-20 border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm">
+      <header className="relative z-20 border-b border-border bg-card/80 backdrop-blur-sm shadow-sm">
         <div className="flex justify-between items-center px-6 py-4">
           <EnergyButton variant="secondary" size="sm">
             <Link href="/" className="flex items-center gap-2">
@@ -73,38 +67,38 @@ export default function WhatIfPage() {
               <AIBrainVisualization size="lg" />
             </div>
 
-            <GlitchText className="text-4xl md:text-6xl font-black uppercase mb-6">
+            <GlitchText className="text-4xl md:text-6xl font-black uppercase mb-6 text-ink">
               What-If Device
             </GlitchText>
 
-            <p className="text-cyan-400/80 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-              Введите вашу историю и вопрос "что если" для создания альтернативного сценария с помощью ИИ
+            <p className="text-ink/70 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-serif italic">
+              Введите вашу историю и вопрос "что если" для создания альтернативного сценария
             </p>
 
             <div className="flex items-center justify-center gap-6 mt-6 text-sm">
-              <div className="flex items-center gap-2 text-cyan-400/60 uppercase tracking-widest">
-                <Sparkles className="w-4 h-4 animate-quantum-flicker" />
-                <span>AI Powered</span>
+              <div className="flex items-center gap-2 text-primary uppercase tracking-widest">
+                <Sparkles className="w-4 h-4" />
+                <span>Генерация</span>
               </div>
-              <div className="flex items-center gap-2 text-pink-400/60 uppercase tracking-widest">
-                <Zap className="w-4 h-4 animate-data-pulse" />
-                <span>Instant</span>
+              <div className="flex items-center gap-2 text-primary uppercase tracking-widest">
+                <Zap className="w-4 h-4" />
+                <span>Быстро</span>
               </div>
             </div>
           </div>
 
           {/* Warning for non-authenticated users */}
           {!isAuthenticated && (
-            <HologramCard variant="energy" className="mb-10 p-6">
+            <HologramCard variant="default" className="mb-10 p-6">
               <div className="flex items-start gap-6">
-                <div className="w-14 h-14 border-2 border-yellow-400 flex items-center justify-center flex-shrink-0">
-                  <AlertCircle className="w-7 h-7 text-yellow-400" />
+                <div className="w-14 h-14 border-2 border-primary flex items-center justify-center flex-shrink-0">
+                  <AlertCircle className="w-7 h-7 text-primary" />
                 </div>
                 <div>
-                  <GlitchText className="text-lg font-bold uppercase mb-2" color="pink" intensity="low">
+                  <GlitchText className="text-lg font-bold uppercase mb-2 text-ink" intensity="low">
                     Гостевой режим
                   </GlitchText>
-                  <p className="text-gray-400 mb-4 font-mono">
+                  <p className="text-ink/60 mb-4 font-serif">
                     Вы можете создавать сценарии без регистрации, но они не будут сохранены.
                   </p>
                   <EnergyButton variant="secondary" size="sm">
@@ -123,7 +117,7 @@ export default function WhatIfPage() {
             <form onSubmit={handleSubmit} className="space-y-8">
               {/* Title field */}
               <div className="space-y-3">
-                <label className="flex items-center gap-3 text-sm uppercase tracking-widest text-cyan-400 font-mono">
+                <label className="flex items-center gap-3 text-sm uppercase tracking-widest text-primary font-sans">
                   <Sparkles className="w-4 h-4" />
                   Название {isAuthenticated ? 'сессии' : '(не сохраняется)'}
                 </label>
@@ -131,13 +125,13 @@ export default function WhatIfPage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Введите название сессии (необязательно)"
-                  className="w-full p-4 bg-black/80 border-2 border-cyan-400/30 focus:border-cyan-400 text-white placeholder:text-gray-500 font-mono transition-all duration-300 outline-none"
+                  className="w-full p-4 bg-background/50 border-2 border-primary/20 focus:border-primary text-ink placeholder:text-ink/30 font-serif transition-all duration-300 outline-none book-input"
                 />
               </div>
 
               {/* Story field */}
               <div className="space-y-3">
-                <label className="flex items-center gap-3 text-sm uppercase tracking-widest text-pink-400 font-mono">
+                <label className="flex items-center gap-3 text-sm uppercase tracking-widest text-primary font-sans">
                   <Wand2 className="w-4 h-4" />
                   История *
                 </label>
@@ -147,13 +141,13 @@ export default function WhatIfPage() {
                   placeholder="Расскажите вашу историю... Чем подробнее, тем интереснее будет альтернативный сценарий!"
                   rows={8}
                   required
-                  className="w-full p-4 bg-black/80 border-2 border-pink-400/30 focus:border-pink-400 text-white placeholder:text-gray-500 font-mono transition-all duration-300 outline-none resize-none"
+                  className="w-full p-4 bg-background/50 border-2 border-primary/20 focus:border-primary text-ink placeholder:text-ink/30 font-serif transition-all duration-300 outline-none resize-none book-input"
                 />
               </div>
 
               {/* Question field */}
               <div className="space-y-3">
-                <label className="flex items-center gap-3 text-sm uppercase tracking-widest text-green-400 font-mono">
+                <label className="flex items-center gap-3 text-sm uppercase tracking-widest text-primary font-sans">
                   <Zap className="w-4 h-4" />
                   Вопрос "что если" *
                 </label>
@@ -163,7 +157,7 @@ export default function WhatIfPage() {
                   placeholder="Что было бы, если... (например: главный герой принял другое решение)"
                   rows={4}
                   required
-                  className="w-full p-4 bg-black/80 border-2 border-green-400/30 focus:border-green-400 text-white placeholder:text-gray-500 font-mono transition-all duration-300 outline-none resize-none"
+                  className="w-full p-4 bg-background/50 border-2 border-primary/20 focus:border-primary text-ink placeholder:text-ink/30 font-serif transition-all duration-300 outline-none resize-none book-input"
                 />
               </div>
 
@@ -182,16 +176,16 @@ export default function WhatIfPage() {
 
           {/* Footer info */}
           <div className="mt-12 text-center">
-            <HologramCard variant="neural" className="p-6 inline-block">
-              <p className="text-gray-400 text-sm font-mono max-w-lg">
-                Искусственный интеллект создаст уникальный альтернативный сценарий на основе вашей истории
+            <HologramCard variant="default" className="p-6 inline-block">
+              <p className="text-ink/60 text-sm font-serif max-w-lg">
+                Создайте уникальный альтернативный сценарий на основе вашей истории
               </p>
-              <div className="flex items-center justify-center gap-6 mt-4 text-xs uppercase tracking-widest">
-                <span className="text-cyan-400/60">Творчество</span>
-                <span className="text-gray-600">•</span>
-                <span className="text-pink-400/60">Скорость</span>
-                <span className="text-gray-600">•</span>
-                <span className="text-green-400/60">Уникальность</span>
+              <div className="flex items-center justify-center gap-6 mt-4 text-xs uppercase tracking-widest text-primary">
+                <span>Творчество</span>
+                <span>•</span>
+                <span>Скорость</span>
+                <span>•</span>
+                <span>Уникальность</span>
               </div>
             </HologramCard>
           </div>

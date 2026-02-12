@@ -48,7 +48,7 @@ export default function HomePage() {
                 <h1 className="text-3xl font-bold italic tracking-tight text-ink">
                   What If Device
                 </h1>
-                <p className="text-xs text-ink/60 uppercase tracking-[0.2em] font-sans">AI Scenario Archive</p>
+                <p className="text-xs text-ink/60 uppercase tracking-[0.2em] font-sans">Архив сценариев</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -56,12 +56,12 @@ export default function HomePage() {
               {isAuthenticated ? (
                 <div className="flex items-center space-x-2 border border-primary/20 bg-primary/5 px-3 py-1 text-primary font-medium text-sm rounded-md">
                   <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  <span className="font-sans uppercase tracking-wider text-xs">Keeper</span>
+                  <span className="font-sans uppercase tracking-wider text-xs">Хранитель</span>
                 </div>
               ) : (
                 <Button asChild size="sm">
                   <Link href="/auth">
-                    Enter Library
+                    Войти
                   </Link>
                 </Button>
               )}
@@ -72,29 +72,29 @@ export default function HomePage() {
             <div className="flex flex-wrap gap-4">
               <Button asChild>
                 <Link href="/what-if">
-                  Write New Story
+                  Новая история
                 </Link>
               </Button>
-<Button asChild variant="outline">
+              <Button asChild variant="outline">
                 <Link href="/templates">
-                  Manuscripts
+                  Шаблоны
                 </Link>
               </Button>
               <Button asChild variant="outline">
                 <Link href="/cinema">
-                  Cinema Mode
+                  Режим Кино
                 </Link>
               </Button>
               {isAuthenticated && (
                 <>
                   <Button asChild variant="outline">
                     <Link href="/history">
-                      Chronicles
+                      История
                     </Link>
                   </Button>
                   <Button asChild variant="outline">
                     <Link href="/profile">
-                      Scholar Profile
+                      Профиль
                     </Link>
                   </Button>
                 </>
@@ -113,15 +113,15 @@ export default function HomePage() {
                   <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
                     <Wand2 className="w-6 h-6" />
                   </div>
-                  <h2 className="text-2xl font-bold mb-2 text-ink">The Scribe's Desk</h2>
+                  <h2 className="text-2xl font-bold mb-2 text-ink">Стол писателя</h2>
                   <p className="text-ink/60 text-sm italic leading-relaxed">
-                    Summon the powers of artificial intelligence to weave new threads of reality and explore alternative histories.
+                    Создавайте альтернативные истории и исследуйте "что если" сценарии.
                   </p>
                 </div>
                 <Button asChild className="w-full">
                   <Link href="/what-if">
                     <Wand2 className="w-4 h-4 mr-2" />
-                    Begin Writing →
+                    Начать писать →
                   </Link>
                 </Button>
               </CardContent>
@@ -133,15 +133,15 @@ export default function HomePage() {
                   <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
                     <BookOpen className="w-6 h-6" />
                   </div>
-                  <h2 className="text-2xl font-bold mb-2 text-ink">Great Library</h2>
+                  <h2 className="text-2xl font-bold mb-2 text-ink">Библиотека</h2>
                   <p className="text-ink/60 text-sm italic leading-relaxed">
-                    Browse through manuscripts and templates to find inspiration for your own journey.
+                    Просматривайте шаблоны и находите вдохновение для своих историй.
                   </p>
                 </div>
                 <Button asChild variant="outline" className="w-full">
                   <Link href="/templates">
                     <BookOpen className="w-4 h-4 mr-2" />
-                    Enter Archives →
+                    Открыть архив →
                   </Link>
                 </Button>
               </CardContent>
@@ -160,7 +160,7 @@ export default function HomePage() {
             </div>
 
             <div className="max-w-md italic text-ink/80 text-lg border-y border-primary/10 py-6">
-              "Every story has a beginning, but the path it takes depends on the questions we dare to ask."
+              "У каждой истории есть начало, но путь зависит от вопросов, которые мы осмеливаемся задать."
             </div>
 
             <div className="grid grid-cols-3 gap-6 w-full max-w-md">
@@ -168,19 +168,19 @@ export default function HomePage() {
                 <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary">
                   <Zap className="w-5 h-5" />
                 </div>
-                <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Swift</span>
+                <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Быстро</span>
               </div>
               <div className="text-center p-2">
                 <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary">
                   <Stars className="w-5 h-5" />
                 </div>
-                <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Creative</span>
+                <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Творчески</span>
               </div>
               <div className="text-center p-2">
                 <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary">
                   <Sparkles className="w-5 h-5" />
                 </div>
-                <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Limitless</span>
+                <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Безгранично</span>
               </div>
             </div>
           </div>
@@ -193,19 +193,19 @@ export default function HomePage() {
                     <div className="w-16 h-16 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center mb-4 mx-auto">
                       <User className="w-8 h-8 text-primary" />
                     </div>
-                    <h2 className="text-2xl font-bold text-center mb-1 text-ink">Chronicler</h2>
-                    <p className="text-ink/60 text-xs text-center uppercase tracking-widest font-sans truncate px-4">{user?.email}</p>
+                  <h2 className="text-2xl font-bold text-center mb-1 text-ink">Летописец</h2>
+                  <p className="text-ink/60 text-xs text-center uppercase tracking-widest font-sans truncate px-4">{user?.email}</p>
                   </div>
                   <div className="space-y-3">
                     <Button asChild className="w-full">
                       <Link href="/profile">
                         <Settings className="w-4 h-4 mr-2" />
-                        Library Settings
+                        Настройки
                       </Link>
                     </Button>
                     <Button variant="outline" className="w-full" onClick={() => signOut()}>
                       <LogIn className="w-4 h-4 mr-2" />
-                      Close Journal
+                      Выйти
                     </Button>
                   </div>
                 </CardContent>
@@ -217,16 +217,16 @@ export default function HomePage() {
                     <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5">
                       <LogIn className="w-6 h-6" />
                     </div>
-                    <h2 className="text-2xl font-bold mb-2 text-ink">Join the Guild</h2>
-                    <p className="text-ink/60 text-sm italic">
-                      Create an account to preserve your stories in the eternal archives.
-                    </p>
+                  <h2 className="text-2xl font-bold mb-2 text-ink">Присоединиться</h2>
+                  <p className="text-ink/60 text-sm italic">
+                    Создайте аккаунт, чтобы сохранять свои истории.
+                  </p>
                   </div>
                   <div className="space-y-4">
                     <Button asChild className="w-full">
                       <Link href="/auth">
                         <LogIn className="w-4 h-4 mr-2" />
-                        Enter the Library →
+                        Войти в библиотеку →
                       </Link>
                     </Button>
                   </div>
@@ -240,15 +240,15 @@ export default function HomePage() {
                   <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
                     <Film className="w-6 h-6" />
                   </div>
-                  <h2 className="text-2xl font-bold mb-2 text-ink">Cinema Mode</h2>
+                  <h2 className="text-2xl font-bold mb-2 text-ink">Режим Кино</h2>
                   <p className="text-ink/60 text-sm italic leading-relaxed">
-                    Interactive movie experience. Make choices and share the story code with friends.
+                    Интерактивные истории. Делайте выборы и делитесь кодом с друзьями.
                   </p>
                 </div>
                 <Button asChild variant="outline" className="w-full">
                   <Link href="/cinema">
                     <Film className="w-4 h-4 mr-2" />
-                    Start Cinema →
+                    Начать кино →
                   </Link>
                 </Button>
               </CardContent>
@@ -261,18 +261,18 @@ export default function HomePage() {
         <div className="container mx-auto px-6 py-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             <div className="space-y-4">
-              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">Our Purpose</h3>
+              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">Наша цель</h3>
               <p className="text-sm italic leading-relaxed text-ink/70">What If Device - инструмент для творчества и развития воображения.</p>
             </div>
             <div className="space-y-4">
-              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">Archives</h3>
+              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">Архивы</h3>
               <ul className="space-y-3 text-sm italic text-ink/60">
-                <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">The Scribe's Tools</li>
-                <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">Manuscripts</li>
+                <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">Инструменты писателя</li>
+                <li className="hover:text-primary transition-colors cursor-pointer flex items-center gap-2">Шаблоны</li>
               </ul>
             </div>
             <div className="space-y-4">
-              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">The Foundation</h3>
+              <h3 className="text-xl font-bold italic text-ink border-b border-primary/10 pb-2">Технологии</h3>
               <div className="flex flex-wrap gap-2">
                 {['Next.js', 'TypeScript', 'Tailwind', 'AI'].map(tech => (
                   <span key={tech} className="px-2 py-1 bg-card border border-border text-[10px] uppercase tracking-widest font-sans font-bold text-ink/40">{tech}</span>

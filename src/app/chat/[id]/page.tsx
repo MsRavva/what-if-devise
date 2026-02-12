@@ -41,6 +41,12 @@ const ChatPage = async ({
     // Это существующая сессия, загружаем из базы данных
     try {
       const supabase = createServerSupabaseClient(headers());
+      
+      // Если Supabase не настроен, показываем ошибку
+      if (!supabase) {
+        return <div className="container mx-auto p-4">Ошибка: База данных не настроена. Пожалуйста, создайте новый сценарий.</div>;
+      }
+      
       const id = params.id;
       console.log('Поиск сценария с id:', id);
 
