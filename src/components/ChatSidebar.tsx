@@ -35,10 +35,12 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ currentSessionId }) =>
 
   const loadSessions = async () => {
     try {
-      const { data: { session } } = await supabase!.auth.getSession();
+      if (!supabase) return;
+      
+      const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
 
-      const { data, error } = await supabase!
+      const { data, error } = await supabase
         .from('scenarios')
         .select('id, question, created_at')
         .eq('user_id', session.user.id)
@@ -65,7 +67,9 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ currentSessionId }) =>
     if (!confirm('Удалить этот чат?')) return;
 
     try {
-      const { error } = await supabase!
+      if (!supabase) return;
+      
+      const { error } = await supabase
         .from('scenarios')
         .delete()
         .eq('id', id);

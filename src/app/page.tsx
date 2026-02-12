@@ -75,14 +75,9 @@ export default function HomePage() {
                   Write New Story
                 </Link>
               </Button>
-              <Button asChild variant="outline">
+<Button asChild variant="outline">
                 <Link href="/templates">
                   Manuscripts
-                </Link>
-              </Button>
-<Button asChild variant="outline">
-                <Link href="/chat">
-                  Consult Oracle
                 </Link>
               </Button>
               <Button asChild variant="outline">

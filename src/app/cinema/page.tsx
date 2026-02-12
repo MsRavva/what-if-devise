@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { ArrowLeft, Play, Share2, Film, Users, Sparkles, Wand2, Save, Copy, Check } from 'lucide-react';
+import { ArrowLeft, Play, Share2, Film, BookOpen, Sparkles, Wand2, Save, Copy, Check } from 'lucide-react';
 import { HologramCard, GlitchText, EnergyButton } from '@/components/cyberpunk';
 
 // Типы для режима кино
@@ -202,26 +202,26 @@ const SceneDisplay = ({ scene, onChoice, isLoading }: {
 }) => {
   return (
     <div className="space-y-6">
-      <div className="bg-black/50 border border-cyan-400/30 p-6 rounded-lg">
-        <p className="text-lg text-cyan-100 leading-relaxed font-mono">
+      <div className="bg-card/30 border border-primary/20 p-6 rounded-lg animate-fade-up">
+        <p className="text-lg text-ink leading-relaxed font-serif italic">
           {scene.text}
         </p>
       </div>
       
       {scene.isEnding ? (
-        <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 border border-purple-400/50 p-6 rounded-lg text-center">
-          <Film className="w-12 h-12 mx-auto mb-4 text-purple-400" />
-          <h3 className="text-2xl font-bold text-purple-300 mb-2">{scene.endingTitle}</h3>
-          <p className="text-purple-200/70 text-sm font-mono">Код концовки: <span className="font-bold text-purple-300">{scene.endingCode}</span></p>
+        <div className="bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/30 p-6 rounded-lg text-center animate-scale-in">
+          <Film className="w-12 h-12 mx-auto mb-4 text-primary" />
+          <h3 className="text-2xl font-bold text-ink mb-2 font-serif">{scene.endingTitle}</h3>
+          <p className="text-ink/60 text-sm font-serif">Код концовки: <span className="font-bold text-primary">{scene.endingCode}</span></p>
         </div>
       ) : (
         <div className="space-y-3">
-          <p className="text-sm text-cyan-400/60 uppercase tracking-widest font-mono">Что выберете?</p>
+          <p className="text-sm text-ink/50 uppercase tracking-widest font-sans">Что выберете?</p>
           {scene.choices.map((choice) => (
             <EnergyButton
               key={choice.id}
               variant="secondary"
-              className="w-full justify-start text-left"
+              className="w-full justify-start text-left animate-fade-up"
               onClick={() => onChoice(choice)}
               disabled={isLoading}
             >
@@ -337,31 +337,18 @@ export default function CinemaModePage() {
     setTimeout(() => setCopied(false), 2000);
   };
   
-  // Загрузка сессии по коду
-  const loadSessionFromCode = (code: string) => {
-    const [seedStr, ...premiseParts] = code.split(':');
-    const seed = parseInt(seedStr);
-    const premise = premiseParts.join(':');
-    
-    if (!isNaN(seed) && premise) {
-      setCustomSeed(seedStr);
-      setPremise(premise);
-      startNewGame();
-    }
-  };
-  
   const currentScene = session ? session.scenes[session.currentSceneId] : null;
   
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-mono relative overflow-hidden">
+    <div className="min-h-screen font-serif relative overflow-hidden">
       {/* Фон */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-700/50 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-700/50 to-transparent" />
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-primary/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-primary/10 to-transparent" />
       </div>
       
       {/* Header */}
-      <header className="relative z-20 border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm">
+      <header className="relative z-20 border-b border-border bg-card/80 backdrop-blur-sm shadow-sm">
         <div className="flex justify-between items-center px-6 py-4">
           <EnergyButton variant="secondary" size="sm">
             <Link href="/" className="flex items-center gap-2">
@@ -393,22 +380,22 @@ export default function CinemaModePage() {
               {/* Title */}
               <div className="text-center mb-12">
                 <div className="flex justify-center mb-6">
-                  <Film className="w-16 h-16 text-cyan-400" />
+                  <Film className="w-16 h-16 text-primary" />
                 </div>
-                <GlitchText className="text-4xl md:text-6xl font-black uppercase mb-6">
+                <GlitchText className="text-4xl md:text-6xl font-black uppercase mb-6 text-ink">
                   Режим Кино
                 </GlitchText>
-                <p className="text-cyan-400/80 text-lg max-w-2xl mx-auto">
+                <p className="text-ink/70 text-lg max-w-2xl mx-auto font-serif italic">
                   Создайте уникальную интерактивную историю. Сделайте выборы и получите одну из множества концовок. 
                   Поделитесь кодом с друзьями - они могут пройти тот же путь!
                 </p>
               </div>
               
               {/* Start Form */}
-              <HologramCard variant="default" glowIntensity="high" className="p-8">
+              <HologramCard variant="default" glowIntensity="high" className="p-8 animate-fade-up">
                 <div className="space-y-6">
                   <div>
-                    <label className="flex items-center gap-3 text-sm uppercase tracking-widest text-cyan-400 font-mono mb-3">
+                    <label className="flex items-center gap-3 text-sm uppercase tracking-widest text-primary font-sans mb-3">
                       <Wand2 className="w-4 h-4" />
                       Завязка истории
                     </label>
@@ -417,12 +404,12 @@ export default function CinemaModePage() {
                       onChange={(e) => setPremise(e.target.value)}
                       placeholder="Опишите начало истории... Например: Детектив расследует загадочное убийство в старом особняке..."
                       rows={4}
-                      className="w-full p-4 bg-black/80 border-2 border-cyan-400/30 focus:border-cyan-400 text-white placeholder:text-gray-500 font-mono transition-all duration-300 outline-none resize-none"
+                      className="w-full p-4 bg-background/50 border-2 border-primary/20 focus:border-primary text-ink placeholder:text-ink/30 font-serif transition-all duration-300 outline-none resize-none book-input"
                     />
                   </div>
                   
                   <div>
-                    <label className="flex items-center gap-3 text-sm uppercase tracking-widest text-pink-400 font-mono mb-3">
+                    <label className="flex items-center gap-3 text-sm uppercase tracking-widest text-primary font-sans mb-3">
                       <Sparkles className="w-4 h-4" />
                       Код сессии (опционально)
                     </label>
@@ -431,9 +418,9 @@ export default function CinemaModePage() {
                       onChange={(e) => setCustomSeed(e.target.value)}
                       placeholder="Введите число для детерминированной генерации"
                       type="number"
-                      className="w-full p-4 bg-black/80 border-2 border-pink-400/30 focus:border-pink-400 text-white placeholder:text-gray-500 font-mono transition-all duration-300 outline-none"
+                      className="w-full p-4 bg-background/50 border-2 border-primary/20 focus:border-primary text-ink placeholder:text-ink/30 font-serif transition-all duration-300 outline-none book-input"
                     />
-                    <p className="text-xs text-gray-500 mt-2">
+                    <p className="text-xs text-ink/50 mt-2 font-serif">
                       Оставьте пустым для случайной генерации. Используйте одинаковый код с другом, чтобы получить одинаковые сцены!
                     </p>
                   </div>
@@ -456,18 +443,18 @@ export default function CinemaModePage() {
               
               {/* Saved Sessions */}
               {savedSessions.length > 0 && (
-                <div className="mt-12">
-                  <h3 className="text-xl font-bold text-cyan-400 mb-4 flex items-center gap-2">
+                <div className="mt-12 animate-fade-up">
+                  <h3 className="text-xl font-bold text-ink mb-4 flex items-center gap-2 font-serif">
                     <Save className="w-5 h-5" />
                     Сохраненные истории
                   </h3>
                   <div className="grid gap-4">
                     {savedSessions.map((savedSession) => (
-                      <Card key={savedSession.id} className="bg-slate-900/50 border-slate-700">
+                      <Card key={savedSession.id} className="bg-card/50 border-border hover:shadow-card transition-all duration-300">
                         <CardContent className="p-4 flex justify-between items-center">
                           <div>
-                            <p className="text-cyan-300 font-mono">{savedSession.title}</p>
-                            <p className="text-xs text-gray-500">Seed: {savedSession.seed}</p>
+                            <p className="text-ink font-serif italic">{savedSession.title}</p>
+                            <p className="text-xs text-ink/50 font-sans">Seed: {savedSession.seed}</p>
                           </div>
                           <div className="flex gap-2">
                             <EnergyButton 
@@ -486,15 +473,15 @@ export default function CinemaModePage() {
               )}
             </div>
           ) : (
-            <div className="space-y-8">
+            <div className="space-y-8 animate-fade-in">
               {/* Session Info */}
               <div className="flex justify-between items-center">
                 <div>
-                  <h2 className="text-2xl font-bold text-cyan-300">{session.title}</h2>
-                  <p className="text-sm text-gray-500">Seed: {session.seed}</p>
+                  <h2 className="text-2xl font-bold text-ink font-serif">{session.title}</h2>
+                  <p className="text-sm text-ink/50 font-sans">Seed: {session.seed}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-gray-400">Сцена {Object.keys(session.scenes).length} из 6</p>
+                  <p className="text-sm text-ink/40 font-sans">Сцена {Object.keys(session.scenes).length} из 6</p>
                 </div>
               </div>
               
@@ -509,18 +496,18 @@ export default function CinemaModePage() {
               
               {/* Share Section */}
               {currentScene?.isEnding && (
-                <div className="bg-gradient-to-r from-cyan-900/30 to-purple-900/30 border border-cyan-400/30 p-6 rounded-lg">
-                  <h3 className="text-lg font-bold text-cyan-300 mb-4 flex items-center gap-2">
+                <div className="bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 p-6 rounded-lg animate-fade-up">
+                  <h3 className="text-lg font-bold text-ink mb-4 flex items-center gap-2 font-serif">
                     <Share2 className="w-5 h-5" />
                     Поделитесь с друзьями!
                   </h3>
-                  <p className="text-gray-300 mb-4">
+                  <p className="text-ink/70 mb-4 font-serif">
                     Отправьте этот код другу, чтобы он мог пройти ту же историю:
                   </p>
-                  <div className="bg-black/50 p-4 rounded font-mono text-cyan-400 select-all">
+                  <div className="bg-background/50 p-4 rounded font-mono text-primary select-all border border-primary/20">
                     {session.seed}:{session.premise}
                   </div>
-                  <p className="text-xs text-gray-500 mt-4">
+                  <p className="text-xs text-ink/50 mt-4 font-serif">
                     Или просто скажите: &quot;Попробуй историю с seed {session.seed} и завязкой: {session.premise.substring(0, 50)}...&quot;
                   </p>
                 </div>

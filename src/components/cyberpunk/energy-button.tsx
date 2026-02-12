@@ -25,9 +25,9 @@ export const EnergyButton = ({
   href
 }: EnergyButtonProps) => {
   const variants = {
-    primary: 'border-blue-700 text-blue-400 hover:bg-blue-900/40 hover:border-blue-600',
-    secondary: 'border-slate-600 text-slate-300 hover:bg-slate-800/40 hover:border-slate-500',
-    danger: 'border-red-800 text-red-400 hover:bg-red-900/30 hover:border-red-700'
+    primary: 'bg-primary text-primary-foreground border-primary hover:bg-primary/90',
+    secondary: 'bg-transparent text-primary border-primary/40 hover:bg-primary/5 hover:border-primary',
+    danger: 'bg-destructive text-destructive-foreground border-destructive hover:bg-destructive/90'
   }
 
   const sizes = {
@@ -40,29 +40,29 @@ export const EnergyButton = ({
     energy-button
     ${variants[variant]}
     ${sizes[size]}
-    font-mono font-medium uppercase tracking-wider
+    font-serif font-medium
     rounded-md
     relative overflow-hidden
-    transition-all duration-200
-    hover:translate-y-[-1px]
-    active:translate-y-[1px]
+    transition-all duration-300
+    hover:translate-y-[-2px]
+    hover:shadow-soft
+    active:translate-y-[0px]
     disabled:opacity-50 disabled:cursor-not-allowed
-    inline-block text-center
+    inline-flex items-center justify-center gap-2
     ${className}
   `
 
   const content = (
     <>
-      {/* Контент */}
       <span className="relative z-10 flex items-center justify-center gap-2">
         {children}
       </span>
 
-      {/* Тонкие угловые акценты */}
-      <div className="absolute top-1 left-1 w-2 h-2 border-l border-t border-current opacity-30" />
-      <div className="absolute top-1 right-1 w-2 h-2 border-r border-t border-current opacity-30" />
-      <div className="absolute bottom-1 left-1 w-2 h-2 border-l border-b border-current opacity-30" />
-      <div className="absolute bottom-1 right-1 w-2 h-2 border-r border-b border-current opacity-30" />
+      {/* Элегантные угловые акценты */}
+      <div className="absolute top-1 left-1 w-2 h-2 border-l border-t border-current opacity-20" />
+      <div className="absolute top-1 right-1 w-2 h-2 border-r border-t border-current opacity-20" />
+      <div className="absolute bottom-1 left-1 w-2 h-2 border-l border-b border-current opacity-20" />
+      <div className="absolute bottom-1 right-1 w-2 h-2 border-r border-b border-current opacity-20" />
     </>
   )
 

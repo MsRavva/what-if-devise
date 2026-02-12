@@ -82,8 +82,11 @@ ${chatHistory}
       };
       
       // Получаем токен авторизации (опционально для гостевого режима)
-      const { data: { session } } = await supabase!.auth.getSession();
-      const token = session?.access_token;
+      let token = null;
+      if (supabase) {
+        const { data: { session } } = await supabase.auth.getSession();
+        token = session?.access_token;
+      }
 
       // Вызываем API endpoint вместо прямого вызова функции
       const headers: HeadersInit = { 
@@ -142,8 +145,11 @@ ${chatHistory}
 
         try {
           // Получаем токен авторизации (опционально для гостевого режима)
-          const { data: { session } } = await supabase!.auth.getSession();
-          const token = session?.access_token;
+          let token = null;
+          if (supabase) {
+            const { data: { session } } = await supabase.auth.getSession();
+            token = session?.access_token;
+          }
 
           // Вызываем API endpoint вместо прямого вызова функции
           const headers: HeadersInit = { 

@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuth } from '@/components/auth-provider';
 import { Database } from '@/lib/database.types';
 import { supabase } from '@/lib/supabase';
+import Link from 'next/link';
 
 type Story = Database['public']['Tables']['stories']['Row'];
 type Scenario = Database['public']['Tables']['scenarios']['Row'];
@@ -30,12 +31,6 @@ export default function HistoryList() {
   const [stories, setStories] = useState<StoryWithScenarios[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  
-  // Using the imported supabase client directly instead of a hook
-  // Check if supabase is initialized before using it
-  if (!supabase) {
-    throw new Error('Supabase client not initialized');
-  }
 
   useEffect(() => {
     const fetchUserStories = async (): Promise<void> => {
@@ -160,7 +155,7 @@ export default function HistoryList() {
                     </h3>
                     <div className="grid grid-cols-1 gap-4">
                       {story.scenarios.map((scenario) => (
-                        <a
+                        <Link
                           key={scenario.id}
                           href={`/chat/${scenario.id}`}
                           className="group block p-4 border border-border rounded-sm hover:border-primary/30 hover:bg-primary/5 transition-all"
@@ -176,19 +171,19 @@ export default function HistoryList() {
                           <p className="text-sm text-ink/60 line-clamp-2 italic">
                             {scenario.ai_response}
                           </p>
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>
                 ) : (
                   <div className="text-center py-6 border border-dashed border-border rounded-sm bg-card/50">
                     <p className="text-ink/40 text-sm italic mb-4">No alternative paths explored yet.</p>
-                    <a
-                      href={`/chat/${crypto.randomUUID()}?story=${encodeURIComponent(story.content)}&question=${encodeURIComponent('Create an alternative path for this story.')}`}
-                      className="book-button text-xs py-2 px-4"
+                    <Link
+                      href={`/chat/${story.id}?story=${encodeURIComponent(story.content)}&question=${encodeURIComponent('Create an alternative path for this story.')}`}
+                      className="book-button text-xs py-2 px-4 inline-block"
                     >
                       Summon the Oracle
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>
