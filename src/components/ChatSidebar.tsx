@@ -9,10 +9,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Home,
-  Zap
+  BookOpen
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
-import { HologramCard, EnergyButton, GlitchText } from '@/components/cyberpunk';
 
 interface ChatSession {
   id: string;
@@ -113,20 +112,20 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ currentSessionId }) =>
 
   if (isCollapsed) {
     return (
-      <div className="w-16 border-r-2 border-cyan-400/30 bg-black/90 backdrop-blur flex flex-col items-center py-4 gap-4">
+      <div className="w-16 border-r border-border bg-card/90 backdrop-blur flex flex-col items-center py-4 gap-4 shadow-sm">
         <button
           onClick={() => setIsCollapsed(false)}
-          className="w-10 h-10 border-2 border-cyan-400/50 bg-black/80 hover:bg-cyan-400/20 hover:border-cyan-400 transition-all duration-300 flex items-center justify-center text-cyan-400"
+          className="w-10 h-10 border border-primary/30 bg-card hover:bg-primary/10 hover:border-primary transition-all duration-300 flex items-center justify-center text-primary rounded-md"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
         <Link href="/">
-          <div className="w-10 h-10 border-2 border-pink-400/50 bg-black/80 hover:bg-pink-400/20 hover:border-pink-400 transition-all duration-300 flex items-center justify-center text-pink-400 cursor-pointer">
+          <div className="w-10 h-10 border border-primary/30 bg-card hover:bg-primary/10 hover:border-primary transition-all duration-300 flex items-center justify-center text-primary rounded-md cursor-pointer">
             <Home className="w-5 h-5" />
           </div>
         </Link>
         <Link href="/what-if">
-          <div className="w-10 h-10 border-2 border-green-400/50 bg-black/80 hover:bg-green-400/20 hover:border-green-400 transition-all duration-300 flex items-center justify-center text-green-400 cursor-pointer">
+          <div className="w-10 h-10 border border-primary/30 bg-card hover:bg-primary/10 hover:border-primary transition-all duration-300 flex items-center justify-center text-primary rounded-md cursor-pointer">
             <Plus className="w-5 h-5" />
           </div>
         </Link>
@@ -135,15 +134,15 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ currentSessionId }) =>
   }
 
   return (
-    <div className="w-80 border-r-2 border-cyan-400/30 bg-black/90 backdrop-blur flex flex-col">
+    <div className="w-80 border-r border-border bg-card/90 backdrop-blur flex flex-col shadow-sm">
       {/* Header */}
-      <div className="p-4 border-b-2 border-cyan-400/30 flex items-center justify-between">
-        <GlitchText className="text-lg font-black uppercase tracking-wider">
+      <div className="p-4 border-b border-border flex items-center justify-between bg-card/50">
+        <h2 className="text-lg font-bold uppercase tracking-wider text-ink font-serif">
           Чаты
-        </GlitchText>
+        </h2>
         <button
           onClick={() => setIsCollapsed(true)}
-          className="w-8 h-8 border border-cyan-400/50 bg-black/80 hover:bg-cyan-400/20 hover:border-cyan-400 transition-all duration-300 flex items-center justify-center text-cyan-400"
+          className="w-8 h-8 border border-primary/30 bg-card hover:bg-primary/10 hover:border-primary transition-all duration-300 flex items-center justify-center text-primary rounded-md"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
@@ -151,22 +150,22 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ currentSessionId }) =>
 
       {/* New Chat Button */}
       <div className="p-4">
-        <EnergyButton variant="primary" className="w-full">
-          <Link href="/what-if" className="flex items-center justify-center gap-2 w-full">
-            <Zap className="w-4 h-4" />
+        <Link href="/what-if">
+          <button className="book-button w-full">
+            <BookOpen className="w-4 h-4" />
             Новый чат
-          </Link>
-        </EnergyButton>
+          </button>
+        </Link>
       </div>
 
       {/* Sessions List */}
       <div className="flex-1 overflow-y-auto px-2">
         {isLoading ? (
-          <div className="p-4 text-center text-cyan-400/60 text-sm font-mono uppercase animate-quantum-flicker">
+          <div className="p-4 text-center text-primary/60 text-sm font-sans uppercase">
             Загрузка...
           </div>
         ) : sessions.length === 0 ? (
-          <div className="p-4 text-center text-gray-500 text-sm font-mono">
+          <div className="p-4 text-center text-ink/50 text-sm font-serif italic">
             Нет сохраненных чатов
           </div>
         ) : (
@@ -175,21 +174,21 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ currentSessionId }) =>
               <Link
                 key={session.id}
                 href={`/chat/${session.id}`}
-                className={`block group relative transition-all duration-300 ${currentSessionId === session.id
-                    ? 'bg-cyan-400/10 border-2 border-cyan-400/50'
-                    : 'border border-gray-700/50 hover:border-cyan-400/30 hover:bg-cyan-400/5'
+                className={`block group relative transition-all duration-300 rounded-md ${currentSessionId === session.id
+                    ? 'bg-primary/10 border border-primary/50'
+                    : 'border border-border/50 hover:border-primary/30 hover:bg-primary/5'
                   }`}
               >
                 <div className="p-3 pr-10">
                   <div className="flex items-start gap-2">
-                    <MessageSquare className={`w-4 h-4 mt-0.5 flex-shrink-0 ${currentSessionId === session.id ? 'text-cyan-400' : 'text-gray-500'
+                    <MessageSquare className={`w-4 h-4 mt-0.5 flex-shrink-0 ${currentSessionId === session.id ? 'text-primary' : 'text-ink/40'
                       }`} />
                     <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-mono truncate ${currentSessionId === session.id ? 'text-cyan-400' : 'text-gray-300'
+                      <p className={`text-sm font-serif truncate ${currentSessionId === session.id ? 'text-primary font-medium' : 'text-ink'
                         }`}>
                         {truncateText(session.question, 50)}
                       </p>
-                      <p className="text-xs text-gray-500 mt-1 font-mono">
+                      <p className="text-xs text-ink/50 mt-1 font-sans">
                         {formatDate(session.created_at)}
                       </p>
                     </div>
@@ -197,7 +196,7 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ currentSessionId }) =>
                 </div>
                 <button
                   onClick={(e) => deleteSession(session.id, e)}
-                  className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity w-7 h-7 flex items-center justify-center text-red-400 hover:text-red-300 hover:bg-red-400/20"
+                  className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity w-7 h-7 flex items-center justify-center text-red-400/70 hover:text-red-500 hover:bg-red-50 rounded"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -208,13 +207,13 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ currentSessionId }) =>
       </div>
 
       {/* Footer - На главную */}
-      <div className="p-4 border-t-2 border-cyan-400/30">
-        <EnergyButton variant="secondary" className="w-full">
-          <Link href="/" className="flex items-center justify-center gap-2 w-full">
+      <div className="p-4 border-t border-border bg-card/50">
+        <Link href="/">
+          <button className="book-button-secondary w-full">
             <Home className="w-4 h-4" />
             На главную
-          </Link>
-        </EnergyButton>
+          </button>
+        </Link>
       </div>
     </div>
   );

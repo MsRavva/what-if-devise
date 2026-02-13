@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth-provider';
 import Link from 'next/link';
-import { HologramCard, GlitchText, EnergyButton, AIBrainVisualization } from '@/components/cyberpunk';
+import { Card } from '@/components/ui/card';
 import { LogIn, UserPlus, Home, Loader2 } from 'lucide-react';
 
 export function UserAuthForm() {
@@ -43,31 +43,33 @@ export function UserAuthForm() {
   };
 
   return (
-    <HologramCard variant="default" glowIntensity="high" className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto p-8 book-card">
       {/* Header */}
       <div className="text-center mb-8">
         <div className="flex justify-center mb-4">
-          <AIBrainVisualization size="sm" />
+          <div className="w-16 h-16 rounded-full bg-primary/10 border-2 border-primary/30 flex items-center justify-center">
+            <span className="text-2xl font-serif font-bold text-primary">W?</span>
+          </div>
         </div>
-        <GlitchText className="text-3xl font-black uppercase mb-2" color="cyan">
+        <h1 className="text-3xl font-bold uppercase mb-2 text-ink font-serif">
           {isLogin ? 'Вход' : 'Регистрация'}
-        </GlitchText>
-        <p className="text-cyan-400/60 uppercase text-xs tracking-widest font-mono animate-quantum-flicker">
+        </h1>
+        <p className="text-ink/60 uppercase text-xs tracking-widest font-sans">
           {isLogin ? 'Войдите в свой аккаунт' : 'Создайте новый аккаунт'}
         </p>
       </div>
 
       {/* Error */}
       {error && (
-        <div className="mb-6 p-4 border-2 border-red-500/50 bg-red-500/10 text-red-400 text-sm font-mono">
-          <span className="animate-glitch">{error}</span>
+        <div className="mb-6 p-4 border border-red-400/50 bg-red-50 text-red-600 text-sm font-sans rounded-md">
+          {error}
         </div>
       )}
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
-          <label className="text-xs uppercase tracking-widest text-cyan-400 font-mono">Email</label>
+          <label className="text-xs uppercase tracking-widest text-primary font-sans">Email</label>
           <input
             type="email"
             placeholder="your@email.com"
@@ -75,11 +77,11 @@ export function UserAuthForm() {
             onChange={(e) => setEmail(e.target.value)}
             required
             disabled={isLoading}
-            className="w-full p-3 bg-black/80 border-2 border-cyan-400/30 focus:border-cyan-400 text-white placeholder:text-gray-500 font-mono transition-all duration-300 outline-none"
+            className="w-full p-3 bg-background/50 border-2 border-primary/20 focus:border-primary text-ink placeholder:text-ink/30 font-serif transition-all duration-300 outline-none book-input"
           />
         </div>
         <div className="space-y-2">
-          <label className="text-xs uppercase tracking-widest text-cyan-400 font-mono">Пароль</label>
+          <label className="text-xs uppercase tracking-widest text-primary font-sans">Пароль</label>
           <input
             type="password"
             placeholder="••••••"
@@ -88,12 +90,12 @@ export function UserAuthForm() {
             required
             minLength={6}
             disabled={isLoading}
-            className="w-full p-3 bg-black/80 border-2 border-cyan-400/30 focus:border-cyan-400 text-white placeholder:text-gray-500 font-mono transition-all duration-300 outline-none"
+            className="w-full p-3 bg-background/50 border-2 border-primary/20 focus:border-primary text-ink placeholder:text-ink/30 font-serif transition-all duration-300 outline-none book-input"
           />
         </div>
-        <EnergyButton
-          variant="primary"
-          className="w-full"
+        <button
+          type="submit"
+          className="book-button w-full"
           disabled={isLoading}
         >
           {isLoading ? (
@@ -107,23 +109,22 @@ export function UserAuthForm() {
               {isLogin ? 'Войти' : 'Зарегистрироваться'}
             </span>
           )}
-        </EnergyButton>
+        </button>
       </form>
 
       {/* Divider */}
       <div className="relative my-8">
         <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t-2 border-cyan-400/20" />
+          <span className="w-full border-t border-primary/20" />
         </div>
         <div className="relative flex justify-center">
-          <span className="bg-black px-4 text-xs uppercase tracking-widest text-gray-500 font-mono">или</span>
+          <span className="bg-card px-4 text-xs uppercase tracking-widest text-ink/50 font-sans">или</span>
         </div>
       </div>
 
       {/* Google Auth */}
-      <EnergyButton
-        variant="secondary"
-        className="w-full"
+      <button
+        className="book-button-secondary w-full mb-4"
         onClick={async () => {
           setIsLoading(true);
           setError(null);
@@ -164,26 +165,25 @@ export function UserAuthForm() {
           </svg>
           Войти через Google
         </span>
-      </EnergyButton>
+      </button>
 
       {/* Footer */}
-      <div className="mt-8 pt-6 border-t-2 border-cyan-400/20 text-center">
-        <p className="text-gray-500 text-xs font-mono mb-4">
+      <div className="mt-8 pt-6 border-t border-primary/20 text-center">
+        <p className="text-ink/50 text-xs font-serif italic mb-4">
           {isLogin ? 'Нет аккаунта?' : 'Уже есть аккаунт?'}
         </p>
-        <EnergyButton
-          variant="secondary"
+        <button
+          className="book-button-secondary w-full mb-4"
           onClick={() => setIsLogin(!isLogin)}
           disabled={isLoading}
-          className="w-full mb-4"
         >
           {isLogin ? 'Создать аккаунт' : 'Войти в существующий'}
-        </EnergyButton>
-        <Link href="/" className="inline-flex items-center gap-2 text-cyan-400/60 hover:text-cyan-400 text-xs uppercase tracking-widest font-mono transition-colors">
+        </button>
+        <Link href="/" className="inline-flex items-center gap-2 text-primary/60 hover:text-primary text-xs uppercase tracking-widest font-sans transition-colors">
           <Home className="w-3 h-3" />
           Вернуться на главную
         </Link>
       </div>
-    </HologramCard>
+    </Card>
   );
 }
