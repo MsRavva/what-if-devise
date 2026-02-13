@@ -19,6 +19,8 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { AnimatedContainer, HoverScale } from '@/components/animations'
+import { TypewriterText } from '@/components/typewriter'
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false)
@@ -107,172 +109,196 @@ export default function HomePage() {
       <main className="relative z-10 container mx-auto px-6 py-12 animate-fade-in">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-1 space-y-10">
-            <Card className="group">
-              <CardContent className="pt-6">
-                <div className="mb-6">
-                  <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
-                    <Wand2 className="w-6 h-6" />
-                  </div>
-                  <h2 className="text-2xl font-bold mb-2 text-ink">Стол писателя</h2>
-                  <p className="text-ink/60 text-sm italic leading-relaxed">
-                    Создавайте альтернативные истории и исследуйте "что если" сценарии.
-                  </p>
-                </div>
-                <Button asChild className="w-full">
-                  <Link href="/what-if">
-                    <Wand2 className="w-4 h-4 mr-2" />
-                    Начать писать →
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
+            <AnimatedContainer delay={100} direction="left">
+              <HoverScale scale={1.01}>
+                <Card className="group hover-lift">
+                  <CardContent className="pt-6">
+                    <div className="mb-6">
+                      <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform duration-300 group-hover:rotate-3">
+                        <Wand2 className="w-6 h-6" />
+                      </div>
+                      <h2 className="text-2xl font-bold mb-2 text-ink">Стол писателя</h2>
+                      <p className="text-ink/60 text-sm italic leading-relaxed">
+                        Создавайте альтернативные истории и исследуйте "что если" сценарии.
+                      </p>
+                    </div>
+                    <Button asChild className="w-full transition-all duration-300 hover:shadow-lg">
+                      <Link href="/what-if">
+                        <Wand2 className="w-4 h-4 mr-2" />
+                        Начать писать →
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </HoverScale>
+            </AnimatedContainer>
 
-            <Card className="group">
-              <CardContent className="pt-6">
-                <div className="mb-6">
-                  <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
-                    <BookOpen className="w-6 h-6" />
-                  </div>
-                  <h2 className="text-2xl font-bold mb-2 text-ink">Библиотека</h2>
-                  <p className="text-ink/60 text-sm italic leading-relaxed">
-                    Просматривайте шаблоны и находите вдохновение для своих историй.
-                  </p>
-                </div>
-                <Button asChild variant="outline" className="w-full">
-                  <Link href="/templates">
-                    <BookOpen className="w-4 h-4 mr-2" />
-                    Открыть архив →
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
+            <AnimatedContainer delay={200} direction="left">
+              <HoverScale scale={1.01}>
+                <Card className="group hover-lift">
+                  <CardContent className="pt-6">
+                    <div className="mb-6">
+                      <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform duration-300 group-hover:rotate-3">
+                        <BookOpen className="w-6 h-6" />
+                      </div>
+                      <h2 className="text-2xl font-bold mb-2 text-ink">Библиотека</h2>
+                      <p className="text-ink/60 text-sm italic leading-relaxed">
+                        Просматривайте шаблоны и находите вдохновение для своих историй.
+                      </p>
+                    </div>
+                    <Button asChild variant="outline" className="w-full transition-all duration-300 hover:shadow-lg hover:bg-primary/5">
+                      <Link href="/templates">
+                        <BookOpen className="w-4 h-4 mr-2" />
+                        Открыть архив →
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </HoverScale>
+            </AnimatedContainer>
           </div>
 
           <div className="lg:col-span-1 flex flex-col justify-center items-center text-center space-y-12">
-            <div className="relative">
-              <div className="absolute -inset-x-20 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-              <h1 className="text-7xl md:text-8xl font-bold mb-4 leading-none text-ink select-none">
-                What
-                <br />
-                <span className="italic text-primary">If?</span>
-              </h1>
-              <div className="w-24 h-px bg-primary/30 mx-auto mt-4" />
-            </div>
+            <AnimatedContainer delay={150}>
+              <div className="relative">
+                <div className="absolute -inset-x-20 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent animate-shimmer" />
+                <h1 className="text-7xl md:text-8xl font-bold mb-4 leading-none text-ink select-none">
+                  What
+                  <br />
+                  <span className="italic text-primary animate-pulse-soft inline-block">If?</span>
+                </h1>
+                <div className="w-24 h-px bg-primary/30 mx-auto mt-4" />
+              </div>
+            </AnimatedContainer>
 
             {/* Suggestions */}
-            <div className="w-full max-w-md space-y-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary font-sans font-bold">Попробуйте спросить:</p>
-              <div className="flex flex-col gap-2">
-                {[
-                  "Что если люди могли бы слышать мысли друг друга?",
-                  "Что если бы электричество никогда не было изобретено?",
-                  "Что если бы коты правили миром?",
-                ].map((suggestion, i) => (
-                  <Link 
-                    key={i}
-                    href={`/what-if?question=${encodeURIComponent(suggestion)}`}
-                    className="p-3 text-sm italic border border-primary/10 bg-card/50 hover:bg-primary/5 hover:border-primary/30 transition-all duration-300 rounded-md text-ink/70 hover:text-primary text-left"
-                  >
-                    "{suggestion}"
-                  </Link>
-                ))}
+            <AnimatedContainer delay={300}>
+              <div className="w-full max-w-md space-y-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-primary font-sans font-bold">Попробуйте спросить:</p>
+                <div className="flex flex-col gap-2">
+                  {[
+                    "Что если люди могли бы слышать мысли друг друга?",
+                    "Что если бы электричество никогда не было изобретено?",
+                    "Что если бы коты правили миром?",
+                  ].map((suggestion, i) => (
+                    <Link 
+                      key={i}
+                      href={`/what-if?question=${encodeURIComponent(suggestion)}`}
+                      className="p-3 text-sm italic border border-primary/10 bg-card/50 hover:bg-primary/5 hover:border-primary/30 transition-all duration-300 rounded-md text-ink/70 hover:text-primary text-left hover-lift"
+                    >
+                      "{suggestion}"
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
+            </AnimatedContainer>
 
-            <div className="max-w-md italic text-ink/80 text-lg border-y border-primary/10 py-6">
-              "У каждой истории есть начало, но путь зависит от вопросов, которые мы осмеливаемся задать."
-            </div>
+            <AnimatedContainer delay={400}>
+              <div className="max-w-md italic text-ink/80 text-lg border-y border-primary/10 py-6">
+                "У каждой истории есть начало, но путь зависит от вопросов, которые мы осмеливаемся задать."
+              </div>
+            </AnimatedContainer>
 
-            <div className="grid grid-cols-3 gap-6 w-full max-w-md">
-              <div className="text-center p-2">
-                <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary">
-                  <Zap className="w-5 h-5" />
+            <AnimatedContainer delay={500}>
+              <div className="grid grid-cols-3 gap-6 w-full max-w-md">
+                <div className="text-center p-2 group">
+                  <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary group-hover:scale-110 transition-transform duration-300">
+                    <Zap className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Быстро</span>
                 </div>
-                <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Быстро</span>
-              </div>
-              <div className="text-center p-2">
-                <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary">
-                  <Stars className="w-5 h-5" />
+                <div className="text-center p-2 group">
+                  <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary group-hover:scale-110 transition-transform duration-300">
+                    <Stars className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Творчески</span>
                 </div>
-                <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Творчески</span>
-              </div>
-              <div className="text-center p-2">
-                <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary">
-                  <Sparkles className="w-5 h-5" />
+                <div className="text-center p-2 group">
+                  <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary group-hover:scale-110 transition-transform duration-300">
+                    <Sparkles className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Безгранично</span>
                 </div>
-                <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Безгранично</span>
               </div>
-            </div>
+            </AnimatedContainer>
           </div>
 
           <div className="lg:col-span-1 space-y-10">
-            {isAuthenticated ? (
-              <Card className="border-primary/20">
-                <CardContent className="pt-6">
-                  <div className="mb-6">
-                    <div className="w-16 h-16 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center mb-4 mx-auto">
-                      <User className="w-8 h-8 text-primary" />
-                    </div>
-                  <h2 className="text-2xl font-bold text-center mb-1 text-ink">Летописец</h2>
-                  <p className="text-ink/60 text-xs text-center uppercase tracking-widest font-sans truncate px-4">{user?.email}</p>
-                  </div>
-                  <div className="space-y-3">
-                    <Button asChild className="w-full">
-                      <Link href="/profile">
-                        <Settings className="w-4 h-4 mr-2" />
-                        Настройки
-                      </Link>
-                    </Button>
-                    <Button variant="outline" className="w-full" onClick={() => signOut()}>
-                      <LogIn className="w-4 h-4 mr-2" />
-                      Выйти
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ) : (
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="mb-6">
-                    <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5">
-                      <LogIn className="w-6 h-6" />
-                    </div>
-                  <h2 className="text-2xl font-bold mb-2 text-ink">Присоединиться</h2>
-                  <p className="text-ink/60 text-sm italic">
-                    Создайте аккаунт, чтобы сохранять свои истории.
-                  </p>
-                  </div>
-                  <div className="space-y-4">
-                    <Button asChild className="w-full">
-                      <Link href="/auth">
-                        <LogIn className="w-4 h-4 mr-2" />
-                        Войти в библиотеку →
-                      </Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+            <AnimatedContainer delay={250} direction="right">
+              <HoverScale scale={1.01}>
+                {isAuthenticated ? (
+                  <Card className="border-primary/20 hover-lift">
+                    <CardContent className="pt-6">
+                      <div className="mb-6">
+                        <div className="w-16 h-16 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center mb-4 mx-auto animate-float">
+                          <User className="w-8 h-8 text-primary" />
+                        </div>
+                      <h2 className="text-2xl font-bold text-center mb-1 text-ink">Летописец</h2>
+                      <p className="text-ink/60 text-xs text-center uppercase tracking-widest font-sans truncate px-4">{user?.email}</p>
+                      </div>
+                      <div className="space-y-3">
+                        <Button asChild className="w-full transition-all duration-300 hover:shadow-lg">
+                          <Link href="/profile">
+                            <Settings className="w-4 h-4 mr-2" />
+                            Настройки
+                          </Link>
+                        </Button>
+                        <Button variant="outline" className="w-full transition-all duration-300 hover:shadow-lg" onClick={() => signOut()}>
+                          <LogIn className="w-4 h-4 mr-2" />
+                          Выйти
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <Card className="hover-lift">
+                    <CardContent className="pt-6">
+                      <div className="mb-6">
+                        <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 animate-float">
+                          <LogIn className="w-6 h-6" />
+                        </div>
+                      <h2 className="text-2xl font-bold mb-2 text-ink">Присоединиться</h2>
+                      <p className="text-ink/60 text-sm italic">
+                        Создайте аккаунт, чтобы сохранять свои истории.
+                      </p>
+                      </div>
+                      <div className="space-y-4">
+                        <Button asChild className="w-full transition-all duration-300 hover:shadow-lg">
+                          <Link href="/auth">
+                            <LogIn className="w-4 h-4 mr-2" />
+                            Войти в библиотеку →
+                          </Link>
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+              </HoverScale>
+            </AnimatedContainer>
 
-            <Card className="group">
-              <CardContent className="pt-6">
-                <div className="mb-6">
-                  <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform">
-                    <Film className="w-6 h-6" />
-                  </div>
-                  <h2 className="text-2xl font-bold mb-2 text-ink">Режим Кино</h2>
-                  <p className="text-ink/60 text-sm italic leading-relaxed">
-                    Интерактивные истории. Делайте выборы и делитесь кодом с друзьями.
-                  </p>
-                </div>
-                <Button asChild variant="outline" className="w-full">
-                  <Link href="/cinema">
-                    <Film className="w-4 h-4 mr-2" />
-                    Начать кино →
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
+            <AnimatedContainer delay={350} direction="right">
+              <HoverScale scale={1.01}>
+                <Card className="group hover-lift">
+                  <CardContent className="pt-6">
+                    <div className="mb-6">
+                      <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform duration-300 group-hover:rotate-3">
+                        <Film className="w-6 h-6" />
+                      </div>
+                      <h2 className="text-2xl font-bold mb-2 text-ink">Режим Кино</h2>
+                      <p className="text-ink/60 text-sm italic leading-relaxed">
+                        Интерактивные истории. Делайте выборы и делитесь кодом с друзьями.
+                      </p>
+                    </div>
+                    <Button asChild variant="outline" className="w-full transition-all duration-300 hover:shadow-lg hover:bg-primary/5">
+                      <Link href="/cinema">
+                        <Film className="w-4 h-4 mr-2" />
+                        Начать кино →
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </HoverScale>
+            </AnimatedContainer>
           </div>
         </div>
       </main>
