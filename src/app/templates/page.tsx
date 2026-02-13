@@ -17,7 +17,8 @@ import {
 } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { ProtectedRoute } from '@/components/protected-route'
-import { HologramCard, GlitchText, EnergyButton, AIBrainVisualization } from '@/components/cyberpunk'
+import { Card } from '@/components/ui/card'
+import { AnimatedContainer } from '@/components/animations'
 
 interface Template {
   id: string
@@ -890,24 +891,20 @@ export default function TemplatesPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-slate-950 text-slate-200 font-mono relative overflow-hidden">
-        {/* Тёмный официальный фон */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-slate-900 transform rotate-45 opacity-40" />
-          <div className="absolute top-60 right-20 w-24 h-24 bg-slate-800 transform -rotate-12 opacity-30" />
-          <div className="absolute bottom-40 left-1/4 w-40 h-40 bg-slate-900 transform rotate-12 opacity-25" />
-          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
+      <div className="min-h-screen font-serif relative overflow-hidden">
+        {/* Книжный фон */}
+        <div className="absolute inset-0 pointer-events-none opacity-20">
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-ink-light/10 to-transparent" />
+          <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-ink-light/10 to-transparent" />
         </div>
 
         {/* Header */}
-        <header className="relative z-20 border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm">
+        <header className="relative z-20 border-b border-border bg-card/80 backdrop-blur-sm shadow-sm">
           <div className="flex justify-between items-center px-6 py-4">
-            <EnergyButton variant="secondary" size="sm">
-              <Link href="/" className="flex items-center gap-2">
-                <ArrowLeft className="w-4 h-4" />
-                Назад
-              </Link>
-            </EnergyButton>
+            <Link href="/" className="book-button-secondary text-sm">
+              <ArrowLeft className="w-4 h-4" />
+              Назад
+            </Link>
             <ThemeToggle />
           </div>
         </header>
@@ -917,185 +914,194 @@ export default function TemplatesPage() {
           {!selectedTemplate ? (
             <>
               {/* Title */}
-              <div className="text-center mb-12">
-                <div className="flex justify-center mb-6">
-                  <AIBrainVisualization size="md" />
+              <AnimatedContainer delay={100}>
+                <div className="text-center mb-12">
+                  <div className="flex justify-center mb-6">
+                    <div className="w-20 h-20 rounded-full bg-primary/10 border-2 border-primary/30 flex items-center justify-center animate-float">
+                      <BookOpen className="w-10 h-10 text-primary" />
+                    </div>
+                  </div>
+                  <h1 className="text-4xl md:text-5xl font-bold mb-4 text-ink font-serif">
+                    Шаблоны историй
+                  </h1>
+                  <p className="text-ink/60 uppercase text-sm tracking-widest font-sans">
+                    Выберите готовый шаблон для создания альтернативных сценариев
+                  </p>
                 </div>
-                <GlitchText className="text-4xl md:text-5xl font-semibold uppercase mb-4">
-                  Шаблоны историй
-                </GlitchText>
-                <p className="text-slate-400 uppercase text-sm tracking-widest font-mono">
-                  Выберите готовый шаблон для создания альтернативных сценариев
-                </p>
-              </div>
+              </AnimatedContainer>
 
               {/* Filters and sorting */}
-              <HologramCard variant="neural" className="max-w-7xl mx-auto mb-8 p-6">
-                {/* Category filter */}
-                <div className="flex flex-wrap gap-2 justify-center mb-4">
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      onClick={() => setSelectedCategory(category)}
-                      className={`px-4 py-2 border text-sm font-medium uppercase tracking-wider transition-all rounded ${selectedCategory === category
-                        ? 'border-blue-600 bg-blue-900/30 text-blue-400'
-                        : 'border-slate-700 text-slate-400 hover:border-blue-700/50 hover:text-slate-200'
-                        }`}
-                    >
-                      {category}
-                    </button>
-                  ))}
-                </div>
+              <AnimatedContainer delay={200}>
+                <Card className="max-w-7xl mx-auto mb-8 p-6 book-card">
+                  {/* Category filter */}
+                  <div className="flex flex-wrap gap-2 justify-center mb-4">
+                    {categories.map((category) => (
+                      <button
+                        key={category}
+                        onClick={() => setSelectedCategory(category)}
+                        className={`px-4 py-2 border text-sm font-medium uppercase tracking-wider transition-all duration-300 rounded-md ${selectedCategory === category
+                          ? 'border-primary bg-primary/10 text-primary'
+                          : 'border-border text-ink/60 hover:border-primary/50 hover:text-primary'
+                          }`}
+                      >
+                        {category}
+                      </button>
+                    ))}
+                  </div>
 
-                {/* Sort options */}
-                <div className="flex items-center justify-center gap-4">
-                  <span className="text-xs uppercase tracking-widest text-gray-500">Сортировка:</span>
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as 'default' | 'title' | 'category')}
-                    className="px-4 py-2 bg-black border-2 border-cyan-400/30 text-white font-mono focus:border-cyan-400 outline-none"
-                  >
-                    <option value="default">По умолчанию</option>
-                    <option value="title">По названию</option>
-                    <option value="category">По категории</option>
-                  </select>
-                  <span className="text-xs uppercase tracking-widest text-cyan-400">
-                    Найдено: {filteredAndSortedTemplates.length}
-                  </span>
-                </div>
-              </HologramCard>
+                  {/* Sort options */}
+                  <div className="flex items-center justify-center gap-4">
+                    <span className="text-xs uppercase tracking-widest text-ink/50 font-sans">Сортировка:</span>
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value as 'default' | 'title' | 'category')}
+                      className="px-4 py-2 bg-background/50 border-2 border-primary/20 text-ink font-serif focus:border-primary outline-none book-input"
+                    >
+                      <option value="default">По умолчанию</option>
+                      <option value="title">По названию</option>
+                      <option value="category">По категории</option>
+                    </select>
+                    <span className="text-xs uppercase tracking-widest text-primary font-sans">
+                      Найдено: {filteredAndSortedTemplates.length}
+                    </span>
+                  </div>
+                </Card>
+              </AnimatedContainer>
 
               {/* Templates grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-                {filteredAndSortedTemplates.map((template) => (
-                  <button
-                    key={template.id}
-                    onClick={() => setSelectedTemplate(template)}
-                    className="border-2 border-cyan-400/30 bg-black/80 backdrop-blur p-4 text-left hover:border-cyan-400 hover:bg-cyan-400/10 transition-all duration-300 group"
-                  >
-                    <div className="space-y-4">
-                      {/* Icon and category */}
-                      <div className="flex items-center gap-3">
-                        <div className={`w-12 h-12 border-2 border-current bg-gradient-to-r ${template.color} flex items-center justify-center text-white`}>
-                          {template.icon}
+                {filteredAndSortedTemplates.map((template, index) => (
+                  <AnimatedContainer key={template.id} delay={300 + index * 50}>
+                    <button
+                      onClick={() => setSelectedTemplate(template)}
+                      className="w-full border border-border bg-card/50 backdrop-blur p-4 text-left hover:border-primary hover:bg-primary/5 transition-all duration-300 group book-card hover-lift"
+                    >
+                      <div className="space-y-4">
+                        {/* Icon and category */}
+                        <div className="flex items-center gap-3">
+                          <div className={`w-12 h-12 border-2 border-primary/30 bg-primary/10 flex items-center justify-center text-primary rounded-md group-hover:scale-110 transition-transform duration-300`}>
+                            {template.icon}
+                          </div>
+                          <div>
+                            <h3 className="font-bold text-ink uppercase text-sm font-serif">{template.title}</h3>
+                            <p className="text-xs text-primary/70 uppercase tracking-wider font-sans">{template.category}</p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-bold text-white uppercase text-sm">{template.title}</h3>
-                          <p className="text-xs text-cyan-400/60 uppercase tracking-wider">{template.category}</p>
+
+                        {/* Story preview */}
+                        <p className="text-sm text-ink/60 line-clamp-3 font-serif italic">
+                          {template.story.substring(0, 120)}...
+                        </p>
+
+                        {/* View button */}
+                        <div className="flex items-center text-xs text-primary uppercase tracking-widest font-sans group-hover:text-primary/80 transition-colors">
+                          <Eye className="w-4 h-4 mr-2" />
+                          Подробнее
                         </div>
                       </div>
-
-                      {/* Story preview */}
-                      <p className="text-sm text-gray-400 line-clamp-3 font-mono">
-                        {template.story.substring(0, 120)}...
-                      </p>
-
-                      {/* View button */}
-                      <div className="flex items-center text-xs text-cyan-400 uppercase tracking-widest group-hover:text-white transition-colors">
-                        <Eye className="w-4 h-4 mr-2" />
-                        Подробнее
-                      </div>
-                    </div>
-                  </button>
+                    </button>
+                  </AnimatedContainer>
                 ))}
               </div>
             </>
           ) : (
             /* Template details */
-            <div className="max-w-4xl mx-auto animate-fade-in">
-              {/* Back button */}
-              <button
-                onClick={() => setSelectedTemplate(null)}
-                className="gaming-button-secondary mb-6"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                К шаблонам
-              </button>
+            <AnimatedContainer>
+              <div className="max-w-4xl mx-auto">
+                {/* Back button */}
+                <button
+                  onClick={() => setSelectedTemplate(null)}
+                  className="book-button-secondary mb-6"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  К шаблонам
+                </button>
 
-              {/* Template header */}
-              <div className="gaming-card mb-6">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className={`w-16 h-16 rounded-full bg-gradient-to-r ${selectedTemplate.color} flex items-center justify-center text-white`}>
-                    {selectedTemplate.icon}
+                {/* Template header */}
+                <Card className="mb-6 book-card">
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div className={`w-16 h-16 rounded-full bg-primary/10 border-2 border-primary/30 flex items-center justify-center text-primary`}>
+                      {selectedTemplate.icon}
+                    </div>
+                    <div>
+                      <h1 className="text-3xl font-bold text-ink font-serif">{selectedTemplate.title}</h1>
+                      <p className="text-lg text-ink/60 font-serif italic">{selectedTemplate.category}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h1 className="text-3xl font-bold text-foreground">{selectedTemplate.title}</h1>
-                    <p className="text-lg text-muted-foreground">{selectedTemplate.category}</p>
-                  </div>
-                </div>
-              </div>
+                </Card>
 
-              {/* Story content */}
-              <div className="gaming-card mb-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-xl font-semibold text-foreground">История</h2>
+                {/* Story content */}
+                <Card className="mb-6 book-card">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-semibold text-ink font-serif">История</h2>
+                    <button
+                      onClick={() => copyToClipboard(selectedTemplate.story, selectedTemplate.id)}
+                      className={`book-button-secondary text-sm ${copiedTemplate === selectedTemplate.id
+                        ? 'bg-green-500/20 border-green-500/50 text-green-600'
+                        : ''
+                        }`}
+                    >
+                      <Copy className="w-4 h-4 mr-2" />
+                      {copiedTemplate === selectedTemplate.id ? 'Скопировано!' : 'Копировать'}
+                    </button>
+                  </div>
+                  <p className="text-ink leading-relaxed text-lg font-serif">
+                    {selectedTemplate.story}
+                  </p>
+                </Card>
+
+                {/* Example questions */}
+                <Card className="mb-6 book-card">
+                  <h2 className="text-xl font-semibold text-ink mb-4 font-serif">Примеры вопросов "Что было бы, если..."</h2>
+                  <div className="space-y-3">
+                    {selectedTemplate.exampleQuestions.map((question, index) => (
+                      <div key={index} className="flex items-start space-x-3 p-3 bg-primary/5 rounded-lg border border-primary/10">
+                        <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 border border-primary/30">
+                          <span className="text-xs font-semibold text-primary">{index + 1}</span>
+                        </div>
+                        <p className="text-ink font-serif flex-1">{question}</p>
+                        <button
+                          onClick={() => copyToClipboard(question, `q${index}`)}
+                          className={`book-button-secondary text-xs px-2 py-1 flex-shrink-0 ${copiedTemplate === `q${index}`
+                            ? 'bg-green-500/20 border-green-500/50 text-green-600'
+                            : ''
+                            }`}
+                        >
+                          <Copy className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+
+                {/* Action buttons */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link
+                    href={`/what-if?template=${encodeURIComponent(JSON.stringify({
+                      story: selectedTemplate.story,
+                      title: selectedTemplate.title
+                    }))}`}
+                    className="book-button flex-1 text-center"
+                  >
+                    <Sparkles className="w-5 h-5 mr-2" />
+                    Использовать шаблон
+                  </Link>
                   <button
-                    onClick={() => copyToClipboard(selectedTemplate.story, selectedTemplate.id)}
-                    className={`gaming-button-secondary text-sm ${copiedTemplate === selectedTemplate.id
-                      ? 'bg-green-500/20 border-green-500/50 text-green-400'
+                    onClick={() => copyToClipboard(
+                      `${selectedTemplate.story}\n\nПримеры вопросов:\n${selectedTemplate.exampleQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n')}`,
+                      'full'
+                    )}
+                    className={`book-button-secondary flex-1 ${copiedTemplate === 'full'
+                      ? 'bg-green-500/20 border-green-500/50 text-green-600'
                       : ''
                       }`}
                   >
-                    <Copy className="w-4 h-4 mr-2" />
-                    {copiedTemplate === selectedTemplate.id ? 'Скопировано!' : 'Копировать'}
+                    <Copy className="w-5 h-5 mr-2" />
+                    {copiedTemplate === 'full' ? 'Скопировано!' : 'Копировать всё'}
                   </button>
                 </div>
-                <p className="text-foreground leading-relaxed text-lg">
-                  {selectedTemplate.story}
-                </p>
               </div>
-
-              {/* Example questions */}
-              <div className="gaming-card mb-6">
-                <h2 className="text-xl font-semibold text-foreground mb-4">Примеры вопросов "Что было бы, если..."</h2>
-                <div className="space-y-3">
-                  {selectedTemplate.exampleQuestions.map((question, index) => (
-                    <div key={index} className="flex items-start space-x-3 p-3 bg-muted/20 rounded-lg">
-                      <div className="w-6 h-6 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <span className="text-xs font-semibold text-primary">{index + 1}</span>
-                      </div>
-                      <p className="text-foreground">{question}</p>
-                      <button
-                        onClick={() => copyToClipboard(question, `q${index}`)}
-                        className={`gaming-button-secondary text-xs px-2 py-1 flex-shrink-0 ${copiedTemplate === `q${index}`
-                          ? 'bg-green-500/20 border-green-500/50 text-green-400'
-                          : ''
-                          }`}
-                      >
-                        <Copy className="w-3 h-3" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Action buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href={`/what-if?template=${encodeURIComponent(JSON.stringify({
-                    story: selectedTemplate.story,
-                    title: selectedTemplate.title
-                  }))}`}
-                  className="gaming-button flex-1 text-center"
-                >
-                  <Sparkles className="w-5 h-5 mr-2" />
-                  Использовать шаблон
-                </Link>
-                <button
-                  onClick={() => copyToClipboard(
-                    `${selectedTemplate.story}\n\nПримеры вопросов:\n${selectedTemplate.exampleQuestions.map((q, i) => `${i + 1}. ${q}`).join('\n')}`,
-                    'full'
-                  )}
-                  className={`gaming-button-secondary flex-1 ${copiedTemplate === 'full'
-                    ? 'bg-green-500/20 border-green-500/50 text-green-400'
-                    : ''
-                    }`}
-                >
-                  <Copy className="w-5 h-5 mr-2" />
-                  {copiedTemplate === 'full' ? 'Скопировано!' : 'Копировать всё'}
-                </button>
-              </div>
-            </div>
+            </AnimatedContainer>
           )}
         </main>
       </div>
