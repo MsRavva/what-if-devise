@@ -64,8 +64,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     try {
       // Берем только последние 5 сообщений для контекста
       const recentMessages = updatedMessages.slice(-5);
-      const chatHistory = recentMessages.map(msg => 
-        `${msg.role === 'user' ? 'Пользователь' : 'Ассистент'}: ${msg.content}`
+      const chatHistory = recentMessages.map(msg =>
+        `${msg.role === 'user' ? 'Летописец' : 'Ассистент'}: ${msg.content}`
       ).join('\n\n');
       
       const request = {

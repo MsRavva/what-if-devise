@@ -20,9 +20,9 @@ import {
   Hand
 } from 'lucide-react';
 import { GameLogEntry, Location, Item } from '@/types/adventure';
-import { 
-  createInitialGameState, 
-  createInitialLocations, 
+import {
+  createInitialGameState,
+  createInitialLocations,
   resetLocations,
   currentLocations,
   MapNode,
@@ -30,6 +30,10 @@ import {
 } from '@/lib/adventure-game';
 import { useToast } from '@/components/toast-provider';
 import { GameMap } from '@/components/adventure-map';
+import { useAuth } from '@/components/auth-provider';
+import { saveGameState, loadGameState } from '@/lib/supabase';
+import { useTheme } from '@/components/theme-provider';
+import { Loader2, BookOpen } from 'lucide-react';
 
 // Расширенное состояние игры
 interface ExtendedGameState {
@@ -42,15 +46,36 @@ interface ExtendedGameState {
   discoveredConnections: string[][]; // [from, to]
 }
 
+// Группы синонимов для команд
+const COMMAND_SYNONYMS: Record<string, string[]> = {
+  'осмотреться': ['осмотреться', 'о', 'look', 'посмотреть', 'глянуть', 'обыскать', 'что тут'],
+  'идти': ['идти', 'go', 'перейти', 'иди', 'беги', 'пройти', 'отправиться', 'путь'],
+  'взять': ['взять', 'take', 'забрать', 'бери', 'возьми', 'поднять', 'хватать', 'стибрить'],
+  'инвентарь': ['инвентарь', 'инв', 'inv', 'inventory', 'рюкзак', 'вещи', 'багаж'],
+  'назад': ['назад', 'back', 'вернуться', 'уйти'],
+  'помощь': ['помощь', 'help', '?', 'команды', 'что делать'],
+  'сброс': ['сброс', 'reset', 'restart', 'заново'],
+};
+
+const findVerb = (word: string): string | null => {
+  for (const [verb, synonyms] of Object.entries(COMMAND_SYNONYMS)) {
+    if (synonyms.includes(word.toLowerCase())) return verb;
+  }
+  return null;
+};
+
 // Разбор команд игрока
-const parseCommand = (input: string): { verb: string; noun: string; fullText: string } => {
+const parseCommand = (input: string): { verb: string; noun: string; fullText: string; originalVerb: string } => {
   const normalized = input.toLowerCase().trim();
   const words = normalized.split(/\s+/);
-  
+  const originalVerb = words[0] || '';
+  const verb = findVerb(originalVerb) || originalVerb;
+
   return {
-    verb: words[0] || '',
+    verb,
     noun: words.slice(1).join(' ') || '',
-    fullText: normalized
+    fullText: normalized,
+    originalVerb
   };
 };
 
@@ -260,11 +285,57 @@ export default function AdventurePage() {
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [input, setInput] = useState('');
-  const [isInventoryOpen, setIsInventoryOpen] = useState(false);
+  const [isInventoryOpen, setIsInventoryOpen] = useState(true);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [previousLocationId, setPreviousLocationId] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { user, isAuthenticated } = useAuth();
+  const { theme } = useTheme();
   const toast = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const isDarkTheme = theme === 'dark';
+
+  const handleCloudSave = async () => {
+    if (!isAuthenticated || !user) {
+      toast.error('Нужно войти, чтобы сохранять в облако');
+      return;
+    }
+    setIsSaving(true);
+    try {
+      await saveGameState(user.id, 'adventure', { locations, gameState, previousLocationId });
+      toast.success('Прогресс сохранен в облако');
+    } catch (e) {
+      toast.error('Ошибка сохранения');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleCloudLoad = async () => {
+    if (!isAuthenticated || !user) {
+      toast.error('Нужно войти, чтобы загрузить из облака');
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const saved = await loadGameState(user.id, 'adventure');
+      if (saved) {
+        setLocations(saved.locations);
+        setGameState(saved.gameState);
+        setPreviousLocationId(saved.previousLocationId || null);
+        toast.success('Прогресс загружен');
+      } else {
+        toast.error('Сохранений не найдено');
+      }
+    } catch (e) {
+      toast.error('Ошибка загрузки');
+    } finally {
+      setIsLoading(false);
+    }
+  };
   
   // Загрузка сохраненной игры
   useEffect(() => {
@@ -568,9 +639,9 @@ export default function AdventurePage() {
         break;
         
       default:
-        addLogEntry('error', `Неизвестная команда: "${verb}". Напишите "помощь" для списка команд.`);
+        addLogEntry('response', `Вы попробовали "${fullText}", но это не дало видимого результата в текущей обстановке.`);
     }
-    
+
     setInput('');
   }, [gameState, locations, previousLocationId, addLogEntry]);
   

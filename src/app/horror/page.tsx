@@ -26,29 +26,32 @@ import {
   X
 } from 'lucide-react';
 import { GameLogEntry } from '@/types/adventure';
-import { 
-  createHorrorGameState, 
-  createHorrorLocations, 
+import {
+  createHorrorGameState,
+  createHorrorLocations,
   HorrorGameState,
   horrorItems,
   EndingType
 } from '@/lib/horror-game';
 import { useToast } from '@/components/toast-provider';
-import { 
-  Achievement, 
-  initialAchievements, 
+import { useAuth } from '@/components/auth-provider';
+import { saveGameState, loadGameState } from '@/lib/supabase';
+import {
+  Achievement,
+  initialAchievements,
   checkAchievements,
   checkSecretAction,
-  loadAchievements, 
+  loadAchievements,
   saveAchievements,
-  resetAchievements 
+  resetAchievements
 } from '@/lib/horror-achievements';
+import { useTheme } from '@/components/theme-provider';
 
 // Разбор команд
 const parseCommand = (input: string): { verb: string; noun: string; fullText: string } => {
   const normalized = input.toLowerCase().trim();
   const words = normalized.split(/\s+/);
-  
+
   return {
     verb: words[0] || '',
     noun: words.slice(1).join(' ') || '',
@@ -96,7 +99,7 @@ const ENDINGS: Record<EndingType, { title: string; text: string; icon: string }>
 };
 
 // Компонент текста
-const FormattedText = ({ text }: { text: string }) => {
+const FormattedText = ({ text, isDark }: { text: string; isDark?: boolean }) => {
   const lines = text.split('\n');
   return (
     <div className="space-y-1">
@@ -106,7 +109,7 @@ const FormattedText = ({ text }: { text: string }) => {
           <div key={i} className={line.startsWith('•') ? 'ml-4' : ''}>
             {parts.map((part, j) => {
               if (part.startsWith('**') && part.endsWith('**')) {
-                return <strong key={j} className="font-bold text-red-400">{part.slice(2, -2)}</strong>;
+                return <strong key={j} className={`font-bold ${isDark ? 'text-red-400' : 'text-primary'}`}>{part.slice(2, -2)}</strong>;
               }
               return <span key={j}>{part}</span>;
             })}
@@ -118,10 +121,10 @@ const FormattedText = ({ text }: { text: string }) => {
 };
 
 // Компонент лога
-const GameLog = ({ entries }: { entries: GameLogEntry[] }) => {
+const GameLog = ({ entries, isDark }: { entries: GameLogEntry[]; isDark: boolean }) => {
   const logEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => { logEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [entries]);
-  
+
   const getEntryIcon = (type: GameLogEntry['type']) => {
     switch (type) {
       case 'command': return <Terminal className="w-4 h-4" />;
@@ -131,24 +134,35 @@ const GameLog = ({ entries }: { entries: GameLogEntry[] }) => {
       default: return null;
     }
   };
-  
+
   const getEntryStyle = (type: GameLogEntry['type']) => {
-    switch (type) {
-      case 'command': return 'text-slate-500 italic font-mono';
-      case 'location': return 'text-red-400';
-      case 'item': return 'text-yellow-400';
-      case 'error': return 'text-red-600';
-      case 'system': return 'text-slate-400 text-sm';
-      default: return 'text-slate-200';
+    if (isDark) {
+      switch (type) {
+        case 'command': return 'text-slate-500 italic font-mono';
+        case 'location': return 'text-red-400';
+        case 'item': return 'text-yellow-400';
+        case 'error': return 'text-red-600';
+        case 'system': return 'text-slate-400 text-sm';
+        default: return 'text-slate-200';
+      }
+    } else {
+      switch (type) {
+        case 'command': return 'text-primary/50 italic font-mono';
+        case 'location': return 'text-primary';
+        case 'item': return 'text-amber-700';
+        case 'error': return 'text-red-500';
+        case 'system': return 'text-ink/60 text-sm';
+        default: return 'text-ink';
+      }
     }
   };
-  
+
   return (
     <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
       {entries.map((entry, index) => (
         <div key={index} className={`flex items-start gap-2 p-2 rounded ${getEntryStyle(entry.type)} animate-fade-up`} style={{ animationDelay: `${index * 50}ms` }}>
           {getEntryIcon(entry.type) && <span className="mt-0.5 opacity-60 flex-shrink-0">{getEntryIcon(entry.type)}</span>}
-          <div className="leading-relaxed"><FormattedText text={entry.text} /></div>
+          <div className="leading-relaxed"><FormattedText text={entry.text} isDark={isDark} /></div>
         </div>
       ))}
       <div ref={logEndRef} />
@@ -322,10 +336,54 @@ export default function HorrorGamePage() {
   const [recentAchievement, setRecentAchievement] = useState<Achievement | null>(null);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { theme } = useTheme();
+  const { user, isAuthenticated } = useAuth();
   const toast = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
-  
+
+  const isDarkTheme = theme === 'dark';
   const hasLight = gameState.isDaytime || gameState.hasLight;
+
+  const handleCloudSave = async () => {
+    if (!isAuthenticated || !user) {
+      toast.error('Нужно войти, чтобы сохранять в облако');
+      return;
+    }
+    setIsSaving(true);
+    try {
+      await saveGameState(user.id, 'horror', { locations, gameState });
+      toast.success('Прогресс сохранен в облако');
+    } catch (e) {
+      toast.error('Ошибка сохранения');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleCloudLoad = async () => {
+    if (!isAuthenticated || !user) {
+      toast.error('Нужно войти, чтобы загрузить из облака');
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const saved = await loadGameState(user.id, 'horror');
+      if (saved) {
+        setLocations(saved.locations);
+        setGameState(saved.gameState);
+        toast.success('Прогресс загружен');
+      } else {
+        toast.error('Сохранений не найдено');
+      }
+    } catch (e) {
+      toast.error('Ошибка загрузки');
+    } finally {
+      setIsLoading(false);
+    }
+  };
   
   useEffect(() => {
     const saved = localStorage.getItem('horror-game-v3');
@@ -775,21 +833,21 @@ export default function HorrorGamePage() {
   };
   
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-serif relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-black pointer-events-none" />
-      
+    <div className={`min-h-screen font-serif relative overflow-hidden transition-colors duration-500 ${isDarkTheme ? 'bg-slate-950 text-slate-200' : 'bg-background text-foreground'}`}>
+      {isDarkTheme && <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-black pointer-events-none" />}
+
       {/* Achievement Notification */}
       {recentAchievement && (
-        <AchievementNotification 
-          achievement={recentAchievement} 
-          onClose={() => setRecentAchievement(null)} 
+        <AchievementNotification
+          achievement={recentAchievement}
+          onClose={() => setRecentAchievement(null)}
         />
       )}
 
       {/* Achievements Modal */}
-      <AchievementsModal 
-        isOpen={isAchievementsOpen} 
-        onClose={() => setIsAchievementsOpen(false)} 
+      <AchievementsModal
+        isOpen={isAchievementsOpen}
+        onClose={() => setIsAchievementsOpen(false)}
         achievements={achievements}
         onReset={() => {
           setAchievements(resetAchievements());
@@ -798,203 +856,212 @@ export default function HorrorGamePage() {
 
       {/* Ending Screen */}
       {gameState.gameOver && gameState.ending && (
-        <EndingScreen 
-          ending={gameState.ending} 
+        <EndingScreen
+          ending={gameState.ending}
           onRestart={() => {
             setLocations(createHorrorLocations());
             setGameState(createHorrorGameState());
           }}
         />
       )}
-      
+
       {/* Header */}
-      <header className="relative z-20 border-b border-red-900/30 bg-slate-900/80 backdrop-blur-sm">
-        <div className="flex justify-between items-center px-6 py-4">
-          <Button variant="outline" size="sm" asChild className="border-slate-700 text-slate-300">
+      <header className={`relative z-20 border-b shadow-sm ${isDarkTheme ? 'border-red-900/30 bg-slate-900/80' : 'border-border bg-card/80'} backdrop-blur-sm`}>
+        <div className="container mx-auto flex justify-between items-center px-6 py-4">
+          <Button variant="outline" size="sm" asChild className={isDarkTheme ? 'border-slate-700 text-slate-300' : ''}>
             <Link href="/" className="flex items-center gap-2">
               <ArrowLeft className="w-4 h-4" />
               Назад
             </Link>
           </Button>
-          
-          <div className="flex items-center gap-4">
+
+          <div className="flex items-center gap-3">
             <Button
               variant="outline"
               size="sm"
               onClick={() => setIsAchievementsOpen(true)}
-              className="border-yellow-600/50 text-yellow-400 hover:bg-yellow-950"
+              className={isDarkTheme ? 'border-yellow-600/50 text-yellow-400 hover:bg-yellow-950' : 'border-primary/30 text-primary'}
             >
               <Trophy className="w-4 h-4 mr-2" />
-              {achievements.filter(a => a.unlocked).length}/{achievements.length}
+              <span className="hidden sm:inline">Ачивки: </span>{achievements.filter(a => a.unlocked).length}/{achievements.length}
             </Button>
-            
-            <div className="flex items-center gap-2 text-sm text-slate-400">
+
+            {isAuthenticated && (
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={handleCloudSave} disabled={isSaving}>
+                  {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <History className="w-4 h-4 sm:mr-1" />}
+                  <span className="hidden sm:inline">Сохранить</span>
+                </Button>
+                <Button variant="outline" size="sm" onClick={handleCloudLoad} disabled={isLoading}>
+                  {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <BookOpen className="w-4 h-4 sm:mr-1" />}
+                  <span className="hidden sm:inline">Загрузить</span>
+                </Button>
+              </div>
+            )}
+
+            <div className={`hidden md:flex items-center gap-2 text-sm ${isDarkTheme ? 'text-slate-400' : 'text-ink/60'}`}>
               {gameState.isDaytime ? <Sun className="w-4 h-4 text-yellow-400" /> : <Moon className="w-4 h-4 text-slate-500" />}
-              <span className="font-sans">{gameState.isDaytime ? 'День' : 'Ночь'}</span>
+              <span className="font-sans uppercase tracking-tighter">{gameState.isDaytime ? 'День' : 'Ночь'}</span>
             </div>
-            <span className="text-sm text-slate-400 font-sans">Ход: {gameState.turn}</span>
-            <Button 
-              variant="outline" 
+
+            <Button
+              variant="outline"
               size="sm"
               onClick={() => {
-                setLocations(createHorrorLocations());
-                setGameState(createHorrorGameState());
+                if(confirm('Начать новую игру? Прогресс будет сброшен.')) {
+                  setLocations(createHorrorLocations());
+                  setGameState(createHorrorGameState());
+                }
               }}
-              className="border-red-900/50 text-red-400 hover:bg-red-950"
+              className={isDarkTheme ? 'border-red-900/50 text-red-400 hover:bg-red-950' : ''}
             >
-              <RotateCcw className="w-4 h-4 mr-2" />
-              Новая игра
+              <RotateCcw className="w-4 h-4" />
             </Button>
           </div>
         </div>
       </header>
-      
-      <main className="relative z-10 px-6 py-8">
-        <div className="max-w-4xl mx-auto">
+
+      <main className="relative z-10 px-6 py-8 container mx-auto">
+        <div className="max-w-5xl mx-auto">
           <div className="text-center mb-8">
             <div className="flex justify-center mb-4">
-              <div className={`w-16 h-16 rounded-full border-2 flex items-center justify-center ${gameState.isDaytime ? 'bg-yellow-900 border-yellow-600' : 'bg-slate-900 border-red-800'}`}>
+              <div className={`w-16 h-16 rounded-full border-2 flex items-center justify-center animate-float ${gameState.isDaytime ? 'bg-yellow-900/20 border-yellow-600' : (isDarkTheme ? 'bg-slate-900 border-red-800' : 'bg-primary/10 border-primary/30')}`}>
                 {gameState.isDaytime ? <Sun className="w-8 h-8 text-yellow-400" /> : <Ghost className="w-8 h-8 text-red-500" />}
               </div>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-red-500 mb-2">ПРОБУЖДЕНИЕ</h1>
-            <p className="text-slate-400 italic">7 концовок. Только 1 правильная.</p>
+            <h1 className={`text-3xl md:text-5xl font-bold mb-2 ${isDarkTheme ? 'text-red-500' : 'text-ink'}`}>ПРОБУЖДЕНИЕ</h1>
+            <p className={`${isDarkTheme ? 'text-slate-400' : 'text-ink/60'} italic`}>Найди выход... если сможешь.</p>
           </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <Card className="h-[500px] flex flex-col bg-slate-900 border-slate-800">
-                <CardContent className="p-4 flex-1 flex flex-col">
-                  <div className="flex items-center justify-between mb-4 border-b border-slate-800 pb-2">
+
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div className="lg:col-span-3">
+              <Card className={`h-[550px] flex flex-col shadow-xl border-2 ${isDarkTheme ? 'bg-slate-900 border-slate-800' : 'bg-card border-border'}`}>
+                <CardContent className="p-6 flex-1 flex flex-col">
+                  <div className={`flex items-center justify-between mb-4 border-b pb-3 ${isDarkTheme ? 'border-slate-800' : 'border-border'}`}>
                     <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-red-500" />
-                      <span className="font-bold text-slate-200">{locations[gameState.currentLocationId]?.name}</span>
+                      <MapPin className="w-5 h-5 text-red-500" />
+                      <span className={`font-bold text-lg ${isDarkTheme ? 'text-slate-200' : 'text-ink'}`}>
+                        {locations[gameState.currentLocationId]?.name}
+                      </span>
                     </div>
-                    <div className="flex gap-1">
+                    <div className="flex gap-1.5 bg-black/10 dark:bg-black/40 px-3 py-1 rounded-full">
                       {[1,2,3,4].map(n => (
-                        <span key={n} className={gameState.inventory.some(i => i.id.includes(`key${n}`)) ? 'text-yellow-400' : 'text-slate-700'}>
+                        <span key={n} className={gameState.inventory.some(i => i.id.includes(`key${n}`)) ? 'text-yellow-400 grayscale-0' : 'text-slate-500 grayscale opacity-30'}>
                           🔑
                         </span>
                       ))}
                     </div>
                   </div>
-                  
+
                   <div className="flex-1 overflow-hidden">
-                    <GameLog entries={gameState.gameLog} />
+                    <GameLog entries={gameState.gameLog} isDark={isDarkTheme} />
                   </div>
-                  
-                  <form onSubmit={handleSubmit} className="mt-4 pt-4 border-t border-slate-800">
-                    <div className="flex gap-2">
+
+                  <form onSubmit={handleSubmit} className={`mt-4 pt-4 border-t ${isDarkTheme ? 'border-slate-800' : 'border-border'}`}>
+                    <div className="flex gap-3">
                       <Input
                         ref={inputRef}
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         placeholder={hasLight ? "Введите команду..." : "Темно..."}
-                        className="flex-1 font-mono bg-slate-800 border-slate-700 text-slate-200"
+                        className={`flex-1 font-serif italic text-lg h-12 ${isDarkTheme ? 'bg-slate-800 border-slate-700 text-slate-200' : 'bg-background border-primary/20 text-ink'}`}
                         autoFocus
                       />
-                      <Button type="submit" disabled={!input.trim()} className="bg-red-900 hover:bg-red-800">
-                        <Send className="w-4 h-4" />
+                      <Button type="submit" disabled={!input.trim()} className={isDarkTheme ? 'bg-red-900 hover:bg-red-800 h-12 w-12' : 'h-12 w-12'}>
+                        <Send className="w-5 h-5" />
                       </Button>
                     </div>
                   </form>
                 </CardContent>
               </Card>
-              
-              <div className="flex flex-wrap gap-2 mt-4">
+
+              <div className="flex flex-wrap gap-2 mt-6">
                 {[
                   { label: 'Осмотреться', cmd: 'о', icon: Eye },
                   { label: 'Инвентарь', cmd: 'инв', icon: Backpack },
                   { label: 'Назад', cmd: 'назад', icon: ArrowLeft },
-                  !hasLight && { label: 'Спать', cmd: 'спать', icon: Moon },
-                  hasLight && { label: 'Смешать', cmd: 'смешать ', icon: FlaskConical },
-                  hasLight && { label: 'Готовить', cmd: 'приготовить ', icon: UtensilsCrossed },
-                ].filter(Boolean).map((cmd: any) => (
+                  ...(!hasLight ? [{ label: 'Спать', cmd: 'спать', icon: Moon }] : []),
+                  ...(hasLight ? [
+                    { label: 'Смешать', cmd: 'смешать ', icon: FlaskConical },
+                    { label: 'Готовить', cmd: 'приготовить ', icon: UtensilsCrossed }
+                  ] : []),
+                ].map((cmd) => (
                   <Button
                     key={cmd.cmd}
                     variant="outline"
                     size="sm"
                     onClick={() => processCommand(cmd.cmd)}
-                    className="flex items-center gap-1 border-slate-700 text-slate-400 hover:text-slate-200"
+                    className={`flex items-center gap-1.5 px-4 py-2 ${isDarkTheme ? 'border-slate-700 text-slate-400 hover:text-slate-200' : 'border-primary/20 text-ink/70'}`}
                   >
-                    <cmd.icon className="w-3 h-3" />
+                    <cmd.icon className="w-4 h-4" />
                     {cmd.label}
                   </Button>
                 ))}
               </div>
             </div>
-            
-            <div className="lg:col-span-1 space-y-4">
+
+            <div className="lg:col-span-1 space-y-6">
               {/* Inventory */}
-              <div className={`transition-all duration-300 ${isInventoryOpen ? 'w-full' : 'w-12'}`}>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setIsInventoryOpen(!isInventoryOpen)}
-                  className="w-12 h-12 rounded-full border-2 border-red-900/50 hover:border-red-600"
-                >
-                  <Backpack className={`w-5 h-5 ${isInventoryOpen ? 'scale-110' : ''}`} />
-                </Button>
-                
-                {isInventoryOpen && (
-                  <Card className="mt-2 bg-slate-900 border-red-900/30">
-                    <CardContent className="p-4">
-                      <h3 className="font-bold text-slate-200 mb-3">Инвентарь ({gameState.inventory.length})</h3>
-                      {gameState.inventory.length === 0 ? (
-                        <p className="text-sm text-slate-500 italic">Пусто...</p>
-                      ) : (
-                        <div className="space-y-2">
-                          {gameState.inventory.map((item) => (
-                            <div key={item.id} className="p-2 bg-slate-800 rounded border border-slate-700">
-                              <p className="font-medium text-sm text-slate-200">{item.name}</p>
-                              <p className="text-xs text-slate-400">{item.description}</p>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                )}
+              <div>
+                <Card className={`border-2 ${isDarkTheme ? 'bg-slate-900 border-red-900/20' : 'bg-card border-border'}`}>
+                  <CardContent className="p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className={`font-bold flex items-center gap-2 ${isDarkTheme ? 'text-slate-200' : 'text-ink'}`}>
+                        <Backpack className="w-4 h-4" />
+                        Снаряжение
+                      </h3>
+                      <span className="text-xs font-sans opacity-50">{gameState.inventory.length}</span>
+                    </div>
+                    {gameState.inventory.length === 0 ? (
+                      <p className="text-sm text-slate-500 italic text-center py-4 border border-dashed rounded border-slate-800">Пусто...</p>
+                    ) : (
+                      <div className="space-y-2 max-h-[250px] overflow-y-auto custom-scrollbar pr-1">
+                        {gameState.inventory.map((item) => (
+                          <div key={item.id} className={`p-2.5 rounded border transition-colors ${isDarkTheme ? 'bg-slate-800 border-slate-700 hover:border-red-900/50' : 'bg-primary/5 border-primary/10 hover:border-primary/30'}`}>
+                            <p className={`font-medium text-sm ${isDarkTheme ? 'text-slate-200' : 'text-ink'}`}>{item.name}</p>
+                            <p className="text-[10px] opacity-60 leading-tight mt-1">{item.description}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
               </div>
-              
+
               {/* Status */}
-              <Card className="bg-slate-900 border-slate-800">
-                <CardContent className="p-4">
-                  <h3 className="font-bold text-slate-200 mb-3 text-sm">Статус</h3>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-slate-400">Время:</span>
-                      <span className={gameState.isDaytime ? 'text-yellow-400' : 'text-slate-500'}>
-                        {gameState.isDaytime ? '☀️ День' : '🌙 Ночь'}
+              <Card className={`border-2 ${isDarkTheme ? 'bg-slate-900 border-slate-800' : 'bg-card border-border'}`}>
+                <CardContent className="p-5">
+                  <h3 className={`font-bold mb-4 text-sm flex items-center gap-2 ${isDarkTheme ? 'text-slate-200' : 'text-ink'}`}>
+                    <Terminal className="w-4 h-4" />
+                    Статус
+                  </h3>
+                  <div className="space-y-3 text-sm">
+                    <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                      <span className="opacity-50">Время:</span>
+                      <span className={`font-sans flex items-center gap-1.5 ${gameState.isDaytime ? 'text-yellow-400' : 'text-slate-500'}`}>
+                        {gameState.isDaytime ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+                        {gameState.isDaytime ? 'День' : 'Ночь'}
                       </span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-400">Ключей:</span>
-                      <span className="font-mono">{gameState.inventory.filter(i => i.id.includes('key')).length}/4</span>
+                    <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                      <span className="opacity-50">Ход:</span>
+                      <span className="font-mono">{gameState.turn}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="opacity-50">Ключей:</span>
+                      <span className="font-mono text-yellow-500">{gameState.inventory.filter(i => i.id.includes('key')).length}/4</span>
                     </div>
                     {gameState.maniacTurnedToPig && (
-                      <div className="text-pink-400 text-xs">🐷 Маньяк превращен в свинью</div>
+                      <div className="text-pink-400 text-xs bg-pink-400/10 p-2 rounded border border-pink-400/20 animate-pulse">
+                        🐷 Маньяк превращен в свинью
+                      </div>
                     )}
                     {gameState.maniacAsleep && (
-                      <div className="text-blue-400 text-xs">💤 Маньяк спит</div>
+                      <div className="text-blue-400 text-xs bg-blue-400/10 p-2 rounded border border-blue-400/20">
+                        💤 Угроза нейтрализована
+                      </div>
                     )}
                   </div>
-                </CardContent>
-              </Card>
-              
-              {/* Endings hint */}
-              <Card className="bg-slate-900 border-slate-800">
-                <CardContent className="p-4">
-                  <h3 className="font-bold text-slate-200 mb-2 text-sm">7 Концовок</h3>
-                  <ul className="text-xs text-slate-500 space-y-1">
-                    <li>❄️ Прыгнуть с балкона</li>
-                    <li>🔪 Попасться маньяку</li>
-                    <li>🥩 Упасть в шредер</li>
-                    <li>💀 Сбежать без зелья</li>
-                    <li>🐷 Съеден свиньей</li>
-                    <li>🏃 Догнан свиньей</li>
-                    <li>🎉 Правильный побег!</li>
-                  </ul>
                 </CardContent>
               </Card>
             </div>
@@ -1003,4 +1070,5 @@ export default function HorrorGamePage() {
       </main>
     </div>
   );
+}
 }

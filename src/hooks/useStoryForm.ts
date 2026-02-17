@@ -51,7 +51,7 @@ export const useStoryForm = ({ initialData }: UseStoryFormProps = {}) => {
     
     const user = supabase ? (await supabase.auth.getUser()).data.user : null;
     if (!user) {
-      setFormState(prev => ({ ...prev, error: 'Пользователь не аутентифицирован', response: '' }));
+      setFormState(prev => ({ ...prev, error: 'Летописец не аутентифицирован', response: '' }));
       return;
     }
 

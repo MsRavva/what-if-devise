@@ -288,3 +288,42 @@ export async function getChatMessages(sessionId: string) {
     timestamp: string
   }>
 }
+
+// Сохранение состояния игры (Хоррор/Приключение)
+export async function saveGameState(userId: string, gameType: 'horror' | 'adventure', state: any) {
+  if (!supabase) throw new Error('Supabase не настроен');
+
+  const { data, error } = await supabase
+    .from('game_saves')
+    .upsert({
+      user_id: userId,
+      game_type: gameType,
+      state: state,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id,game_type' })
+    .select();
+
+  if (error) {
+    console.error('Save game error:', error);
+    throw error;
+  }
+  return data;
+}
+
+// Загрузка состояния игры
+export async function loadGameState(userId: string, gameType: 'horror' | 'adventure') {
+  if (!supabase) throw new Error('Supabase не настроен');
+
+  const { data, error } = await supabase
+    .from('game_saves')
+    .select('state')
+    .eq('user_id', userId)
+    .eq('game_type', gameType)
+    .maybeSingle();
+
+  if (error) {
+    console.error('Load game error:', error);
+    throw error;
+  }
+  return data?.state || null;
+}

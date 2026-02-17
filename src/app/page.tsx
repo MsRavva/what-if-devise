@@ -61,7 +61,7 @@ export default function HomePage() {
               {isAuthenticated ? (
                 <div className="flex items-center space-x-2 border border-primary/20 bg-primary/5 px-3 py-1 text-primary font-medium text-sm rounded-md">
                   <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  <span className="font-sans uppercase tracking-wider text-xs">Хранитель</span>
+                  <span className="font-sans uppercase tracking-wider text-xs">Летописец</span>
                 </div>
               ) : (
                 <Button asChild size="sm">
@@ -182,7 +182,7 @@ export default function HomePage() {
                       </div>
                       <h2 className="text-2xl font-bold mb-2 text-ink">Пробуждение</h2>
                       <p className="text-ink/60 text-sm italic leading-relaxed">
-                        Хоррор-квест. Вы просыпаетесь в темноте среди свиней. Найдите выход...
+                        Хоррор-квест. Вы просыпаетесь в темноте. Найдите выход...
                       </p>
                     </div>
                     <Button asChild variant="outline" className="w-full transition-all duration-300 hover:shadow-lg hover:bg-primary/5">
