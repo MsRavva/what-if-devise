@@ -23,7 +23,10 @@ import {
   Ghost,
   Trophy,
   Lock,
-  X
+  X,
+  Loader2,
+  History,
+  BookOpen
 } from 'lucide-react';
 import { GameLogEntry } from '@/types/adventure';
 import {

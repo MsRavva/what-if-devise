@@ -293,6 +293,7 @@ export async function getChatMessages(sessionId: string) {
 export async function saveGameState(userId: string, gameType: 'horror' | 'adventure', state: any) {
   if (!supabase) throw new Error('Supabase не настроен');
 
+  // @ts-ignore - игнорируем типы для динамической таблицы game_saves
   const { data, error } = await supabase
     .from('game_saves')
     .upsert({
@@ -314,6 +315,7 @@ export async function saveGameState(userId: string, gameType: 'horror' | 'advent
 export async function loadGameState(userId: string, gameType: 'horror' | 'adventure') {
   if (!supabase) throw new Error('Supabase не настроен');
 
+  // @ts-ignore - игнорируем типы для динамической таблицы game_saves
   const { data, error } = await supabase
     .from('game_saves')
     .select('state')
