@@ -37,11 +37,28 @@ interface MovieSession {
 }
 
 // Компонент для отображения сцены
-const SceneDisplay = ({ scene, onChoice, isLoading }: { 
+const SceneDisplay = ({ 
+  scene, 
+  onChoice, 
+  onCustomChoice,
+  isLoading 
+}: { 
   scene: MovieScene; 
   onChoice: (choice: CinemaChoice) => void;
+  onCustomChoice: (text: string) => void;
   isLoading: boolean;
 }) => {
+  const [customText, setCustomText] = useState('');
+  const [showCustomInput, setShowCustomInput] = useState(false);
+
+  const handleCustomSubmit = () => {
+    if (customText.trim()) {
+      onCustomChoice(customText.trim());
+      setCustomText('');
+      setShowCustomInput(false);
+    }
+  };
+
   return (
     <div className="space-y-6 relative">
       {isLoading && (
@@ -83,6 +100,49 @@ const SceneDisplay = ({ scene, onChoice, isLoading }: {
               {choice.text}
             </EnergyButton>
           ))}
+          
+          {/* Кнопка для своего варианта */}
+          {!showCustomInput ? (
+            <EnergyButton
+              variant="secondary"
+              className="w-full justify-start text-left animate-fade-up border-dashed border-2 border-primary/40"
+              onClick={() => setShowCustomInput(true)}
+              disabled={isLoading}
+            >
+              <Sparkles className="w-4 h-4 mr-2" />
+              Написать свой вариант...
+            </EnergyButton>
+          ) : (
+            <div className="space-y-3 animate-fade-up">
+              <Textarea
+                value={customText}
+                onChange={(e) => setCustomText(e.target.value)}
+                placeholder="Опишите, что должен сделать герой..."
+                className="w-full min-h-[80px] bg-background/50 border-2 border-primary/30 focus:border-primary text-ink font-serif"
+                autoFocus
+              />
+              <div className="flex gap-2">
+                <Button
+                  onClick={handleCustomSubmit}
+                  disabled={!customText.trim() || isLoading}
+                  className="flex-1 book-button"
+                >
+                  <Play className="w-4 h-4 mr-2" />
+                  Применить
+                </Button>
+                <Button
+                  onClick={() => {
+                    setShowCustomInput(false);
+                    setCustomText('');
+                  }}
+                  variant="outline"
+                  className="book-button-secondary"
+                >
+                  Отмена
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -172,11 +232,23 @@ export default function CinemaModePage() {
   // Обработка выбора игрока
   const handleChoice = async (choice: CinemaChoice) => {
     if (!session) return;
+    await processChoice(choice.text);
+  };
+
+  // Обработка пользовательского варианта
+  const handleCustomChoice = async (customText: string) => {
+    if (!session) return;
+    await processChoice(customText);
+  };
+
+  // Общая функция обработки выбора (предустановленного или пользовательского)
+  const processChoice = async (choiceText: string) => {
+    if (!session) return;
     
     setIsLoading(true);
     
     try {
-      const newHistory = [...session.history, choice.text];
+      const newHistory = [...session.history, choiceText];
       
       const response = await fetch('/api/generate-scenario', {
         method: 'POST',
@@ -212,7 +284,7 @@ export default function CinemaModePage() {
       setSession(updatedSession);
       saveSession(updatedSession);
     } catch (error: any) {
-      console.error('Error in handleChoice:', error);
+      console.error('Error in processChoice:', error);
       toast.error(error.message || "Не удалось загрузить следующую сцену");
     } finally {
       setIsLoading(false);
@@ -388,6 +460,7 @@ export default function CinemaModePage() {
                 <SceneDisplay 
                   scene={currentScene} 
                   onChoice={handleChoice}
+                  onCustomChoice={handleCustomChoice}
                   isLoading={isLoading}
                 />
               )}
