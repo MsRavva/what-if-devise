@@ -821,9 +821,31 @@ export default function HorrorGamePage() {
         break;
         
       default:
-        addLogEntry('error', `Неизвестная команда "${verb}".`);
+        // Обработка неизвестной команды через ИИ
+        const handleAIAction = async () => {
+          try {
+            const aiResponse = await fetch('/api/generate-scenario', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                story: `Локация: ${locations[gameState.currentLocationId]?.name}. ${locations[gameState.currentLocationId]?.description}. В инвентаре: ${gameState.inventory.map(i => i.name).join(', ')}. Текущее состояние: ${gameState.isDaytime ? 'день' : 'ночь'}.`,
+                question: `Игрок пытается сделать: "${fullText}". Опиши результат этого действия кратко (2-3 предложения) в мрачном стиле хоррор-квеста.`,
+                mode: 'action'
+              })
+            });
+            const data = await aiResponse.json();
+            if (data.scenario) {
+              addLogEntry('response', data.scenario);
+            } else {
+              addLogEntry('response', `Вы попробовали "${fullText}", но это не дало видимого результата.`);
+            }
+          } catch (e) {
+            addLogEntry('response', `Вы попробовали "${fullText}", но это не дало видимого результата.`);
+          }
+        };
+        handleAIAction();
     }
-    
+
     setInput('');
   }, [gameState, locations, hasLight, addLogEntry, triggerEnding, checkManiacEncounter]);
   
@@ -1070,5 +1092,4 @@ export default function HorrorGamePage() {
       </main>
     </div>
   );
-}
 }
