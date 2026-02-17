@@ -18,7 +18,7 @@ import {
   Film,
   Compass,
   DoorOpen,
-  Ghost
+  Skull
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -98,7 +98,7 @@ export default function HomePage() {
               </Button>
               <Button asChild variant="outline" className="border-red-900/50 hover:bg-red-950 text-red-600 hover:text-red-500">
                 <Link href="/horror">
-                  <Ghost className="w-4 h-4 mr-1" />
+                  <Skull className="w-4 h-4 mr-1" />
                   Хоррор
                 </Link>
               </Button>
@@ -165,6 +165,30 @@ export default function HomePage() {
                       <Link href="/templates">
                         <BookOpen className="w-4 h-4 mr-2" />
                         Открыть архив →
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </HoverScale>
+            </AnimatedContainer>
+
+            <AnimatedContainer delay={250} direction="left">
+              <HoverScale scale={1.01}>
+                <Card className="group hover-lift border-red-900/50 bg-gradient-to-br from-slate-50 to-red-50/30">
+                  <CardContent className="pt-6">
+                    <div className="mb-6">
+                      <div className="w-12 h-12 border border-red-800/50 rounded-full flex items-center justify-center mb-4 text-red-700 bg-red-900/10 group-hover:scale-110 transition-transform duration-300">
+                        <Skull className="w-6 h-6" />
+                      </div>
+                      <h2 className="text-2xl font-bold mb-2 text-ink">Пробуждение</h2>
+                      <p className="text-ink/60 text-sm italic leading-relaxed">
+                        Хоррор-квест. Вы просыпаетесь в темноте среди свиней. Найдите выход...
+                      </p>
+                    </div>
+                    <Button asChild variant="outline" className="w-full transition-all duration-300 hover:shadow-lg hover:bg-red-950 hover:text-red-400 border-red-900/50 hover:border-red-800">
+                      <Link href="/horror">
+                        <DoorOpen className="w-4 h-4 mr-2" />
+                        Играть →
                       </Link>
                     </Button>
                   </CardContent>
@@ -332,30 +356,6 @@ export default function HomePage() {
                     <Button asChild variant="outline" className="w-full transition-all duration-300 hover:shadow-lg hover:bg-amber-500/5 border-amber-500/30 hover:border-amber-500/60">
                       <Link href="/adventure">
                         <Compass className="w-4 h-4 mr-2" />
-                        Играть →
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              </HoverScale>
-            </AnimatedContainer>
-
-            <AnimatedContainer delay={375} direction="right">
-              <HoverScale scale={1.01}>
-                <Card className="group hover-lift border-red-900/50 bg-gradient-to-br from-slate-50 to-red-50/30">
-                  <CardContent className="pt-6">
-                    <div className="mb-6">
-                      <div className="w-12 h-12 border border-red-800/50 rounded-full flex items-center justify-center mb-4 text-red-700 bg-red-900/10 group-hover:scale-110 transition-transform duration-300">
-                        <Ghost className="w-6 h-6" />
-                      </div>
-                      <h2 className="text-2xl font-bold mb-2 text-ink">Пробуждение</h2>
-                      <p className="text-ink/60 text-sm italic leading-relaxed">
-                        Хоррор-квест. Вы просыпаетесь в темноте среди свиней. Найдите выход...
-                      </p>
-                    </div>
-                    <Button asChild variant="outline" className="w-full transition-all duration-300 hover:shadow-lg hover:bg-red-950 hover:text-red-400 border-red-900/50 hover:border-red-800">
-                      <Link href="/horror">
-                        <Ghost className="w-4 h-4 mr-2" />
                         Играть →
                       </Link>
                     </Button>
