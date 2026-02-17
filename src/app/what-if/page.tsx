@@ -4,9 +4,10 @@ import Link from 'next/link'
 import { ArrowLeft, Wand2, User, AlertCircle, Sparkles, Zap } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useAuth } from '@/components/auth-provider'
 import { HologramCard, GlitchText, EnergyButton, AIBrainVisualization } from '@/components/cyberpunk';
+import { QuestionLoader } from '@/components/question-loader';
 
 export default function WhatIfPage() {
   const router = useRouter();
@@ -29,6 +30,11 @@ export default function WhatIfPage() {
 
   return (
     <div className="min-h-screen font-serif relative overflow-hidden">
+      {/* Загрузка вопроса из URL */}
+      <Suspense fallback={null}>
+        <QuestionLoader onQuestionLoad={setQuestion} />
+      </Suspense>
+
       {/* Фон */}
       <div className="absolute inset-0 pointer-events-none opacity-20">
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-ink-light/10 to-transparent" />
