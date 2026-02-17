@@ -174,10 +174,10 @@ export default function HomePage() {
 
             <AnimatedContainer delay={250} direction="left">
               <HoverScale scale={1.01}>
-                <Card className="group hover-lift border-red-900/50 bg-gradient-to-br from-slate-50 to-red-50/30">
+                <Card className="group hover-lift">
                   <CardContent className="pt-6">
                     <div className="mb-6">
-                      <div className="w-12 h-12 border border-red-800/50 rounded-full flex items-center justify-center mb-4 text-red-700 bg-red-900/10 group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center mb-4 text-primary bg-primary/5 group-hover:scale-110 transition-transform duration-300 group-hover:rotate-3">
                         <Skull className="w-6 h-6" />
                       </div>
                       <h2 className="text-2xl font-bold mb-2 text-ink">Пробуждение</h2>
@@ -185,7 +185,7 @@ export default function HomePage() {
                         Хоррор-квест. Вы просыпаетесь в темноте среди свиней. Найдите выход...
                       </p>
                     </div>
-                    <Button asChild variant="outline" className="w-full transition-all duration-300 hover:shadow-lg hover:bg-red-950 hover:text-red-400 border-red-900/50 hover:border-red-800">
+                    <Button asChild variant="outline" className="w-full transition-all duration-300 hover:shadow-lg hover:bg-primary/5">
                       <Link href="/horror">
                         <DoorOpen className="w-4 h-4 mr-2" />
                         Играть →
