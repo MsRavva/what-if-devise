@@ -184,9 +184,10 @@ export default function HomePage() {
                     <Link 
                       key={i}
                       href={`/what-if?question=${encodeURIComponent(suggestion)}`}
-                      className="p-3 text-sm italic border border-primary/10 bg-card/50 hover:bg-primary/5 hover:border-primary/30 transition-all duration-300 rounded-md text-ink/70 hover:text-primary text-left hover-lift"
+                      className="group p-3 text-sm italic border border-primary/10 bg-card/50 hover:bg-primary/5 hover:border-primary/40 transition-all duration-300 rounded-md text-ink/70 hover:text-primary text-left hover-lift relative overflow-hidden"
                     >
-                      "{suggestion}"
+                      <span className="relative z-10">"{suggestion}"</span>
+                      <span className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                     </Link>
                   ))}
                 </div>
@@ -201,23 +202,23 @@ export default function HomePage() {
 
             <AnimatedContainer delay={500}>
               <div className="grid grid-cols-3 gap-6 w-full max-w-md">
-                <div className="text-center p-2 group">
-                  <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary group-hover:scale-110 transition-transform duration-300">
-                    <Zap className="w-5 h-5" />
+                <div className="text-center p-2 group cursor-default">
+                  <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary group-hover:scale-110 group-hover:border-primary/50 transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(92,75,55,0.2)]">
+                    <Zap className="w-5 h-5 group-hover:animate-pulse" />
                   </div>
-                  <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Быстро</span>
+                  <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60 group-hover:text-primary transition-colors">Быстро</span>
                 </div>
-                <div className="text-center p-2 group">
-                  <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary group-hover:scale-110 transition-transform duration-300">
-                    <Stars className="w-5 h-5" />
+                <div className="text-center p-2 group cursor-default">
+                  <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary group-hover:scale-110 group-hover:border-primary/50 transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(92,75,55,0.2)]">
+                    <Stars className="w-5 h-5 group-hover:animate-pulse" />
                   </div>
-                  <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Творчески</span>
+                  <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60 group-hover:text-primary transition-colors">Творчески</span>
                 </div>
-                <div className="text-center p-2 group">
-                  <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary group-hover:scale-110 transition-transform duration-300">
-                    <Sparkles className="w-5 h-5" />
+                <div className="text-center p-2 group cursor-default">
+                  <div className="w-10 h-10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-2 text-primary group-hover:scale-110 group-hover:border-primary/50 transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(92,75,55,0.2)]">
+                    <Sparkles className="w-5 h-5 group-hover:animate-pulse" />
                   </div>
-                  <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60">Безгранично</span>
+                  <span className="text-[10px] uppercase tracking-widest font-sans font-bold text-ink/60 group-hover:text-primary transition-colors">Безгранично</span>
                 </div>
               </div>
             </AnimatedContainer>

@@ -61,13 +61,19 @@
   .book-button {
     @apply bg-primary text-primary-foreground border border-primary
            px-6 py-2 rounded-md font-serif transition-all duration-300
-           hover:bg-primary/90 hover:shadow-soft active:scale-95 flex items-center justify-center gap-2;
+           hover:bg-primary/90 hover:shadow-soft hover:translate-y-[-2px] active:translate-y-0 active:scale-95 flex items-center justify-center gap-2
+           relative overflow-hidden;
+  }
+  
+  .book-button::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-500;
   }
   
   .book-button-secondary {
     @apply bg-transparent text-primary border border-primary/40
            px-6 py-2 rounded-md font-serif transition-all duration-300
-           hover:bg-primary/5 hover:border-primary flex items-center justify-center gap-2;
+           hover:bg-primary/5 hover:border-primary hover:translate-y-[-2px] active:translate-y-0 flex items-center justify-center gap-2;
   }
   
   .book-input {
