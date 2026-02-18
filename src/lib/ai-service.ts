@@ -95,8 +95,6 @@ async function generateWithHuggingFace(storyContent: string, question: string, p
       throw new Error('HF_TOKEN не найден в переменных окружения');
     }
     
-    // Логируем конфигурацию клиента для отладки
-    
     // Создаем экземпляр OpenAI с Hugging Face endpoint
     const client = new OpenAI({
       baseURL: "https://router.huggingface.co/v1",
@@ -105,8 +103,13 @@ async function generateWithHuggingFace(storyContent: string, question: string, p
     
     progressCallback('Генерация сценария с помощью Hugging Face API...');
     
-    // Создаем промпт для генерации альтернативного сценария
-    const prompt = `Система генерации сценариев.
+    // Проверяем режим action (для игры)
+    const isActionMode = question.includes('action') || question.includes('JSON формате');
+    
+    // Создаем промпт для генерации
+    const prompt = isActionMode 
+      ? question  // Для режима action используем question как есть (там уже полный промпт)
+      : `Система генерации сценариев.
 
 Исходная история:
 ${storyContent}
@@ -114,19 +117,21 @@ ${storyContent}
 Вопрос "что если":
 ${question}
 
-Создай детальный и интересный альтернативный сценарий, отвечая на вопрос "что если". Сценарий должен быть логичным, увлекательным и хорошо структурированным. Используй параграфы для лучшей читаемости.`;
+Создай детальный и интересный альтернативный сценарий. Используй параграфы.`;
 
-    // Выполняем запрос к Hugging Face API через OpenAI SDK
-    // Используем модель Qwen, которая поддерживается Hugging Face
+    // Выполняем запрос к Hugging Face API
     const response = await client.chat.completions.create({
       model: "Qwen/Qwen2.5-72B-Instruct",
       messages: [
-        { role: 'system', content: 'Система генерации сценариев на русском языке.' },
+        { role: 'system', content: isActionMode 
+          ? 'Ты - игровой мастер хоррор-квеста. Отвечай ТОЛЬКО JSON, без markdown, без объяснений.' 
+          : 'Система генерации сценариев на русском языке.' 
+        },
         { role: 'user', content: prompt }
       ],
-      temperature: 0.7,
+      temperature: isActionMode ? 0.8 : 0.7,
       top_p: 0.9,
-      max_tokens: 1500,
+      max_tokens: isActionMode ? 300 : 1500, // Короткие ответы для action
     });
     
     if (!response || !response.choices || response.choices.length === 0 || !response.choices[0]?.message?.content) {

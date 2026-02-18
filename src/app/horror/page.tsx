@@ -867,19 +867,81 @@ export default function HorrorGamePage() {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                story: `Локация: ${locations[gameState.currentLocationId]?.name}. ${locations[gameState.currentLocationId]?.description}. В инвентаре: ${gameState.inventory.map(i => i.name).join(', ')}. Текущее состояние: ${gameState.isDaytime ? 'день' : 'ночь'}.`,
-                question: `Игрок пытается сделать: "${fullText}". Опиши результат этого действия кратко (2-3 предложения) в мрачном стиле хоррор-квеста.`,
+                story: `Локация: ${locations[gameState.currentLocationId]?.name}. ${locations[gameState.currentLocationId]?.detailedDescription}. В инвентаре: ${gameState.inventory.map(i => i.name).join(', ')}. Доступные выходы: ${locations[gameState.currentLocationId]?.exits?.map(e => e.direction).join(', ')}.`,
+                question: `Игрок командует: "${fullText}". Ответь СТРОГО в JSON формате: {"text": "1-2 предложения о результате", "action": "none|move|take|drop|use", "target": "название", "found_item": "предмет или null", "remove_item": "предмет или null", "set_flag": "флаг или null", "damage": число_урона}. Действие должно быть логичным для текущей локации.`,
                 mode: 'action'
               })
             });
             const data = await aiResponse.json();
             if (data.scenario) {
-              addLogEntry('response', data.scenario);
+              // Парсим JSON ответ
+              let result;
+              try {
+                const jsonMatch = data.scenario.match(/\{[\s\S]*\}/);
+                result = jsonMatch ? JSON.parse(jsonMatch[0]) : null;
+              } catch (parseError) {
+                // Если не JSON, просто показываем текст
+                addLogEntry('response', data.scenario.substring(0, 150));
+                return;
+              }
+              
+              if (result && result.text) {
+                // Показываем текст ответа
+                addLogEntry('response', result.text.substring(0, 200));
+                
+                // Обрабатываем действия
+                if (result.action === 'move' && result.target) {
+                  // Проверяем есть ли такой выход
+                  const exit = currentLocation.exits?.find(e => 
+                    e.direction.toLowerCase().includes(result.target.toLowerCase())
+                  );
+                  if (exit && !exit.locked) {
+                    setTimeout(() => processCommand(`идти ${result.target}`), 500);
+                  }
+                }
+                
+                if (result.action === 'take' && result.found_item) {
+                  // Создаем предмет
+                  const newItem = {
+                    id: `found-${Date.now()}`,
+                    name: result.found_item,
+                    description: 'Найденный предмет',
+                    takeable: true
+                  };
+                  setGameState(prev => ({
+                    ...prev,
+                    inventory: [...prev.inventory, newItem]
+                  }));
+                  addLogEntry('item', `Вы получили: ${result.found_item}`);
+                }
+                
+                if (result.action === 'drop' && result.remove_item) {
+                  const itemIndex = gameState.inventory.findIndex(i => 
+                    i.name.toLowerCase().includes(result.remove_item.toLowerCase())
+                  );
+                  if (itemIndex >= 0) {
+                    setGameState(prev => ({
+                      ...prev,
+                      inventory: prev.inventory.filter((_, i) => i !== itemIndex)
+                    }));
+                    addLogEntry('item', `Вы потеряли: ${result.remove_item}`);
+                  }
+                }
+                
+                if (result.set_flag) {
+                  setGameState(prev => ({
+                    ...prev,
+                    flags: { ...prev.flags, [result.set_flag]: true }
+                  }));
+                }
+              } else {
+                addLogEntry('response', `Вы попробовали "${fullText}".`);
+              }
             } else {
-              addLogEntry('response', `Вы попробовали "${fullText}", но это не дало видимого результата.`);
+              addLogEntry('response', `Ничего не произошло.`);
             }
           } catch (e) {
-            addLogEntry('response', `Вы попробовали "${fullText}", но это не дало видимого результата.`);
+            addLogEntry('response', `Не получилось.`);
           }
         };
         handleAIAction();
