@@ -72,37 +72,37 @@ const parseCommand = (input: string): { verb: string; noun: string; fullText: st
 const ENDINGS: Record<EndingType, { title: string; text: string; icon: string }> = {
   'frozen_jump': {
     title: 'Увы и ах!',
-    text: 'Ты прыгнул с балкона с третьего этажа. Технически ты сбежал, но упал на бетон. Ноги сломаны. Ты лежишь на холоде, не можешь двигаться. Через несколько часов тебя найдут в виде замороженной тушки со сломанными ногами. Маньяк будет смеяться...',
+    text: 'Ты прыгнул с балкона. Ноги сломаны. Ты замерзнешь здесь...',
     icon: '❄️'
   },
   'caught_manac': {
     title: 'Неудача!',
-    text: 'Ты попался маньяку. Его нож был быстрее твоих ног. Теперь ты - часть коллекции. Твои крики никто не услышит...',
+    text: 'Маньяк поймал тебя. Теперь ты - часть коллекции...',
     icon: '🔪'
   },
   'shredder_meat': {
     title: 'МЯСО!',
-    text: 'Ты упал в шредер. Острые лезвия сделали свое дело за секунды. Теперь ты - фарш. Маньяк будет использовать тебя для корма свиньям...',
+    text: 'Шредер сделал свое дело. Теперь ты - фарш...',
     icon: '🥩'
   },
   'forgot_potion': {
     title: 'Ты ничего не забыл?',
-    text: 'Ты сбежал через дверь, но не превратил маньяка в свинью! Пока ты бежал по улице, он выстрелил тебе в спину из окна. Ты упал в снег за пределами здания. Так близко к свободе...',
+    text: 'Ты сбежал, но маньяк выстрелил тебе в спину. Так близко к свободе...',
     icon: '💀'
   },
   'eaten_by_pig': {
     title: 'Не лезь, оно тебя сожрет!',
-    text: 'Ты попался маньяку, которого превратил в свинью! Он все еще опасен в новом облике. Огромная свинья-маньяк съела тебя заживо. Твоя смесь сработала слишком хорошо...',
+    text: 'Свинья-маньяк съела тебя заживо. Смесь сработала слишком хорошо...',
     icon: '🐷'
   },
   'pig_chase': {
     title: 'Да ну?',
-    text: 'Ты сбежал, превратив маньяка в свинью, но не усыпил его! Огромная свинья-маньяк догнала тебя на улице. Она быстрее, чем ты думал. Тебя разорвали на куски в 100 метрах от здания...',
+    text: 'Свинья-маньяк догнала тебя. Она быстрее, чем ты думал...',
     icon: '🏃'
   },
   'true_escape': {
     title: 'Ну наконец-то!',
-    text: 'Ты сделал всё правильно! Смесь из снотворного и инъекции усыпила маньяка-свинью. Ты тихо прошел мимо спящего монстра, открыл дверь ключом №4 и выбежал на улицу. Ты добрался до ближайшего поселения и на машине полицейских уехал домой. Ты свободен!',
+    text: 'Ты сделал всё правильно! Маньяк усыплен. Ты свободен!',
     icon: '🎉'
   }
 };
@@ -147,12 +147,12 @@ const GameLog = ({ entries, isDark }: { entries: GameLogEntry[]; isDark: boolean
   const getEntryStyle = (type: GameLogEntry['type']) => {
     if (isDark) {
       switch (type) {
-        case 'command': return 'text-slate-500 italic font-mono';
-        case 'location': return 'text-red-400';
-        case 'item': return 'text-yellow-400';
-        case 'error': return 'text-red-600';
-        case 'system': return 'text-slate-400 text-sm';
-        default: return 'text-slate-200';
+        case 'command': return 'text-slate-400 italic font-mono';
+        case 'location': return 'text-red-300 font-medium';
+        case 'item': return 'text-amber-300 font-medium';
+        case 'error': return 'text-red-500 font-semibold';
+        case 'system': return 'text-slate-300 text-sm';
+        default: return 'text-slate-100';
       }
     } else {
       switch (type) {
@@ -676,12 +676,42 @@ export default function HorrorGamePage() {
         break;
         
       case 'включить':
-        if (noun === 'свет' || noun === 'выключатель') {
+        if (noun === 'свет' || noun === 'выключатель' || noun === 'фонарик') {
+          if (gameState.inventory.some(i => i.id.includes('flashlight'))) {
+            setGameState(prev => ({ ...prev, hasLight: true }));
+            addLogEntry('system', '💡 Фонарик включен!');
+            setTimeout(() => checkAndUnlockAchievements('turn_on_light'), 100);
+          } else if (gameState.currentLocationId === 'bedroom') {
+            setGameState(prev => ({ ...prev, hasLight: true }));
+            addLogEntry('system', '💡 Свет включен!');
+            setTimeout(() => checkAndUnlockAchievements('turn_on_light'), 100);
+          } else {
+            addLogEntry('error', 'Нечего включать.');
+          }
+        }
+        break;
+        
+      case 'выключить':
+        if (noun === 'свет' || noun === 'выключатель' || noun === 'фонарик') {
+          setGameState(prev => ({ ...prev, hasLight: false }));
+          addLogEntry('system', '🌑 Свет выключен.');
+        }
+        break;
+        
+      case 'осветить':
+      case 'свет':
+        if (gameState.inventory.some(i => i.id.includes('flashlight'))) {
           setGameState(prev => ({ ...prev, hasLight: true }));
-          addLogEntry('system', '💡 Свет включен!');
-          
-          // Проверка достижений
-          setTimeout(() => checkAndUnlockAchievements('turn_on_light'), 100);
+          addLogEntry('system', '💡 Фонарик включен!');
+        } else if (gameState.inventory.some(i => i.id.includes('matches'))) {
+          setGameState(prev => ({ ...prev, hasLight: true }));
+          addLogEntry('system', '🔥 Спичка зажжена!');
+          setTimeout(() => {
+            addLogEntry('system', 'Спичка погасла...');
+            setGameState(prev => ({ ...prev, hasLight: false }));
+          }, 30000);
+        } else {
+          addLogEntry('error', 'Нечем осветить путь.');
         }
         break;
         
@@ -819,7 +849,7 @@ export default function HorrorGamePage() {
         
       case 'помощь':
       case 'help':
-        addLogEntry('system', '**Команды:**\n• осмотреться\n• идти [куда]\n• взять [что]\n• спать\n• включить свет\n• смешать [предмет] и [предмет]\n• приготовить курицу\n• использовать [что]\n• инвентарь\n• назад');
+        addLogEntry('system', '**Команды:**\n• осмотреться (о)\n• идти [куда]\n• взять [что]\n• спать\n• включить/выключить свет\n• осветить (спички/фонарик)\n• смешать [A] и [B]\n• приготовить курицу\n• использовать [что]\n• инвентарь (инв)\n• назад\n• прыгнуть\n• сброс');
         break;
         
       case 'сброс':
@@ -897,9 +927,9 @@ export default function HorrorGamePage() {
       )}
 
       {/* Header */}
-      <header className={`relative z-20 border-b shadow-sm ${isDarkTheme ? 'border-red-900/30 bg-slate-900/80' : 'border-border bg-card/80'} backdrop-blur-sm`}>
+      <header className={`relative z-20 border-b shadow-sm ${isDarkTheme ? 'border-slate-700 bg-slate-900/90' : 'border-border bg-card/80'} backdrop-blur-sm`}>
         <div className="container mx-auto flex justify-between items-center px-6 py-4">
-          <Button variant="outline" size="sm" asChild className={isDarkTheme ? 'border-slate-700 text-slate-300' : ''}>
+          <Button variant="outline" size="sm" asChild className={isDarkTheme ? 'border-slate-600 text-slate-300 hover:bg-slate-800' : ''}>
             <Link href="/" className="flex items-center gap-2">
               <ArrowLeft className="w-4 h-4" />
               Назад
@@ -966,18 +996,18 @@ export default function HorrorGamePage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <div className="lg:col-span-3">
-              <Card className={`h-[550px] flex flex-col shadow-xl border-2 ${isDarkTheme ? 'bg-slate-900 border-slate-800' : 'bg-card border-border'}`}>
+              <Card className={`h-[550px] flex flex-col shadow-xl border-2 ${isDarkTheme ? 'bg-slate-900/95 border-slate-700' : 'bg-card border-border'}`}>
                 <CardContent className="p-6 flex-1 flex flex-col">
-                  <div className={`flex items-center justify-between mb-4 border-b pb-3 ${isDarkTheme ? 'border-slate-800' : 'border-border'}`}>
+                  <div className={`flex items-center justify-between mb-4 border-b pb-3 ${isDarkTheme ? 'border-slate-700' : 'border-border'}`}>
                     <div className="flex items-center gap-2">
                       <MapPin className="w-5 h-5 text-red-500" />
-                      <span className={`font-bold text-lg ${isDarkTheme ? 'text-slate-200' : 'text-ink'}`}>
+                      <span className={`font-bold text-lg ${isDarkTheme ? 'text-slate-100' : 'text-ink'}`}>
                         {locations[gameState.currentLocationId]?.name}
                       </span>
                     </div>
-                    <div className="flex gap-1.5 bg-black/10 dark:bg-black/40 px-3 py-1 rounded-full">
+                    <div className={`flex gap-1.5 px-3 py-1 rounded-full ${isDarkTheme ? 'bg-slate-800' : 'bg-black/10'}`}>
                       {[1,2,3,4].map(n => (
-                        <span key={n} className={gameState.inventory.some(i => i.id.includes(`key${n}`)) ? 'text-yellow-400 grayscale-0' : 'text-slate-500 grayscale opacity-30'}>
+                        <span key={n} className={gameState.inventory.some(i => i.id.includes(`key${n}`)) ? 'text-yellow-400 grayscale-0' : 'text-slate-600 grayscale'}>
                           🔑
                         </span>
                       ))}
@@ -988,17 +1018,17 @@ export default function HorrorGamePage() {
                     <GameLog entries={gameState.gameLog} isDark={isDarkTheme} />
                   </div>
 
-                  <form onSubmit={handleSubmit} className={`mt-4 pt-4 border-t ${isDarkTheme ? 'border-slate-800' : 'border-border'}`}>
+                  <form onSubmit={handleSubmit} className={`mt-4 pt-4 border-t ${isDarkTheme ? 'border-slate-700' : 'border-border'}`}>
                     <div className="flex gap-3">
                       <Input
                         ref={inputRef}
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         placeholder={hasLight ? "Введите команду..." : "Темно..."}
-                        className={`flex-1 font-serif italic text-lg h-12 ${isDarkTheme ? 'bg-slate-800 border-slate-700 text-slate-200' : 'bg-background border-primary/20 text-ink'}`}
+                        className={`flex-1 font-serif italic text-lg h-12 ${isDarkTheme ? 'bg-slate-800 border-slate-600 text-slate-100 placeholder:text-slate-500' : 'bg-background border-primary/20 text-ink'}`}
                         autoFocus
                       />
-                      <Button type="submit" disabled={!input.trim()} className={isDarkTheme ? 'bg-red-900 hover:bg-red-800 h-12 w-12' : 'h-12 w-12'}>
+                      <Button type="submit" disabled={!input.trim()} className={isDarkTheme ? 'bg-red-800 hover:bg-red-700 h-12 w-12' : 'h-12 w-12'}>
                         <Send className="w-5 h-5" />
                       </Button>
                     </div>
@@ -1011,18 +1041,20 @@ export default function HorrorGamePage() {
                   { label: 'Осмотреться', cmd: 'о', icon: Eye },
                   { label: 'Инвентарь', cmd: 'инв', icon: Backpack },
                   { label: 'Назад', cmd: 'назад', icon: ArrowLeft },
-                  ...(!hasLight ? [{ label: 'Спать', cmd: 'спать', icon: Moon }] : []),
-                  ...(hasLight ? [
-                    { label: 'Смешать', cmd: 'смешать ', icon: FlaskConical },
-                    { label: 'Готовить', cmd: 'приготовить ', icon: UtensilsCrossed }
+                  ...(gameState.inventory.some(i => i.id.includes('flashlight')) ? [
+                    { label: hasLight ? 'Выключить' : 'Включить', cmd: hasLight ? 'выключить свет' : 'включить свет', icon: Lightbulb }
                   ] : []),
+                  ...(!hasLight && gameState.inventory.some(i => i.id.includes('matches')) ? [
+                    { label: 'Осветить', cmd: 'осветить', icon: Lightbulb }
+                  ] : []),
+                  ...(!hasLight && !gameState.inventory.some(i => i.id.includes('flashlight') || i.id.includes('matches')) ? [{ label: 'Спать', cmd: 'спать', icon: Moon }] : []),
                 ].map((cmd) => (
                   <Button
-                    key={cmd.cmd}
+                    key={cmd.label}
                     variant="outline"
                     size="sm"
                     onClick={() => processCommand(cmd.cmd)}
-                    className={`flex items-center gap-1.5 px-4 py-2 ${isDarkTheme ? 'border-slate-700 text-slate-400 hover:text-slate-200' : 'border-primary/20 text-ink/70'}`}
+                    className={`flex items-center gap-1.5 px-3 py-2 text-sm ${isDarkTheme ? 'border-slate-600 text-slate-300 hover:text-white hover:bg-slate-800 hover:border-slate-500' : 'border-primary/30 text-ink/80 hover:bg-primary/5 hover:border-primary/50'}`}
                   >
                     <cmd.icon className="w-4 h-4" />
                     {cmd.label}
@@ -1034,23 +1066,23 @@ export default function HorrorGamePage() {
             <div className="lg:col-span-1 space-y-6">
               {/* Inventory */}
               <div>
-                <Card className={`border-2 ${isDarkTheme ? 'bg-slate-900 border-red-900/20' : 'bg-card border-border'}`}>
+                <Card className={`border-2 ${isDarkTheme ? 'bg-slate-900/90 border-red-900/30' : 'bg-card border-border'}`}>
                   <CardContent className="p-5">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className={`font-bold flex items-center gap-2 ${isDarkTheme ? 'text-slate-200' : 'text-ink'}`}>
+                      <h3 className={`font-bold flex items-center gap-2 ${isDarkTheme ? 'text-slate-100' : 'text-ink'}`}>
                         <Backpack className="w-4 h-4" />
                         Снаряжение
                       </h3>
-                      <span className="text-xs font-sans opacity-50">{gameState.inventory.length}</span>
+                      <span className={`text-xs font-sans ${isDarkTheme ? 'text-slate-400' : 'opacity-50'}`}>{gameState.inventory.length}</span>
                     </div>
                     {gameState.inventory.length === 0 ? (
-                      <p className="text-sm text-slate-500 italic text-center py-4 border border-dashed rounded border-slate-800">Пусто...</p>
+                      <p className={`text-sm italic text-center py-4 border border-dashed rounded ${isDarkTheme ? 'text-slate-400 border-slate-700 bg-slate-800/50' : 'text-slate-500 border-slate-300'}`}>Пусто...</p>
                     ) : (
                       <div className="space-y-2 max-h-[250px] overflow-y-auto custom-scrollbar pr-1">
                         {gameState.inventory.map((item) => (
-                          <div key={item.id} className={`p-2.5 rounded border transition-colors ${isDarkTheme ? 'bg-slate-800 border-slate-700 hover:border-red-900/50' : 'bg-primary/5 border-primary/10 hover:border-primary/30'}`}>
-                            <p className={`font-medium text-sm ${isDarkTheme ? 'text-slate-200' : 'text-ink'}`}>{item.name}</p>
-                            <p className="text-[10px] opacity-60 leading-tight mt-1">{item.description}</p>
+                          <div key={item.id} className={`p-2.5 rounded border transition-colors ${isDarkTheme ? 'bg-slate-800 border-slate-600 hover:border-amber-500/50' : 'bg-primary/5 border-primary/10 hover:border-primary/30'}`}>
+                            <p className={`font-medium text-sm ${isDarkTheme ? 'text-slate-100' : 'text-ink'}`}>{item.name}</p>
+                            <p className={`text-[10px] leading-tight mt-1 ${isDarkTheme ? 'text-slate-400' : 'opacity-60'}`}>{item.description}</p>
                           </div>
                         ))}
                       </div>
@@ -1060,26 +1092,26 @@ export default function HorrorGamePage() {
               </div>
 
               {/* Status */}
-              <Card className={`border-2 ${isDarkTheme ? 'bg-slate-900 border-slate-800' : 'bg-card border-border'}`}>
+              <Card className={`border-2 ${isDarkTheme ? 'bg-slate-900/90 border-slate-700' : 'bg-card border-border'}`}>
                 <CardContent className="p-5">
-                  <h3 className={`font-bold mb-4 text-sm flex items-center gap-2 ${isDarkTheme ? 'text-slate-200' : 'text-ink'}`}>
+                  <h3 className={`font-bold mb-4 text-sm flex items-center gap-2 ${isDarkTheme ? 'text-slate-100' : 'text-ink'}`}>
                     <Terminal className="w-4 h-4" />
                     Статус
                   </h3>
                   <div className="space-y-3 text-sm">
-                    <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                      <span className="opacity-50">Время:</span>
-                      <span className={`font-sans flex items-center gap-1.5 ${gameState.isDaytime ? 'text-yellow-400' : 'text-slate-500'}`}>
+                    <div className={`flex justify-between items-center border-b pb-2 ${isDarkTheme ? 'border-slate-700' : 'border-white/5'}`}>
+                      <span className={isDarkTheme ? 'text-slate-400' : 'opacity-50'}>Время:</span>
+                      <span className={`font-sans flex items-center gap-1.5 ${gameState.isDaytime ? 'text-yellow-400' : (isDarkTheme ? 'text-slate-300' : 'text-slate-500')}`}>
                         {gameState.isDaytime ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
                         {gameState.isDaytime ? 'День' : 'Ночь'}
                       </span>
                     </div>
-                    <div className="flex justify-between items-center border-b border-white/5 pb-2">
-                      <span className="opacity-50">Ход:</span>
-                      <span className="font-mono">{gameState.turn}</span>
+                    <div className={`flex justify-between items-center border-b pb-2 ${isDarkTheme ? 'border-slate-700' : 'border-white/5'}`}>
+                      <span className={isDarkTheme ? 'text-slate-400' : 'opacity-50'}>Ход:</span>
+                      <span className={`font-mono ${isDarkTheme ? 'text-slate-200' : ''}`}>{gameState.turn}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="opacity-50">Ключей:</span>
+                      <span className={isDarkTheme ? 'text-slate-400' : 'opacity-50'}>Ключей:</span>
                       <span className="font-mono text-yellow-500">{gameState.inventory.filter(i => i.id.includes('key')).length}/4</span>
                     </div>
                     {gameState.maniacTurnedToPig && (

@@ -185,8 +185,8 @@ export function createHorrorLocations(): Record<string, Location> {
     'bedroom': {
       id: 'bedroom',
       name: 'Спальня',
-      description: 'Темная спальня. Вы просыпаетесь здесь.',
-      detailedDescription: 'Вы просыпаетесь в незнакомой кровати. Комната погружена во тьму - кажется, сейчас ночь, или выключен свет. На тумбочке что-то есть. На стене - выключатель?',
+      description: 'Темная спальня.',
+      detailedDescription: 'Незнакомая кровать. Темно - ночь или выключен свет. На тумбочке что-то есть.',
       exits: [
         { direction: 'дверь', targetLocationId: 'third-floor-hall', description: 'в коридор' },
         { direction: 'балкон', targetLocationId: 'balcony', description: 'на балкон' },
@@ -203,7 +203,7 @@ export function createHorrorLocations(): Record<string, Location> {
       id: 'balcony',
       name: 'Балкон',
       description: 'Балкон с видом на двор.',
-      detailedDescription: 'Вы выходите на балкон. Холодный ночной воздух. Внизу видны огни города, но далеко. Третий этаж - высоко. Очень высоко. Можно прыгнуть... но это безумие. Справа - пожарная лестница. Для прыжка используйте команду "прыгнуть".',
+      detailedDescription: 'Холодный ночной воздух. Внизу - город. Третий этаж, высоко. Справа - пожарная лестница. Можно прыгнуть...',
       exits: [
         { direction: 'назад', targetLocationId: 'bedroom', description: 'в спальню' },
         { direction: 'лестница', targetLocationId: 'fire-escape', description: 'по пожарной лестнице' },
@@ -225,8 +225,8 @@ export function createHorrorLocations(): Record<string, Location> {
     'fire-escape': {
       id: 'fire-escape',
       name: 'Пожарная лестница',
-      description: 'Металлическая лестница на фасаде.',
-      detailedDescription: 'Ржавая пожарная лестница. Внизу - земля, но очень далеко. Опасно спускаться без света. Можно спуститься на этаж ниже.',
+      description: 'Металлическая лестница.',
+      detailedDescription: 'Ржавая лестница. Внизу - земля, далеко. Опасно без света.',
       exits: [
         { direction: 'вверх', targetLocationId: 'balcony', description: 'на балкон' },
         { direction: 'вниз', targetLocationId: 'second-balcony', description: 'на второй этаж' },
@@ -238,14 +238,14 @@ export function createHorrorLocations(): Record<string, Location> {
     'third-floor-hall': {
       id: 'third-floor-hall',
       name: 'Коридор 3 этажа',
-      description: 'Длинный коридор с дверями.',
-      detailedDescription: 'Коридор третьего этажа. Темно. Слева - ванная комната. Прямо - кухня. Справа - лестница вниз. Также есть дверь в кладовку.',
+      description: 'Коридор с дверями.',
+      detailedDescription: 'Коридор третьего этажа. Слева - ванная. Прямо - кухня. Справа - вниз. Есть дверь в кладовку.',
       exits: [
         { direction: 'спальня', targetLocationId: 'bedroom', description: 'в спальню' },
         { direction: 'ванная', targetLocationId: 'bathroom', description: 'в ванную' },
         { direction: 'кухня', targetLocationId: 'kitchen', description: 'на кухню' },
         { direction: 'кладовка', targetLocationId: 'pantry', description: 'в кладовку', locked: true, requiredItem: 'key1' },
-        { direction: 'вниз', targetLocationId: 'second-floor-hall', description: 'вниз на второй этаж' },
+        { direction: 'вниз', targetLocationId: 'second-floor-hall', description: 'вниз' },
       ],
       items: [],
       visited: false,
@@ -253,9 +253,9 @@ export function createHorrorLocations(): Record<string, Location> {
     
     'bathroom': {
       id: 'bathroom',
-      name: 'Ванная комната',
+      name: 'Ванная',
       description: 'Ванная с зеркалом.',
-      detailedDescription: 'Ванная комната. Зеркало на стене. Тумба под раковиной. Кажется, что-то за зеркалом?',
+      detailedDescription: 'Зеркало на стене. Тумба под раковиной. Что-то за зеркалом?',
       exits: [
         { direction: 'назад', targetLocationId: 'third-floor-hall', description: 'в коридор' },
       ],
@@ -269,8 +269,8 @@ export function createHorrorLocations(): Record<string, Location> {
     'kitchen': {
       id: 'kitchen',
       name: 'Кухня',
-      description: 'Кухня с плитой и холодильником.',
-      detailedDescription: 'Кухня. Газовая плита, холодильник, стол. Здесь можно что-то приготовить. На стене висит рецепт.',
+      description: 'Кухня с плитой.',
+      detailedDescription: 'Плита, холодильник, стол. Можно приготовить еду. На стене рецепт.',
       exits: [
         { direction: 'назад', targetLocationId: 'third-floor-hall', description: 'в коридор' },
       ],
@@ -287,7 +287,7 @@ export function createHorrorLocations(): Record<string, Location> {
       id: 'pantry',
       name: 'Кладовка',
       description: 'Запертая кладовка.',
-      detailedDescription: 'Тесная кладовка. Полки с консервами. В углу - старый шкафчик. Что-то лежит на верхней полке.',
+      detailedDescription: 'Тесная кладовка. Полки с консервами. В углу - шкафчик.',
       exits: [
         { direction: 'назад', targetLocationId: 'third-floor-hall', description: 'в коридор' },
       ],
@@ -302,13 +302,13 @@ export function createHorrorLocations(): Record<string, Location> {
     'second-floor-hall': {
       id: 'second-floor-hall',
       name: 'Коридор 2 этажа',
-      description: 'Коридор второго этажа.',
-      detailedDescription: 'Второй этаж. Здесь тише. Слева - комната со шредером. Прямо - прачечная. Справа - лестница вниз.',
+      description: 'Коридор.',
+      detailedDescription: 'Второй этаж. Тише. Слева - шредер. Прямо - прачечная. Справа - вниз.',
       exits: [
-        { direction: 'вверх', targetLocationId: 'third-floor-hall', description: 'на третий этаж' },
-        { direction: 'шредер', targetLocationId: 'shredder-room', description: 'в комнату со шредером' },
+        { direction: 'вверх', targetLocationId: 'third-floor-hall', description: 'вверх' },
+        { direction: 'шредер', targetLocationId: 'shredder-room', description: 'в шредер' },
         { direction: 'прачечная', targetLocationId: 'laundry', description: 'в прачечную' },
-        { direction: 'вниз', targetLocationId: 'first-floor-hall', description: 'вниз на первый этаж' },
+        { direction: 'вниз', targetLocationId: 'first-floor-hall', description: 'вниз' },
       ],
       items: [],
       visited: false,
@@ -316,9 +316,9 @@ export function createHorrorLocations(): Record<string, Location> {
     
     'shredder-room': {
       id: 'shredder-room',
-      name: 'Комната со шредером',
-      description: 'Комната с промышленным шредером.',
-      detailedDescription: 'Комната с большим промышленным шредером. Огромное устройство с острыми лезвиями. Может измельчить всё. Опасно. Рядом - стол с кнопкой.',
+      name: 'Шредер',
+      description: 'Комната со шредером.',
+      detailedDescription: 'Промышленный шредер. Острые лезвия. Рядом - стол с кнопкой.',
       exits: [
         { direction: 'назад', targetLocationId: 'second-floor-hall', description: 'в коридор' },
         { direction: 'в шредер', targetLocationId: 'shredder-death', description: '!!!' },
@@ -342,8 +342,8 @@ export function createHorrorLocations(): Record<string, Location> {
     'laundry': {
       id: 'laundry',
       name: 'Прачечная',
-      description: 'Прачечная со стиралками.',
-      detailedDescription: 'Прачечная. Стиральные машины. В одной из них - барахло. На полу - корзина с грязным бельем.',
+      description: 'Прачечная.',
+      detailedDescription: 'Стиральные машины. В одной - барахло. На полу - корзина с бельем.',
       exits: [
         { direction: 'назад', targetLocationId: 'second-floor-hall', description: 'в коридор' },
       ],
@@ -371,21 +371,21 @@ export function createHorrorLocations(): Record<string, Location> {
     'first-floor-hall': {
       id: 'first-floor-hall',
       name: 'Коридор 1 этажа',
-      description: 'Коридор первого этажа.',
-      detailedDescription: 'Первый этаж. Близко к выходу! Слева - зал со свиньями. Прямо - выходная дверь. Справа - комната охраны. В конце коридора видна тень... кто-то стоит у выхода.',
+      description: 'Коридор.',
+      detailedDescription: 'Первый этаж. Близко к выходу! Слева - зал со свиньями. Прямо - дверь. Справа - охрана. В конце коридора - тень...',
       exits: [
-        { direction: 'вверх', targetLocationId: 'second-floor-hall', description: 'на второй этаж' },
-        { direction: 'зал', targetLocationId: 'pig-hall', description: 'в зал со свиньями' },
+        { direction: 'вверх', targetLocationId: 'second-floor-hall', description: 'вверх' },
+        { direction: 'зал', targetLocationId: 'pig-hall', description: 'в зал' },
         { direction: 'выход', targetLocationId: 'exit-door', description: 'к выходу', locked: true, requiredItem: 'key4' },
-        { direction: 'охрана', targetLocationId: 'guard-room', description: 'в комнату охраны' },
-        { direction: 'к маньяку', targetLocationId: 'maniac-encounter', description: 'к тени у двери' },
+        { direction: 'охрана', targetLocationId: 'guard-room', description: 'в охрану' },
+        { direction: 'к маньяку', targetLocationId: 'maniac-encounter', description: 'к тени' },
       ],
       items: [],
       npcs: [{
         id: 'maniac',
         name: 'Маньяк',
-        description: 'Высокий мужчина в окровавленном фартуке. В руке - огромный нож.',
-        dialogue: ['Ты не уйдешь отсюда...', 'Свеженькое мясо...', 'Я ждал тебя...']
+        description: 'Высокий мужчина в окровавленном фартуке. В руке - нож.',
+        dialogue: ['Ты не уйдешь...', 'Свеженькое мясо...', 'Я ждал...']
       }],
       visited: false,
     },
@@ -405,8 +405,8 @@ export function createHorrorLocations(): Record<string, Location> {
     'pig-hall': {
       id: 'pig-hall',
       name: 'Зал со свиньями',
-      description: 'Большой зал с клетками.',
-      detailedDescription: 'Огромный зал, полный клеток со свиньями. Они спокойны, но кажется, ждут чего-то. Воздух тяжелый. Прямо - вентиляционная шахта.',
+      description: 'Зал с клетками.',
+      detailedDescription: 'Зал с клетками свиней. Они спокойны. Воздух тяжелый. Прямо - вентиляция.',
       exits: [
         { direction: 'назад', targetLocationId: 'first-floor-hall', description: 'в коридор' },
         { direction: 'вентиляция', targetLocationId: 'vent-shaft', description: 'в вентиляцию', locked: true },
@@ -508,17 +508,17 @@ export function createHorrorGameState(): HorrorGameState {
     gameLog: [
       {
         type: 'system',
-        text: '🌙 ПРОБУЖДЕНИЕ\n\nВы очнулись на кровати в темноте. Что вы будете делать? Третий этаж. Неизвестное здание. Вокруг - стены и тишина.',
+        text: '🌙 ПРОБУЖДЕНИЕ\n\nТы очнулся в темноте. Третий этаж. Нужно выбраться.',
         timestamp: Date.now(),
       },
       {
         type: 'system',
-        text: '💡 Подсказки:\n• Найдите выключатель или дождитесь утра (спите)\n• Соберите 4 ключа чтобы выбраться\n• Используйте "смешать" для создания предметов\n• Готовьте еду чтобы выжить',
+        text: '💡 Цель: найти 4 ключа и выйти\n• Напиши "помощь" для списка команд',
         timestamp: Date.now(),
       },
       {
         type: 'location',
-        text: `**${startLocation.name}**\n\n${startLocation.detailedDescription}\n\n*Темнота окружает вас. Нужен свет...*\n\n**Выходы:**\n• дверь (в коридор)\n• балкон`,
+        text: `**${startLocation.name}**\n\n${startLocation.detailedDescription}\n\n**Выходы:** дверь, балкон`,
         timestamp: Date.now(),
       }
     ],
