@@ -76,6 +76,16 @@
 }
 
 @layer components {
+  /* Темная тема - инвертируем цвета ink */
+  .dark .text-ink {
+    color: hsl(42 33% 85%) !important;
+  }
+  .dark .text-ink\/60,
+  .dark .text-ink\/70,
+  .dark .text-ink\/80 {
+    color: hsl(42 33% 70%) !important;
+  }
+
   .book-card {
     @apply bg-card/50 backdrop-blur-sm border border-border/60 rounded-lg p-6 
            transition-all duration-500 hover:shadow-card hover:-translate-y-1;
