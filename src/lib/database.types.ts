@@ -147,8 +147,32 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
+      }
+      game_saves: {
+        Row: {
+          id: string
+          user_id: string
+          game_type: string
+          state: Json
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          game_type: string
+          state: Json
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          game_type?: string
+          state?: Json
+          updated_at?: string
+        }
+        Relationships: []
       }
     }
     Views: {

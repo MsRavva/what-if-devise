@@ -28,7 +28,7 @@ import {
   History,
   BookOpen
 } from 'lucide-react';
-import { GameLogEntry } from '@/types/adventure';
+import { GameLogEntry, Location } from '@/types/adventure';
 import {
   createHorrorGameState,
   createHorrorLocations,
@@ -36,6 +36,12 @@ import {
   horrorItems,
   EndingType
 } from '@/lib/horror-game';
+
+// Тип сохраненного состояния игры
+interface SavedGameState {
+  locations: Record<string, Location>;
+  gameState: HorrorGameState;
+}
 import { useToast } from '@/components/toast-provider';
 import { useAuth } from '@/components/auth-provider';
 import { saveGameState, loadGameState } from '@/lib/supabase';
@@ -373,7 +379,7 @@ export default function HorrorGamePage() {
     }
     setIsLoading(true);
     try {
-      const saved = await loadGameState(user.id, 'horror');
+      const saved = await loadGameState(user.id, 'horror') as SavedGameState | null;
       if (saved) {
         setLocations(saved.locations);
         setGameState(saved.gameState);

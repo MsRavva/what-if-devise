@@ -46,6 +46,13 @@ interface ExtendedGameState {
   discoveredConnections: string[][]; // [from, to]
 }
 
+// Тип сохраненного состояния игры
+interface SavedGameState {
+  locations: Record<string, Location>;
+  gameState: ExtendedGameState;
+  previousLocationId: string | null;
+}
+
 // Группы синонимов для команд
 const COMMAND_SYNONYMS: Record<string, string[]> = {
   'осмотреться': ['осмотреться', 'о', 'look', 'посмотреть', 'глянуть', 'обыскать', 'что тут'],
@@ -321,7 +328,7 @@ export default function AdventurePage() {
     }
     setIsLoading(true);
     try {
-      const saved = await loadGameState(user.id, 'adventure');
+      const saved = await loadGameState(user.id, 'adventure') as SavedGameState | null;
       if (saved) {
         setLocations(saved.locations);
         setGameState(saved.gameState);
