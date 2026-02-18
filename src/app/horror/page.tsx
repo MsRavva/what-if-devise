@@ -863,31 +863,41 @@ export default function HorrorGamePage() {
         // Обработка неизвестной команды через ИИ
         const handleAIAction = async () => {
           try {
+            const currentLoc = locations[gameState.currentLocationId];
             const aiResponse = await fetch('/api/generate-scenario', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                story: `Локация: ${locations[gameState.currentLocationId]?.name}. ${locations[gameState.currentLocationId]?.detailedDescription}. В инвентаре: ${gameState.inventory.map(i => i.name).join(', ')}. Доступные выходы: ${locations[gameState.currentLocationId]?.exits?.map(e => e.direction).join(', ')}.`,
-                question: `Игрок командует: "${fullText}". Ответь СТРОГО в JSON формате: {"text": "1-2 предложения о результате", "action": "none|move|take|drop|use", "target": "название", "found_item": "предмет или null", "remove_item": "предмет или null", "set_flag": "флаг или null", "damage": число_урона}. Действие должно быть логичным для текущей локации.`,
+                story: `ИГРА: Пробуждение. Локация: ${currentLoc?.name}. Описание: ${currentLoc?.detailedDescription}. Предметы здесь: ${currentLoc?.items?.map(i => i.name).join(', ') || 'нет'}. Выходы: ${currentLoc?.exits?.map(e => e.direction).join(', ')}.`,
+                question: `Команда игрока: "${fullText}". ВАЖНО: Отвечай ТОЛЬКО JSON {"text":"1-2 предлож","action":"none|move|take","target":""}. НЕ придумывай элементы которых нет в описании! НЕ добавляй лишнего текста!`,
                 mode: 'action'
               })
             });
             const data = await aiResponse.json();
             if (data.scenario) {
-              // Парсим JSON ответ
+              // Проверяем что ответ начинается с {
+              const trimmed = data.scenario.trim();
+              if (!trimmed.startsWith('{')) {
+                // AI не дал JSON - показываем только первое предложение
+                const firstSentence = trimmed.split(/[.!?]/)[0];
+                addLogEntry('response', firstSentence.substring(0, 100) + '.');
+                return;
+              }
+              
+              // Парсим JSON
               let result;
               try {
-                const jsonMatch = data.scenario.match(/\{[\s\S]*\}/);
-                result = jsonMatch ? JSON.parse(jsonMatch[0]) : null;
+                result = JSON.parse(trimmed);
               } catch (parseError) {
-                // Если не JSON, просто показываем текст
-                addLogEntry('response', data.scenario.substring(0, 150));
+                // Не удалось распарсить - показываем коротко
+                const cleanText = trimmed.replace(/[#*`]/g, '').substring(0, 80);
+                addLogEntry('response', cleanText + '...');
                 return;
               }
               
               if (result && result.text) {
-                // Показываем текст ответа
-                addLogEntry('response', result.text.substring(0, 200));
+                // Показываем только текст, максимум 120 символов
+                addLogEntry('response', result.text.substring(0, 120));
                 
                 // Обрабатываем действия
                 if (result.action === 'move' && result.target) {

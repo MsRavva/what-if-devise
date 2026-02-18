@@ -124,14 +124,13 @@ ${question}
       model: "Qwen/Qwen2.5-72B-Instruct",
       messages: [
         { role: 'system', content: isActionMode 
-          ? 'Ты - игровой мастер хоррор-квеста. Отвечай ТОЛЬКО JSON, без markdown, без объяснений.' 
+          ? 'Ты - игровой мастер. ПРАВИЛА: 1) Отвечай ТОЛЬКО JSON {"text":"...","action":"none"} 2) НЕ придумывай новых объектов 3) НЕ пиши markdown (###, ** и т.д.) 4) Только 1-2 предложения 5) НЕ объясняй правила игры' 
           : 'Система генерации сценариев на русском языке.' 
         },
         { role: 'user', content: prompt }
       ],
-      temperature: isActionMode ? 0.8 : 0.7,
-      top_p: 0.9,
-      max_tokens: isActionMode ? 300 : 1500, // Короткие ответы для action
+      temperature: isActionMode ? 0.3 : 0.7, // Низкая температура для action
+      max_tokens: isActionMode ? 200 : 1500,
     });
     
     if (!response || !response.choices || response.choices.length === 0 || !response.choices[0]?.message?.content) {
