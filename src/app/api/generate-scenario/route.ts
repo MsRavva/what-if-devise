@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { generateScenario, generateCinemaScene } from '@/lib/ai-service';
+import { generateScenario, generateCinemaScene, generateGameAction } from '@/lib/ai-service';
 import { getAuthenticatedUser, createServerSupabaseClient, saveScenario } from '@/lib/supabase';
 import { checkRateLimit, getRateLimitKey } from '@/lib/rate-limiter';
 import { headers } from 'next/headers';
@@ -60,6 +60,28 @@ export async function POST(request: NextRequest) {
         return new Response(
           JSON.stringify({ error: cinemaError.message || 'Failed to generate cinema scene' }),
           { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
+    }
+
+    // Обработка игровых действий (action режим для хоррор-квеста)
+    if (mode === 'action') {
+      try {
+        // Для action режима используем специальную функцию
+        const result = await generateGameAction(story, question);
+        return new Response(JSON.stringify({ scenario: result }), {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+            'X-RateLimit-Remaining': String(rateLimitResult.remaining),
+            'X-RateLimit-Reset': String(rateLimitResult.resetTime)
+          }
+        });
+      } catch (actionError: any) {
+        console.error('Action generation error:', actionError);
+        return new Response(
+          JSON.stringify({ scenario: '{"text":"Ничего не произошло.","action":"none"}' }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } }
         );
       }
     }

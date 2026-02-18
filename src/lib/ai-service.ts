@@ -192,3 +192,42 @@ function improveTextStructure(text: string): string {
   // Добавляем эмотивность в текст
   return text;
 }
+
+/**
+ * Генерирует ответ для игрового действия в хоррор-квесте
+ */
+export async function generateGameAction(gameState: string, command: string): Promise<string> {
+  try {
+    const apiKey = process.env.HF_TOKEN;
+    if (!apiKey) {
+      throw new Error('HF_TOKEN не найден');
+    }
+
+    const client = new OpenAI({
+      baseURL: "https://router.huggingface.co/v1",
+      apiKey: apiKey
+    });
+
+    const response = await client.chat.completions.create({
+      model: "Qwen/Qwen2.5-72B-Instruct",
+      messages: [
+        { 
+          role: 'system', 
+          content: 'Ты - игровой мастер хоррор-квеста. Отвечай ТОЛЬКО JSON {"text":"1-2 предлож","action":"none|move|take","target":""}. НЕ придумывай элементы которых нет в описании! НЕ используй markdown!' 
+        },
+        { 
+          role: 'user', 
+          content: `${gameState}\n\nКоманда игрока: "${command}". Ответь JSON.` 
+        }
+      ],
+      temperature: 0.2,
+      max_tokens: 150,
+    });
+
+    const content = response.choices[0]?.message?.content || '{"text":"Ничего не произошло.","action":"none"}';
+    return content.trim();
+  } catch (error) {
+    console.error('Error generating game action:', error);
+    return '{"text":"Не получилось.","action":"none"}';
+  }
+}
