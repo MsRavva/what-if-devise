@@ -1,11 +1,13 @@
 "use client"
 
 import Link from 'next/link'
-import { ArrowLeft, User, Mail, Calendar, LogOut, Settings, History } from 'lucide-react'
+import { ArrowLeft, User, Mail, Calendar, LogOut, Settings, History, BookOpen } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { ProtectedRoute } from '@/components/protected-route'
 import { useAuth } from '@/components/auth-provider'
-import { HologramCard, GlitchText, EnergyButton, AIBrainVisualization } from '@/components/cyberpunk';
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { AnimatedContainer, HoverScale } from '@/components/animations'
 
 export default function ProfilePage() {
   const { user, signOut } = useAuth()
@@ -16,124 +18,143 @@ export default function ProfilePage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-slate-950 text-slate-200 font-mono relative overflow-hidden">
-        {/* Тёмный официальный фон */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-slate-900 transform rotate-45 opacity-40" />
-          <div className="absolute top-60 right-20 w-24 h-24 bg-slate-800 transform -rotate-12 opacity-30" />
-          <div className="absolute bottom-40 left-1/4 w-40 h-40 bg-slate-900 transform rotate-12 opacity-25" />
-
-          {/* Верхняя и нижняя линии */}
-          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
-          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
+      <div className="min-h-screen font-serif relative overflow-hidden">
+        {/* Фон как на главной */}
+        <div className="absolute inset-0 pointer-events-none opacity-20">
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-ink-light/10 to-transparent" />
+          <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-ink-light/10 to-transparent" />
         </div>
 
-        {/* Header */}
-        <header className="relative z-20 border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm">
-          <div className="flex justify-between items-center px-6 py-4">
-            <EnergyButton variant="secondary" size="sm">
-              <Link href="/" className="flex items-center gap-2">
-                <ArrowLeft className="w-4 h-4" />
-                На главную
-              </Link>
-            </EnergyButton>
-            <ThemeToggle />
+        {/* Header как на главной */}
+        <header className="relative z-20 border-b border-border bg-card/80 backdrop-blur-sm shadow-sm">
+          <div className="container mx-auto px-6 py-4">
+            <div className="flex justify-between items-center">
+              <Button asChild variant="outline" size="sm">
+                <Link href="/" className="flex items-center gap-2">
+                  <ArrowLeft className="w-4 h-4" />
+                  На главную
+                </Link>
+              </Button>
+              <ThemeToggle />
+            </div>
           </div>
         </header>
 
         {/* Main content */}
-        <main className="relative z-10 max-w-2xl mx-auto px-6 py-12">
-          <div className="text-center mb-12">
-            <div className="flex justify-center mb-6">
-              <AIBrainVisualization size="md" />
+        <main className="relative z-10 container mx-auto px-6 py-12 max-w-2xl">
+          <AnimatedContainer delay={100}>
+            <div className="text-center mb-12">
+              <div className="flex justify-center mb-6">
+                <div className="w-16 h-16 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center">
+                  <BookOpen className="w-8 h-8 text-primary" />
+                </div>
+              </div>
+              <h1 className="text-4xl font-bold italic mb-4 text-ink">Профиль</h1>
+              <p className="text-ink/60 text-sm uppercase tracking-widest font-sans">
+                Управление аккаунтом и настройки
+              </p>
             </div>
-
-            <GlitchText className="text-4xl font-black uppercase mb-4">
-              Профиль
-            </GlitchText>
-            <p className="text-slate-400 uppercase text-sm tracking-widest font-mono">
-              Управление аккаунтом и настройки
-            </p>
-          </div>
+          </AnimatedContainer>
 
           {/* Profile info */}
-          <HologramCard variant="default" className="mb-6 p-6">
-            <GlitchText className="text-xl font-bold uppercase mb-6" intensity="low">
-              Информация о пользователе
-            </GlitchText>
+          <AnimatedContainer delay={200}>
+            <HoverScale scale={1.01}>
+              <Card className="mb-6 border-primary/20">
+                <CardContent className="pt-6">
+                  <h2 className="text-xl font-bold mb-6 text-ink border-b border-primary/10 pb-2">
+                    Информация о пользователе
+                  </h2>
 
-            <div className="space-y-4">
-              <div className="flex items-center gap-4 p-4 border border-cyan-400/30 bg-black/50">
-                <div className="w-12 h-12 border-2 border-cyan-400 flex items-center justify-center">
-                  <Mail className="w-6 h-6 text-cyan-400" />
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-gray-500">Email</p>
-                  <p className="font-mono text-white">{user?.email}</p>
-                </div>
-              </div>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-4 p-4 border border-primary/10 bg-primary/5 rounded-lg">
+                      <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center bg-card">
+                        <Mail className="w-6 h-6 text-primary" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs uppercase tracking-widest text-ink/50 font-sans">Email</p>
+                        <p className="font-mono text-ink break-all">{user?.email}</p>
+                      </div>
+                    </div>
 
-              <div className="flex items-center gap-4 p-4 border border-green-400/30 bg-black/50">
-                <div className="w-12 h-12 border-2 border-green-400 flex items-center justify-center">
-                  <Calendar className="w-6 h-6 text-green-400" />
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-gray-500">Дата регистрации</p>
-                  <p className="font-mono text-white">
-                    {user?.created_at ? new Date(user.created_at).toLocaleDateString('ru-RU') : 'Неизвестно'}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </HologramCard>
+                    <div className="flex items-center gap-4 p-4 border border-primary/10 bg-primary/5 rounded-lg">
+                      <div className="w-12 h-12 border border-primary/20 rounded-full flex items-center justify-center bg-card">
+                        <Calendar className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                        <p className="text-xs uppercase tracking-widest text-ink/50 font-sans">Дата регистрации</p>
+                        <p className="font-mono text-ink">
+                          {user?.created_at ? new Date(user.created_at).toLocaleDateString('ru-RU') : 'Неизвестно'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </HoverScale>
+          </AnimatedContainer>
 
           {/* Quick actions */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <Link href="/history">
-              <HologramCard variant="neural" className="p-6 group cursor-pointer hover:border-purple-400 transition-all duration-300">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 border-2 border-purple-400 flex items-center justify-center group-hover:bg-purple-400/20 transition-all">
-                    <History className="w-7 h-7 text-purple-400" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold uppercase text-white">История</h3>
-                    <p className="text-xs text-gray-500 uppercase tracking-wider">Ваши сценарии</p>
-                  </div>
-                </div>
-              </HologramCard>
-            </Link>
+          <AnimatedContainer delay={300}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <HoverScale scale={1.01}>
+                <Link href="/history">
+                  <Card className="group cursor-pointer hover:border-primary/40 transition-all duration-300 border-primary/20">
+                    <CardContent className="pt-6">
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 border border-primary/20 rounded-full flex items-center justify-center bg-primary/5 group-hover:bg-primary/10 transition-all">
+                          <History className="w-7 h-7 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-ink">История</h3>
+                          <p className="text-xs text-ink/50 uppercase tracking-wider font-sans">Ваши сценарии</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </HoverScale>
 
-            <Link href="/settings">
-              <HologramCard variant="neural" className="p-6 group cursor-pointer hover:border-blue-400 transition-all duration-300">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 border-2 border-blue-400 flex items-center justify-center group-hover:bg-blue-400/20 transition-all">
-                    <Settings className="w-7 h-7 text-blue-400" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold uppercase text-white">Настройки</h3>
-                    <p className="text-xs text-gray-500 uppercase tracking-wider">Конфигурация</p>
-                  </div>
-                </div>
-              </HologramCard>
-            </Link>
-          </div>
+              <HoverScale scale={1.01}>
+                <Link href="/settings">
+                  <Card className="group cursor-pointer hover:border-primary/40 transition-all duration-300 border-primary/20">
+                    <CardContent className="pt-6">
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 border border-primary/20 rounded-full flex items-center justify-center bg-primary/5 group-hover:bg-primary/10 transition-all">
+                          <Settings className="w-7 h-7 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-ink">Настройки</h3>
+                          <p className="text-xs text-ink/50 uppercase tracking-wider font-sans">Конфигурация</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </HoverScale>
+            </div>
+          </AnimatedContainer>
 
           {/* Sign out */}
-          <HologramCard variant="energy" className="p-6">
-            <GlitchText className="text-xl font-bold uppercase mb-4" color="pink" intensity="low">
-              Выход из системы
-            </GlitchText>
-            <p className="text-gray-400 mb-6 font-mono text-sm">
-              Нажмите кнопку ниже, чтобы выйти из аккаунта
-            </p>
-            <button
-              onClick={handleSignOut}
-              className="w-full p-4 border-2 border-red-500/50 bg-red-500/10 hover:bg-red-500/20 hover:border-red-500 text-red-400 font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-3"
-            >
-              <LogOut className="w-5 h-5" />
-              Выйти из аккаунта
-            </button>
-          </HologramCard>
+          <AnimatedContainer delay={400}>
+            <Card className="border-red-900/20">
+              <CardContent className="pt-6">
+                <h2 className="text-xl font-bold mb-4 text-ink border-b border-red-900/10 pb-2">
+                  Выход из системы
+                </h2>
+                <p className="text-ink/60 mb-6 font-mono text-sm">
+                  Нажмите кнопку ниже, чтобы выйти из аккаунта
+                </p>
+                <Button
+                  onClick={handleSignOut}
+                  variant="outline"
+                  className="w-full border-red-900/30 text-red-700 hover:bg-red-950/10 hover:border-red-900/50"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Выйти из аккаунта
+                </Button>
+              </CardContent>
+            </Card>
+          </AnimatedContainer>
         </main>
       </div>
     </ProtectedRoute>
