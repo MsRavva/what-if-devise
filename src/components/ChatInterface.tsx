@@ -37,8 +37,22 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [scenarioGenerated, setScenarioGenerated] = useState(!isNewSession);
-  const [generatedScenario, setGeneratedScenario] = useState(isNewSession ? '' : initialStory);
+  const [scenarioGenerated, setScenarioGenerated] = useState(() => {
+    // Проверяем localStorage при инициализации
+    if (isNewSession && typeof window !== 'undefined') {
+      const saved = localStorage.getItem(`scenario-generated-${sessionId}`);
+      return saved === 'true';
+    }
+    return !isNewSession;
+  });
+  const [generatedScenario, setGeneratedScenario] = useState(() => {
+    // Восстанавливаем сценарий из localStorage если он есть
+    if (isNewSession && typeof window !== 'undefined') {
+      const saved = localStorage.getItem(`scenario-text-${sessionId}`);
+      return saved || '';
+    }
+    return isNewSession ? '' : initialStory;
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -179,6 +193,13 @@ ${chatHistory}
           if (response.success) {
             setGeneratedScenario(response.scenario);
             setScenarioGenerated(true);
+            
+            // Сохраняем в localStorage чтобы избежать повторной генерации при обновлении
+            if (typeof window !== 'undefined') {
+              localStorage.setItem(`scenario-generated-${sessionId}`, 'true');
+              localStorage.setItem(`scenario-text-${sessionId}`, response.scenario);
+            }
+            
             setMessages([
               { role: 'assistant', content: `Вот ваш сгенерированный сценарий:\n\n${response.scenario}` },
               { role: 'assistant', content: `Вопрос: ${initialQuestion}\n\nТеперь вы можете задать дополнительные вопросы или уточнить детали сценария.` }
@@ -200,6 +221,12 @@ ${chatHistory}
                     scenario: response.scenario
                   })
                 });
+                
+                // Очищаем localStorage после успешного сохранения в базу
+                if (typeof window !== 'undefined') {
+                  localStorage.removeItem(`scenario-generated-${sessionId}`);
+                  localStorage.removeItem(`scenario-text-${sessionId}`);
+                }
               } catch (saveError) {
                 console.error('Ошибка сохранения сценария:', saveError);
               }
